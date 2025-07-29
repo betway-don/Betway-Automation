@@ -1,0 +1,23 @@
+{
+  "name": "betway-automation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/betway-don/Betway-Automation.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/betway-don/Betway-Automation/issues"
+  },
+  "homepage": "https://github.com/betway-don/Betway-Automation#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.54.1",
+    "@types/node": "^24.1.0",
+    "allure-playwright": "^3.3.2"
+  }
+}
