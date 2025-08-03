@@ -16,10 +16,10 @@ export class SignUpPage {
     */
     constructor(page: import('@playwright/test').Page) {
         this.page = page;
-        this.mobileInput = page.locator('');
-        this.passwordInput = page.locator('');
-        this.firstNameInput = page.locator('');
-        this.lastNameInput = page.locator('');
+        this.mobileInput = page.getByRole('textbox', { name: 'Mobile Number' }).nth(1);;
+        this.passwordInput = page.getByRole('textbox', { name: 'Password' }).nth(1);
+        this.firstNameInput = page.getByRole('textbox', { name: 'First Name' });
+        this.lastNameInput = page.getByRole('textbox', { name: 'Surname' });
         this.loginButton = page.getByRole('button', { name: 'Login' });
         this.signUpButton = page.getByRole('button', { name: 'Sign Up' });
         this.sportButton = page.getByRole('button', { name: 'Sport' });

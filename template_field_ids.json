@@ -1,0 +1,207 @@
+[
+  {
+    "id": "5ba3fe0c-d2ee-4211-a474-77327185e55f",
+    "propertyName": "DialingCode",
+    "items": [
+      {
+        "id": "00000000-0000-0000-0000-000000000000",
+        "title": "+27",
+        "regEx": ""
+      }
+    ]
+  },
+  {
+    "id": "42cdf73e-c863-4487-891f-eef885e18892",
+    "propertyName": "MobileNumber",
+    "items": []
+  },
+  {
+    "id": "43f82b6b-8bad-4b59-9a36-329e12bc7ddd",
+    "propertyName": "Password",
+    "items": []
+  },
+  {
+    "id": "b05f776e-9a5f-4005-adf0-173339acfa00",
+    "propertyName": "FirstName",
+    "items": []
+  },
+  {
+    "id": "001d4620-77c8-444b-bd8a-fa9ecb50f21a",
+    "propertyName": "FirstNameLabel",
+    "items": []
+  },
+  {
+    "id": "a08aa31d-e9bc-425a-8d25-2f3548042f22",
+    "propertyName": "LastName",
+    "items": []
+  },
+  {
+    "id": "88c80677-4b79-40be-bbcc-941f5b119b29",
+    "propertyName": "Email",
+    "items": []
+  },
+  {
+    "id": "13fab170-41c4-48e9-98ba-aafbb82cc401",
+    "propertyName": "HasVoucher",
+    "items": []
+  },
+  {
+    "id": "bb97f7dc-1fcc-4fe1-8935-5ef6a4707ded",
+    "propertyName": "VoucherCode",
+    "items": []
+  },
+  {
+    "id": "05a270b8-6a0e-4a71-b64b-03433a5fc9d4",
+    "propertyName": "LastNameLabel",
+    "items": []
+  },
+  {
+    "id": "26763216-cfa0-42c8-8da5-1cf8a1b8391d",
+    "propertyName": "ReferralCode",
+    "items": []
+  },
+  {
+    "id": "72d7d322-bb1a-41d7-8c0d-0872dae4e113",
+    "propertyName": "IDType",
+    "items": [
+      {
+        "id": "00000000-0000-0000-0000-000000000000",
+        "title": "South African ID",
+        "regEx": ""
+      },
+      {
+        "id": "00000000-0000-0000-0000-000000000000",
+        "title": "Passport",
+        "regEx": ""
+      }
+    ]
+  },
+  {
+    "id": "ac0fa4d2-d5ed-455d-a079-182a88e529f4",
+    "propertyName": "IDNumber",
+    "items": []
+  },
+  {
+    "id": "8445357a-bef4-4c10-a130-ba502b568346",
+    "propertyName": "DateOfBirth",
+    "items": []
+  },
+  {
+    "id": "3a4f766e-3c3b-464d-9028-7a5e4791518c",
+    "propertyName": "SourceOfFunds",
+    "items": [
+      {
+        "id": "6e33fb24-5483-4388-9cd9-b5fbabba5bc5",
+        "title": "Salary",
+        "regEx": ""
+      },
+      {
+        "id": "ac57c48d-5c09-4980-8425-9d745f111adb",
+        "title": "Wages",
+        "regEx": ""
+      },
+      {
+        "id": "9d3a3d72-55d4-46e8-b298-76b3400f982f",
+        "title": "Self Employed",
+        "regEx": ""
+      },
+      {
+        "id": "6c6952ea-f2d2-4606-ba84-3d31e3c8ea00",
+        "title": "Inheritance",
+        "regEx": ""
+      },
+      {
+        "id": "630eb85d-522a-420a-91f5-39250d8a0749",
+        "title": "Savings",
+        "regEx": ""
+      },
+      {
+        "id": "ddda97e0-e92d-4a80-b098-5166319dd731",
+        "title": "Investment Income",
+        "regEx": ""
+      },
+      {
+        "id": "3b9288a9-6b2f-4859-9157-8ca6edde13d6",
+        "title": "Rental Income",
+        "regEx": ""
+      },
+      {
+        "id": "8765b4a1-02e8-49fc-ad80-5790559fac7e",
+        "title": "Retirement Income",
+        "regEx": ""
+      },
+      {
+        "id": "73fd9908-74a7-4887-998e-c3f5c2379eeb",
+        "title": "Government Assistance",
+        "regEx": ""
+      }
+    ]
+  },
+  {
+    "id": "f8c72057-e932-4e76-b5f5-4fc7a1c271cf",
+    "propertyName": "BrandLanguageId",
+    "items": [
+      {
+        "id": "3b0f6e0b-33b9-492e-8ea9-edfa9446d6ba",
+        "title": "English",
+        "regEx": ""
+      },
+      {
+        "id": "4d49cd32-e448-4c87-9a21-3b9d2596feaf",
+        "title": "Sotho",
+        "regEx": ""
+      },
+      {
+        "id": "b9821414-134a-4760-82cb-2c0b782276c6",
+        "title": "Xhosa",
+        "regEx": ""
+      },
+      {
+        "id": "46e13a25-36ea-4be0-a1c0-a1be89a853d2",
+        "title": "Zulu",
+        "regEx": ""
+      }
+    ]
+  },
+  {
+    "id": "26b798f0-02e7-40e6-86fc-cff7dbdeacea",
+    "propertyName": "IsSportWelcomeOfferSelected",
+    "items": [
+      {
+        "id": "6b212fd3-ed14-4a01-a22d-fff9fe613e57",
+        "title": "Sport",
+        "regEx": ""
+      },
+      {
+        "id": "9119b33a-e402-4aa9-a51c-3ae8c1d8d788",
+        "title": "Casino",
+        "regEx": ""
+      },
+      {
+        "id": "9d4a64db-fa42-4f0c-bf83-c638defc79b3",
+        "title": "No, Thank You",
+        "regEx": ""
+      }
+    ]
+  },
+  {
+    "id": "ff192699-0ac2-4533-a0e7-22951826bc07",
+    "propertyName": "AgreeToAll",
+    "items": []
+  },
+  {
+    "id": "2b723e9b-19e4-47f1-a270-4ef261c5df65",
+    "propertyName": "StopCommunication",
+    "items": []
+  },
+  {
+    "id": "20669c1b-167c-4949-aa41-f47f265012d5",
+    "propertyName": "ConfirmAge",
+    "items": []
+  },
+  {
+    "id": "22b40e6b-80bb-470e-b6d2-866b74bafe37",
+    "propertyName": "ReceivePromotionInfo",
+    "items": []
+  }
+]
