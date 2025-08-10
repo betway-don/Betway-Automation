@@ -5,8 +5,8 @@ export default defineConfig({
   fullyParallel: true,
   timeout: 26000000,
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined,
+  retries: process.env.CI ? 3 : 0,
+  workers: process.env.CI ? 4 : 4,
   reporter: [
     ['html', { outputFolder: 'src/regions/ZA/reports/html-report' }],
     ['allure-playwright', { outputFolder: 'src/regions/ZA/reports/allure-results' }]
@@ -19,9 +19,13 @@ export default defineConfig({
     // Store screenshots in region/module folders manually in test code if needed
   },
   projects: [
+    // {
+    //   name: 'chromium',
+    //   use: { ...devices['Desktop Chrome'] },
+    // },
     {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      name: 'Google Chrome',
+      use: { ...devices['Desktop Chrome'], channel: 'chrome' },
     },
     // {
     //   name: 'firefox',
