@@ -1,0 +1,129 @@
+# Page snapshot
+
+```yaml
+- banner:
+  - img
+  - link:
+    - /url: /
+  - img "Profile picture"
+  - text: Welcome
+  - strong: Lall aIE
+  - img
+  - strong: Balance
+  - text: R 574.64
+  - img
+  - button "Deposit"
+  - text: "19"
+  - img
+- main:
+  - text: We use cookies to provide you with a great user experience. By using Betway, you agree to our
+  - link "cookie policy":
+    - /url: /privacy-policy
+  - button "Got it"
+  - link "Sport SPORT":
+    - /url: /sport/soccer
+    - img "Sport"
+    - text: SPORT
+  - link "Casino CASINO":
+    - /url: /lobby/casino-games
+    - img "Casino"
+    - text: CASINO
+  - img
+  - textbox "Search"
+  - text: Search
+  - textbox "Enter Booking Code"
+  - img
+  - link "All Codes":
+    - /url: /book-a-bet-results
+    - text: All Codes
+    - img
+- contentinfo:
+  - link "Betway Logo":
+    - /url: /
+    - img "Betway Logo"
+  - link "Arsenal Logo":
+    - /url: /sponsorship
+    - img "Arsenal Logo"
+  - link:
+    - /url: /sponsorship
+  - link "West Ham Logo":
+    - /url: /sponsorship
+    - img "West Ham Logo"
+  - link "West Ham Logo":
+    - /url: /sponsorship
+    - img "West Ham Logo"
+  - link "West Ham Logo":
+    - /url: /sponsorship
+    - img "West Ham Logo"
+  - link "Brighton & Hove Albion Logo":
+    - /url: /sponsorship
+    - img "Brighton & Hove Albion Logo"
+  - link "Atletico de Madrid logo":
+    - /url: /sponsorship
+    - img "Atletico de Madrid logo"
+  - link "Man City Logo":
+    - /url: /sponsorship
+    - img "Man City Logo"
+  - link:
+    - /url: https://www.betway.co.za/terms-and-conditions
+    - img
+  - link "How To Bet":
+    - /url: /how-to-bet
+  - link "Frequently asked questions":
+    - /url: /frequently-asked-questions
+  - link "Terms & Conditions":
+    - /url: /terms-and-conditions
+  - link "Betting Rules":
+    - /url: /betting-rules-and-tips
+  - link "Betway App":
+    - /url: /betway-app
+  - link "Affiliate Program":
+    - /url: https://www.betwaypartnersafrica.com/
+  - link "Responsible Gaming":
+    - /url: /responsible-gaming
+  - link "Privacy Policy":
+    - /url: /privacy-policy
+  - link "Sponsorship":
+    - /url: /sponsorship
+  - link "Contact Us":
+    - /url: /contact-us
+  - link "PAIA Manual":
+    - /url: https://www.betway.co.za/medialibraries/content.gmgamingsystems.com/Betting-Rules/Raging-River-Trading-PAIA-Manual.pdf
+  - text: Raging River Trading (Pty) Ltd (2011/134505/07) licenced to promote Betway South Africa, is licensed and regulated by the Western Cape Gambling and Racing Board. Bookmaker License Number:10181496-011 first Issued on 1 December 2016 . No persons under the age of 18 years are permitted to gamble. Winners know when to stop.
+  - link "National Responsible Gambling Programme":
+    - /url: https://responsiblegambling.org.za/
+  - text: ":0800 006 008 or WHATSAPP HELP 076 675 0710. Warning:Gambling involves risk. Gambling on this website, you run the risk that you may lose. External Responsible Gambling Support Programme Contact Number: 080 000 0407. Version: 15.0.0 | Current time: 13:34:52 © 2025 Betway Download the Betway app Scan the QR code to initiate the app download Click the respective icon to download"
+  - link "apple-logo":
+    - /url: http://info.betwayafrica.com/api/v1/AppDownload
+    - img "apple-logo"
+  - link "android-logo":
+    - /url: http://info.betwayafrica.com/api/v1/AppDownload
+    - img "android-logo"
+  - link "huawei-logo":
+    - /url: http://info.betwayafrica.com/api/v1/AppDownload
+    - img "huawei-logo"
+  - link:
+    - /url: https://t.me/OfficialBetwaySouthAfrica
+    - img
+  - link:
+    - /url: https://www.facebook.com/betwaysouthafrica/
+    - img
+  - link:
+    - /url: https://www.instagram.com/betway_sa/?hl=en
+    - img
+  - link:
+    - /url: https://x.com/betway
+- img
+- text: 19 Inbox
+- img
+- text: My Bets 31
+- img
+- text: Betslip
+- img
+- text: Betway Feed
+- img
+- text: Deposit
+- link:
+  - /url: /?livechat=true
+  - img
+```
