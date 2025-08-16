@@ -19,6 +19,7 @@ export class SportsPage extends LoginPage {
     CasinoGames: ReturnType<import('@playwright/test').Page['getByRole']>;
     Virtuals: ReturnType<import('@playwright/test').Page['getByRole']>;
     promotionPage: ReturnType<import('@playwright/test').Page['getByRole']>;
+    betslip: ReturnType<import('@playwright/test').Page['getByRole']>;
     
     constructor(page: import('@playwright/test').Page) {
         super(page);
@@ -38,6 +39,7 @@ export class SportsPage extends LoginPage {
         this.CasinoGames = page.getByRole('link').filter({ hasText: 'Casino Games' }).first();
         this.Virtuals = page.getByRole('link').filter({ hasText: 'Virtuals' }).first();
         this.promotionPage = page.getByRole('link').filter({ hasText: 'Promotions' }).first();
+        this.betslip = page.getByRole('link').filter({ hasText: 'Betslip' }).first();
     }
     async gotoSportsPage() {
         await this.goto();
