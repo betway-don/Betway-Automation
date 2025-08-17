@@ -415,9 +415,10 @@ test.describe('Footer Module Tests', () => {
         await ScreenshotHelper(homePage.page, screenshotDir, 'T64.png', testInfo);
     });
 
-    // test('T65-Verify presence of version information of Betway application at footer section', async ({ homePage },testInfo) => {
-
-    // });
+    test('T65-Verify presence of version information of Betway application at footer section', async ({ homePage },testInfo) => {
+        await highlightElementBorder(homePage.version);
+        await ScreenshotHelper(homePage.page, screenshotDir, 'T65.png', testInfo);
+    }); 
 
     test('T66-Verify presence of Current time at footer section', async ({ homePage },testInfo) => {
         await highlightElementBorder(homePage.currentTime);
@@ -435,9 +436,10 @@ test.describe('Footer Module Tests', () => {
 
     });
 
-    // test('T69-Verify presence and functionality of social media icons at footer section', async ({ homePage },testInfo) => {
-
-    // });
+    test('T69-Verify presence and functionality of social media icons at footer section', async ({ homePage },testInfo) => {
+        await highlightElementBorder(homePage.linkToSocials.locator('..').locator('..'));
+        await ScreenshotHelper(homePage.page, screenshotDir, 'T69-a.png', testInfo);
+    });
 
     // test('T70-Verify functionality of "18" logo at footer section', async ({ homePage },testInfo) => {
     //     const logos=await homePage.arsenalLogo.locator('..').locator('..');

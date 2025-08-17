@@ -1,4 +1,5 @@
 import { selectors } from "@playwright/test";
+import { version } from "os";
 
 const userData = require('../json-data/userData.json');
 export const homepageLocators = {
@@ -16,6 +17,8 @@ export const homepageLocators = {
     footer: { selector: 'footer' },
     arsenalLogo: { selector: 'img[alt="Arsenal Logo"]' },
     currentTime: { selector: 'text', options: { name: 'Current time'} },
+    version: { selector: 'text', options: { name: `Version` }, nth: 0 },
     downloadBetwayApp:{selector : 'text', options: { name: 'Scan the QR code' }, nth: 0},
     appleLogo: { selector: 'img[alt="apple-logo"]' },
+    linkToSocials: { selector: 'a[href="https://x.com/betway"]' }
 }

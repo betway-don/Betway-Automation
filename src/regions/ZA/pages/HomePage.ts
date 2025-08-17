@@ -21,6 +21,8 @@ export class HomePage {
     currentTime: ReturnType<import('@playwright/test').Page['getByText']>;
     downloadBetwayApp: ReturnType<import('@playwright/test').Page['getByText']>;
     appleLogo: ReturnType<import('@playwright/test').Page['locator']>;
+    linkToSocials: ReturnType<import('@playwright/test').Page['locator']>;
+    version: ReturnType<import('@playwright/test').Page['getByText']>;
 
     constructor(page: import('@playwright/test').Page) {
         this.page = page;
@@ -39,6 +41,8 @@ export class HomePage {
         this.currentTime = page.getByText(homepageLocators.currentTime.options.name);
         this.downloadBetwayApp = page.getByText(homepageLocators.downloadBetwayApp.options.name).nth(homepageLocators.downloadBetwayApp.nth || 0);
         this.appleLogo = page.locator(homepageLocators.appleLogo.selector);
+        this.linkToSocials = page.locator(homepageLocators.linkToSocials.selector);
+        this.version = page.getByText(homepageLocators.version.options.name).nth(homepageLocators.version.nth || 0);
         this.ContactUs = page.getByRole('link', { name: homepageLocators.ContactUs.options.name }).nth(homepageLocators.ContactUs.nth || 0);
     }
 
