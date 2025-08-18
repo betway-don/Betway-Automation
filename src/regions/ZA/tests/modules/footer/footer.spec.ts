@@ -521,8 +521,4 @@ test.describe('Footer Module Tests', () => {
         await highlightElementBorder(eighteenplusLogo);
         await ScreenshotHelper(homePage.page, screenshotDir, 'T70-a.png', testInfo);
     });
-
-    // test('T71-Verify navigation of back button on any section', async ({ homePage },testInfo) => {
-
-    // });
 });
