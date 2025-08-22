@@ -12,11 +12,14 @@ export default defineConfig({
     ['allure-playwright', { outputFolder: 'src/regions/ZA/reports/allure-results' }]
   ],
   use: {
-    // baseURL: 'http://za.example.com', // Set region-specific baseURL if needed
+    viewport: null,                        
+    launchOptions: {
+      args: ['--start-maximized'],        
+    },
+    
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
-    // Store screenshots in region/module folders manually in test code if needed
   },
   projects: [
     {

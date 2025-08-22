@@ -88,7 +88,7 @@ export class LoginPage {
             loginLocators.username.options.name
         ).nth(loginLocators.username.nth);
 
-        this.eyeButton = page.locator(`xpath=//*[local-name()="${loginLocators.eyeButton.options.tag}" and namespace-uri()="${loginLocators.eyeButton.options.namespace}"]`).nth(loginLocators.eyeButton.nth);
+        this.eyeButton = this.formPasswordInput.locator('..').getByRole('img').first();
 
     }
 

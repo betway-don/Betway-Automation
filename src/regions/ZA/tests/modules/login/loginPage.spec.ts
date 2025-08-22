@@ -272,56 +272,30 @@ test.describe('Login Page Tests', () => {
     await highlightElements(promotionPage.welcomeUser.locator('..'));
     await ScreenshotHelper(promotionPage.page, screenshotDir, 'T45-loginPage', testInfo);
   });
-  // test('T46 - Verify user is able to hide or show password when clicked on eye hide button when on homepage', async ({ loginPage }, testInfo) => {
-  //   await loginPage.clickLoginButtonFromHeader();
-  //   await loginPage.formMobileInput.fill(userData.user1.mobile);
-  //   await loginPage.formPasswordInput.fill(userData.user1.password);
+  test('T46 - Verify user is able to hide or show password when clicked on eye hide button when on homepage', async ({ loginPage }, testInfo) => {
+    await loginPage.clickLoginButtonFromHeader();
+    await loginPage.formMobileInput.fill(userData.user1.mobile);
+    await loginPage.formPasswordInput.fill(userData.user1.password);
+    await highlightElementBorder(loginPage.eyeButton);
+    await loginPage.eyeButton.click();
+    await highlightElementBorder(loginPage.formPasswordInput);
+    await ScreenshotHelper(loginPage.page,screenshotDir,'T46',testInfo);
+    await loginPage.eyeButton.click();
+    await ScreenshotHelper(loginPage.page,screenshotDir,'T46',testInfo);
 
-  //   await loginPage.eyeButton.click();
-
-  //   const passwordInput = loginPage.page.locator('#login-password');
-
-  //   const passwordBoundingBox = await passwordInput.boundingBox();
-  //   const x = passwordBoundingBox?.x + passwordBoundingBox.width / 2;
-
-
-  //   await loginPage.passwordInput.evaluate((el: HTMLElement) => {
-  //     el.style.outline = '4px solid red';
-  //     el.style.backgroundColor = 'rgba(255,255,0,0.3)';
-  //   });
-
-  //   await loginPage.page.screenshot({ path: screenshotDir + '/T46-loginPage.png', fullPage: false });
-
-  //   await testInfo.attach('Login Button on Promotions Popup', {
-  //     path: screenshotDir + '/T46-loginPage.png',
-  //     contentType: 'image/png',
-  //   });
-  // });
-  // test('T47 - Verify user is able to show password when clicked on eye hide button when on homepage', async ({ loginPage }, testInfo) => {
-  //   await loginPage.clickLoginButtonFromHeader();
-  //   await loginPage.formMobileInput.fill(userData.user1.mobile);
-  //   await loginPage.formPasswordInput.fill(userData.user1.password);
-
-  //   await loginPage.eyeButton.click();
-
-  //   const passwordInput = loginPage.page.locator('#login-password');
-
-  //   const passwordBoundingBox = await passwordInput.boundingBox();
-  //   const x = passwordBoundingBox?.x + passwordBoundingBox.width / 2;
-
-
-  //   await loginPage.passwordInput.evaluate((el: HTMLElement) => {
-  //     el.style.outline = '4px solid red';
-  //     el.style.backgroundColor = 'rgba(255,255,0,0.3)';
-  //   });
-
-  //   await loginPage.page.screenshot({ path: screenshotDir + '/T46-loginPage.png', fullPage: false });
-
-  //   await testInfo.attach('Login Button on Promotions Popup', {
-  //     path: screenshotDir + '/T46-loginPage.png',
-  //     contentType: 'image/png',
-  //   });
-  // });
+    
+  });
+  test('T47 - Verify user is able to show password when clicked on eye hide button when on homepage', async ({ loginPage }, testInfo) => {
+    await loginPage.clickLoginButtonFromHeader();
+    await loginPage.formMobileInput.fill(userData.user1.mobile);
+    await loginPage.formPasswordInput.fill(userData.user1.password);
+    await highlightElementBorder(loginPage.eyeButton);
+    await loginPage.eyeButton.click();
+    await highlightElementBorder(loginPage.formPasswordInput);
+    await ScreenshotHelper(loginPage.page,screenshotDir,'T47-hidden',testInfo);
+    await loginPage.eyeButton.click();
+    await ScreenshotHelper(loginPage.page,screenshotDir,'T47-visible',testInfo);
+  });
 
   test('T48 - Verify that user is able to see the "Login" window when clicked on "Play" button on game banner while on "betgames" page', async ({ betgamesPage }, testInfo) => {
     await betgamesPage.gotoBetgames();
