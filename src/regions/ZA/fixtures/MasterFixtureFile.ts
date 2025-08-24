@@ -9,6 +9,7 @@ import { BetgamesPage } from '../pages/BetGamesPage';
 import { SignUpPage } from '../pages/SignUpPage';
 import { SignupUtils } from '../utils/signupUtils';
 import { HomePage } from '../pages/HomePage';
+import { BetInfluencerModal } from '../pages/BetInfluencerModal';
 
 // Test data interface for signup
 export interface TestData {
@@ -46,6 +47,7 @@ type PageFixtures = {
   virtualsPage: VirtualsPage;
   promotionPage: PromotionPage;
   betgamesPage: BetgamesPage;
+  betinfluencerModal: BetInfluencerModal;
   // Signup-specific fixtures
   signupPage: SignUpPage;
   signupUtils: SignupUtils;
@@ -65,14 +67,19 @@ export const test = base.extend<PageFixtures>({
   loginPage: async ({ page }, use) => {
     const loginPage = new LoginPage(page);
     await loginPage.goto();
+    await loginPage.page.getByText('Got it').first().click();
     await use(loginPage);
   },
   sportsPage: async ({ page }, use) => {
     const sportsPage = new SportsPage(page);
+    await sportsPage.gotoSportsPage();
+    await sportsPage.page.getByText('Got it').first().click();
     await use(sportsPage);
   },
   casinoPage: async ({ page }, use) => {
     const casinoPage = new CasinoPage(page);
+    await casinoPage.gotoCasino();
+    await casinoPage.page.getByText('Got it').first().click();
     await use(casinoPage);
   },
   virtualsPage: async ({ page }, use) => {
@@ -86,6 +93,12 @@ export const test = base.extend<PageFixtures>({
   betgamesPage: async ({ page }, use) => {
     const betgamesPage = new BetgamesPage(page);
     await use(betgamesPage);
+  },
+  betinfluencerModal: async ({ page }, use) => {
+    const betinfluencerModal = new BetInfluencerModal(page);
+    await betinfluencerModal.goto();
+    await betinfluencerModal.page.getByText('Got it').first().click();
+    await use(betinfluencerModal);
   },
 
   // Signup fixtures - using shared page approach for no-refresh strategy

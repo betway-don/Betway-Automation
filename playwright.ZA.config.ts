@@ -12,6 +12,10 @@ export default defineConfig({
     ['allure-playwright', { outputFolder: 'src/regions/ZA/reports/allure-results' }]
   ],
   use: {
+    viewport: null,                        // <- This disables the fixed viewport size, so browser window controls actual size
+    launchOptions: {
+      args: ['--start-maximized'],
+    },
     // baseURL: 'http://za.example.com', // Set region-specific baseURL if needed
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
@@ -20,8 +24,15 @@ export default defineConfig({
   },
   projects: [
     {
-      name:'Google Chrome',
-      use: { ...devices['Desktop Chrome'] },
+      name: 'Google Chrome',
+      use: {
+        ...devices['Desktop Chrome'],
+        viewport: null,
+        deviceScaleFactor: undefined,
+        launchOptions: {
+          args: ['--start-maximized'],
+        },
+      }
     }
     // {
     //   name: 'chromium',

@@ -14,6 +14,5 @@ export const loginLocators = {
   CasinoButton:{selector:'text', options: { name: 'Casino' },nth:0},
   welcomeUser: { selector: 'text', options: { name: 'Welcome' },nth: 0 },
   username : { selector: 'text', options: { name: `${userData.user1.username}` }, nth: 0 },
-
-  eyeButton : {selector: 'xpath',options: {namespace: 'http://www.w3.org/2000/svg',tag: 'svg' },nth: 0}
+  betInfluencer : {selector: 'text', options: { name: 'Bet Influencer' },nth: 0}
 };

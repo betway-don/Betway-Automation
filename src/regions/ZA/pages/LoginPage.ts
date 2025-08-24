@@ -23,6 +23,7 @@ export class LoginPage {
     formMobileInput: import('@playwright/test').Locator;
     formPasswordInput: import('@playwright/test').Locator;
     eyeButton: ReturnType<import('@playwright/test').Page['locator']>;
+    BetInfluencer: ReturnType<import('@playwright/test').Page['getByText']>;
 
     /**
     * @param {import('@playwright/test').Page} page
@@ -88,7 +89,10 @@ export class LoginPage {
             loginLocators.username.options.name
         ).nth(loginLocators.username.nth);
 
-        this.eyeButton = page.locator(`xpath=//*[local-name()="${loginLocators.eyeButton.options.tag}" and namespace-uri()="${loginLocators.eyeButton.options.namespace}"]`).nth(loginLocators.eyeButton.nth);
+        this.eyeButton = this.formPasswordInput.locator('..').getByRole('img').first();
+        this.BetInfluencer = page.getByText(
+            loginLocators.betInfluencer.options.name
+        ).nth(loginLocators.betInfluencer.nth);
 
     }
 

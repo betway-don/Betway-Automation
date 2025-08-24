@@ -2,5 +2,8 @@ export const sportsPageLocators = {
   
   SportButton:{selector:'text', options: { name: 'Sport' }},
   CasinoButton:{selector:'text', options: { name: 'Casino' }},
-  Betslip:{selector:'text', options: { name: 'Betslip' },nth:0},
+  Betslip:{selector:"#betslip-container"},
+  loginButtonFromBetSlip:{selector:'button', options: { name: 'Login' }},
+  
+
 };

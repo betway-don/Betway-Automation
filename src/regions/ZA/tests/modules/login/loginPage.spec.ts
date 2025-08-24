@@ -5,7 +5,7 @@ import path from 'path';
 import { highlightElementBorder, highlightElements } from '../../../../Common-Flows/HighlightElements';
 import { ScreenshotHelper } from '../../../../Common-Flows/ScreenshotHelper';
 
-const highlights=require('../../../apis/Highlights.json');
+const highlights = require('../../../apis/Highlights.json');
 const fakerdata = require('../../../json-data/faker.json');
 const userData = require('../../../json-data/userData.json');
 const projectRoot = path.resolve(__dirname, '../../..');
@@ -15,6 +15,7 @@ test.describe('Login Page Tests', () => {
 
   test("T1-Verify Login Button is visible on Homepage.", async ({ loginPage }, testInfo) => {
     const loginButton = loginPage.loginButton;
+    await expect(loginButton).toBeVisible();
     await highlightElements(loginButton);
     await ScreenshotHelper(loginPage.page, screenshotDir, 'T1-loginPage', testInfo);
     await loginPage.goto();
@@ -24,7 +25,6 @@ test.describe('Login Page Tests', () => {
   test('T2 - Verify that user should able to click on "Login" button', async ({ loginPage }, testInfo) => {
     await loginPage.clickLogin();
     await ScreenshotHelper(loginPage.page, screenshotDir, 'T2-loginPage', testInfo);
-    await loginPage.goto();
   });
 
 
@@ -213,13 +213,11 @@ test.describe('Login Page Tests', () => {
   });
 
   test('T39- Verify that user is able to see the "Login" window when clicked on "Play" button on game banner while on "casino" page', async ({ casinoPage }, testInfo) => {
-    await casinoPage.gotoCasino();
     await casinoPage.playGame('The Chicken game');
     await casinoPage.page.waitForTimeout(4000); // Wait for the popup to appear
     await ScreenshotHelper(casinoPage.page, screenshotDir, 'T39-loginPage', testInfo);
   });
   test('T40- Verify that user is able  to click "Login"  from popup window when clicked on "Play" button on game banner while on "casino" page', async ({ casinoPage }, testInfo) => {
-    await casinoPage.gotoCasino();
     await casinoPage.playGame('The Chicken game');
     await casinoPage.LoginFromPopUp(userData.user1.mobile, userData.user1.password);
     await casinoPage.page.waitForTimeout(5000);
@@ -272,61 +270,34 @@ test.describe('Login Page Tests', () => {
     await highlightElements(promotionPage.welcomeUser.locator('..'));
     await ScreenshotHelper(promotionPage.page, screenshotDir, 'T45-loginPage', testInfo);
   });
-  // test('T46 - Verify user is able to hide or show password when clicked on eye hide button when on homepage', async ({ loginPage }, testInfo) => {
-  //   await loginPage.clickLoginButtonFromHeader();
-  //   await loginPage.formMobileInput.fill(userData.user1.mobile);
-  //   await loginPage.formPasswordInput.fill(userData.user1.password);
+  test('T46 - Verify user is able to hide or show password when clicked on eye hide button when on homepage', async ({ loginPage }, testInfo) => {
+    await loginPage.clickLoginButtonFromHeader();
+    await loginPage.formMobileInput.fill(userData.user1.mobile);
+    await loginPage.formPasswordInput.fill(userData.user1.password);
 
-  //   await loginPage.eyeButton.click();
+    await highlightElementBorder(loginPage.eyeButton)
+    await ScreenshotHelper(loginPage.page, screenshotDir, 'T46-Hide', testInfo)
+    await loginPage.eyeButton.click();
+    await highlightElementBorder(loginPage.eyeButton)
+    await ScreenshotHelper(loginPage.page, screenshotDir, 'T46-Visible', testInfo)
+  });
+  test('T47 - Verify user is able to show password when clicked on eye hide button when on homepage', async ({ loginPage }, testInfo) => {
+    await loginPage.clickLoginButtonFromHeader();
+    await loginPage.formMobileInput.fill(userData.user1.mobile);
+    await loginPage.formPasswordInput.fill(userData.user1.password);
 
-  //   const passwordInput = loginPage.page.locator('#login-password');
+    await highlightElementBorder(loginPage.eyeButton)
+    await ScreenshotHelper(loginPage.page, screenshotDir, 'T47-Hide', testInfo)
+    await loginPage.eyeButton.click();
+    await highlightElementBorder(loginPage.eyeButton)
+    await ScreenshotHelper(loginPage.page, screenshotDir, 'T47-', testInfo)
 
-  //   const passwordBoundingBox = await passwordInput.boundingBox();
-  //   const x = passwordBoundingBox?.x + passwordBoundingBox.width / 2;
-
-
-  //   await loginPage.passwordInput.evaluate((el: HTMLElement) => {
-  //     el.style.outline = '4px solid red';
-  //     el.style.backgroundColor = 'rgba(255,255,0,0.3)';
-  //   });
-
-  //   await loginPage.page.screenshot({ path: screenshotDir + '/T46-loginPage.png', fullPage: false });
-
-  //   await testInfo.attach('Login Button on Promotions Popup', {
-  //     path: screenshotDir + '/T46-loginPage.png',
-  //     contentType: 'image/png',
-  //   });
-  // });
-  // test('T47 - Verify user is able to show password when clicked on eye hide button when on homepage', async ({ loginPage }, testInfo) => {
-  //   await loginPage.clickLoginButtonFromHeader();
-  //   await loginPage.formMobileInput.fill(userData.user1.mobile);
-  //   await loginPage.formPasswordInput.fill(userData.user1.password);
-
-  //   await loginPage.eyeButton.click();
-
-  //   const passwordInput = loginPage.page.locator('#login-password');
-
-  //   const passwordBoundingBox = await passwordInput.boundingBox();
-  //   const x = passwordBoundingBox?.x + passwordBoundingBox.width / 2;
-
-
-  //   await loginPage.passwordInput.evaluate((el: HTMLElement) => {
-  //     el.style.outline = '4px solid red';
-  //     el.style.backgroundColor = 'rgba(255,255,0,0.3)';
-  //   });
-
-  //   await loginPage.page.screenshot({ path: screenshotDir + '/T46-loginPage.png', fullPage: false });
-
-  //   await testInfo.attach('Login Button on Promotions Popup', {
-  //     path: screenshotDir + '/T46-loginPage.png',
-  //     contentType: 'image/png',
-  //   });
-  // });
+  });
 
   test('T48 - Verify that user is able to see the "Login" window when clicked on "Play" button on game banner while on "betgames" page', async ({ betgamesPage }, testInfo) => {
     await betgamesPage.gotoBetgames();
     await betgamesPage.playGame('Bad Baboons');
-    await betgamesPage.page.waitForTimeout(4000); 
+    await betgamesPage.page.waitForTimeout(4000);
     await ScreenshotHelper(betgamesPage.page, screenshotDir, 'T48-loginPage', testInfo);
   });
   test('T49 - Verify that user is able to see the "Login" window from signup popup window when clicked on "Play" button on game banner while on "betgames" page', async ({ betgamesPage }, testInfo) => {
@@ -347,16 +318,37 @@ test.describe('Login Page Tests', () => {
     await ScreenshotHelper(betgamesPage.page, screenshotDir, 'T50-loginPage', testInfo);
   });
 
+  test('T51- Verify that user is able to see the "Login" popup window', async ({ sportsPage }, testInfo) => {
+    await sportsPage.page.setViewportSize({ width: 1300, height: 780 });
+    await sportsPage.gotoSportsPage();
 
-  test('T54 - Verify that user is able to see the "Login" window when clicked on "Favorite icon" button on game banner while on "Aviator" page', async ({ casinoPage }, testInfo) => {
-    await casinoPage.gotoCasino();
+    const apiUrl = "https://new.betway.co.za/sportsapi/br/v1/BetBook/Highlights/?countryCode=ZA&sportId=soccer";
+    const response = await sportsPage.page.waitForResponse(resp => resp.url().startsWith(apiUrl) && resp.status() === 200);
+
+    // Parse the response JSON
+    const data = await response.json();
+    const sbv = data.prices?.[0]?.priceDecimal;
+    const eventid = data.events?.[0]?.eventId;
+    const knownOutcomeId = `${eventid}11`; // Replace with the actual outcomeId you want to test
+    const priceObj = data.prices?.find((p: any) => p.outcomeId === knownOutcomeId);
+
+    await sportsPage.page.getByText(`${priceObj.priceDecimal}`, { exact: false }).first().click(); // Wait for the page to load
+
+    await sportsPage.page.waitForTimeout(2000);
+    await sportsPage.loginButtonFromBetslip.click(); // Click on the login button in the popup
+    await sportsPage.page.waitForTimeout(2000); // Wait for the login modal to
+    await sportsPage.LoginFromPopUp(userData.user1.mobile, userData.user1.password);
+    await expect(sportsPage.welcomeUser).toBeVisible({ timeout: 20000 });
+    await highlightElements(sportsPage.welcomeUser.locator('..'));
+    await ScreenshotHelper(sportsPage.page, screenshotDir, 'T51-loginPage', testInfo);
+  });
+  test('T54/58/62 - Verify that user is able to see the "Login" window when clicked on "Favorite icon" button on game banner while on "Aviator" page', async ({ casinoPage }, testInfo) => {
     await casinoPage.favouriteGames.click();
     await casinoPage.page.waitForTimeout(4000); // Wait for the popup to appear
     await ScreenshotHelper(casinoPage.page, screenshotDir, 'T54-loginPage', testInfo);
   });
 
-  test('T55 - Verify that user is able to see the "Login" window from signup popup window when clicked on "Favorite icon" button on game banner while on "Aviator" page', async ({ casinoPage }, testInfo) => {
-    await casinoPage.gotoCasino();
+  test('T55/59/63 - Verify that user is able to see the "Login" window from signup popup window when clicked on "Favorite icon" button on game banner while on "Aviator" page', async ({ casinoPage }, testInfo) => {
     await casinoPage.favouriteGames.click();
     await casinoPage.signUpButtonfromHamburger.click();
     await highlightElementBorder(casinoPage.loginButtonFromPopup);
@@ -364,8 +356,15 @@ test.describe('Login Page Tests', () => {
     await ScreenshotHelper(casinoPage.page, screenshotDir, 'T55-loginPage', testInfo);
   });
 
-  test('T56 - Verify that user is able  to click "Login"  from popup window when clicked on "Favorite icon" button on game banner while on "Aviator" page ', async ({ casinoPage }, testInfo) => {
-    await casinoPage.gotoCasino();
+  test('T56/60/64 - Verify that user is able  to click "Login"  from popup window when clicked on "Favorite icon" button on game banner while on "Aviator" page ', async ({ casinoPage }, testInfo) => {
+    await casinoPage.favouriteGames.click();
+    await casinoPage.LoginFromPopUp(userData.user1.mobile, userData.user1.password);
+    await casinoPage.page.waitForTimeout(4000);
+    await highlightElementBorder(casinoPage.welcomeUser.locator('..'));
+    await ScreenshotHelper(casinoPage.page, screenshotDir, 'T56-loginPage', testInfo);
+  });
+
+  test('T57/61/65 - Verify that user is able  to click "Login"  from sign up popup window when clicked on "Favorite icon" button on game banner while on "Aviator" page ', async ({ casinoPage }, testInfo) => {
     await casinoPage.favouriteGames.click();
     await casinoPage.signUpButtonfromHamburger.click();
     await highlightElementBorder(casinoPage.loginButtonFromPopup);
@@ -374,13 +373,13 @@ test.describe('Login Page Tests', () => {
     await casinoPage.page.waitForTimeout(4000); // Wait for the popup to appear
 
     await highlightElementBorder(casinoPage.welcomeUser.locator('..'));
-    await ScreenshotHelper(casinoPage.page, screenshotDir, 'T56-loginPage', testInfo);
+    await ScreenshotHelper(casinoPage.page, screenshotDir, 'T57-loginPage', testInfo);
   });
 
   test('T66- Verify that user is able to see the "Login" window when clicked on "Favorite icon" button on game banner while on "Virtuals" page', async ({ virtualsPage }, testInfo) => {
     await virtualsPage.gotoVirtuals();
     await virtualsPage.favouriteGames.click();
-    await virtualsPage.page.waitForTimeout(4000); 
+    await virtualsPage.page.waitForTimeout(4000);
     await ScreenshotHelper(virtualsPage.page, screenshotDir, 'T66-loginPage', testInfo);
   });
   test('T67 - Verify that user is able to see the "Login" window from signup popup window when clicked on "Favorite icon" button on game banner while on "Virtuals" page', async ({ virtualsPage }, testInfo) => {
@@ -388,10 +387,9 @@ test.describe('Login Page Tests', () => {
     await virtualsPage.favouriteGames.click();
     await virtualsPage.signUpButtonfromHamburger.click();
     await highlightElementBorder(virtualsPage.loginButtonFromPopup);
-    await virtualsPage.page.waitForTimeout(4000); 
+    await virtualsPage.page.waitForTimeout(4000);
     await ScreenshotHelper(virtualsPage.page, screenshotDir, 'T67-loginPage', testInfo);
   });
-
 
   test('T68 - Verify that user is able  to "Login"  from popup window when clicked on "Favorite icon" button on game banner while on "Virtuals" page', async ({ virtualsPage }, testInfo) => {
     await virtualsPage.gotoVirtuals();
@@ -399,33 +397,8 @@ test.describe('Login Page Tests', () => {
     await virtualsPage.signUpButtonfromHamburger.click();
     await virtualsPage.loginButtonFromPopup.click();
     await virtualsPage.LoginFromPopUp(userData.user1.mobile, userData.user1.password);
-    await virtualsPage.page.waitForTimeout(4000); 
+    await virtualsPage.page.waitForTimeout(4000);
     await highlightElements(virtualsPage.welcomeUser.locator('..'));
     await ScreenshotHelper(virtualsPage.page, screenshotDir, 'T68-loginPage', testInfo);
   });
-
-  // test('T51- Verify that user is able to see the "Login" popup window', async ({ sportsPage }, testInfo) => {
-  //   // await sportsPage.gotoSportsPage();
-  //   https://new.betway.co.za/sportsapi/br/v1/BetBook/Highlights/?countryCode=ZA&sportId=soccer&Skip=0&Take=20&cultureCode=en-US&isEsport=false&boostedOnly=false&marketTypes=%5BWin%2FDraw%2FWin%5D&marketTypes=%5BBoth%20Teams%20To%20Score%5D&marketTypes=%5BTotal%20Goals%5D%202.5&marketTypes=%5BDouble%20Chance%5D&marketTypes=%5BDraw%20No%20Bet%5D&marketTypes=Last%20Goal&marketTypes=Booking%201X2&marketTypes=Sending%20Off&marketTypes=%5BTotal%20Goals%5D%20%5BOdd%2FEven%5D&marketTypes=%5B1st%20Half%5D%20-%20%5BWin%2FDraw%2FWin%5D&marketTypes=%5BTotal%20Goals%5D&marketTypes=%5BTotal%20Goals%5D%200.5&marketTypes=%5BTotal%20Goals%5D%201.5&marketTypes=%5BTotal%20Goals%5D%202.5&marketTypes=%5BTotal%20Goals%5D%203.5&marketTypes=%5BTotal%20Goals%5D%204.5&marketTypes=%5BTotal%20Goals%5D%205.5
-
-  //   await sportsPage.gotoSportsPage();
-
-  //   // Wait for the API response
-  //   const apiUrl = "https://new.betway.co.za/sportsapi/br/v1/BetBook/Highlights/?countryCode=ZA&sportId=soccer";
-  //   const response = await sportsPage.page.waitForResponse(resp => resp.url().startsWith(apiUrl) && resp.status() === 200);
-
-  //   // Parse the response JSON
-  //   const data = await response.json();
-  //   const sbv = data.prices?.[0]?.priceDecimal;
-  //   const eventid=data.events?.[0]?.eventId;
-  //   const knownOutcomeId = `${eventid}11`; // Replace with the actual outcomeId you want to test
-  //   const priceObj = data.prices?.find((p: any) => p.outcomeId === knownOutcomeId);
-
-  //   await sportsPage.page.getByText(`${priceObj.priceDecimal}`).first().click(); // Wait for the page to load
-
-  //   await sportsPage.page.waitForTimeout(2000); // Wait for the popup to appear
-
-  //   // await sportsPage.betslip.click(); // Click on the betslip to open the login popup
-  //   await sportsPage.page.getByText('Login').click(); // Click on the login button in the popup
-  // });
 });
