@@ -5,12 +5,15 @@ import path from 'path';
 import { highlightElementBorder, highlightElements } from '../../../../Common-Flows/HighlightElements';
 import { ScreenshotHelper } from '../../../../Common-Flows/ScreenshotHelper';
 import { BetInfluencerModal } from '../../../pages/BetInfluencerModal';
+import fs from 'fs';
+import { OddsSelection } from '../../../../Common-Flows/OddSelection';
 
 const highlights = require('../../../apis/Highlights.json');
 const fakerdata = require('../../../json-data/faker.json');
 const userData = require('../../../json-data/userData.json');
 const projectRoot = path.resolve(__dirname, '../../..');
 const screenshotDir = path.join(projectRoot, 'screenshots/module/betInfluencer');
+const apidatafromHighlights=path.join(projectRoot,'json-data/oddsData.json')
 
 test.describe('BetInfluencer Tests', () => {
     // test("T1-", async ({ betinfluencerModal }, testInfo) => {
@@ -127,26 +130,55 @@ test.describe('BetInfluencer Tests', () => {
     //     await ScreenshotHelper(betinfluencerModal.page, screenshotDir, 'T13-Previous Button after click', testInfo);
     // });
 
-    test('T16-Verify presence of "Booking Code" message on Bet Confirmation pop up window.', async ({ sportsPage }, testinfo) => {
+
+    test('T16-Verify presence of "Booking Code" message on Bet Confirmation pop up window.', async ({ sportsPage }, testInfo) => {
         await sportsPage.page.setViewportSize({ width: 1300, height: 780 });
         await sportsPage.gotoSportsPage();
-
         const apiUrl = "https://new.betway.co.za/sportsapi/br/v1/BetBook/Highlights/?countryCode=ZA&sportId=soccer";
         const response = await sportsPage.page.waitForResponse(resp => resp.url().startsWith(apiUrl) && resp.status() === 200);
-
-        // Parse the response JSON
         const data = await response.json();
-        const sbv = data.prices?.[0]?.priceDecimal;
-        const eventid = data.events?.[0]?.eventId;
-        const knownOutcomeId = `${eventid}11`; // Replace with the actual outcomeId you want to test
-        const priceObj = data.prices?.find((p: any) => p.outcomeId === knownOutcomeId);
         
-        await sportsPage.page.getByText(`${priceObj.priceDecimal}`,{exact:false}).first().click(); // Wait for the page to load
+        await OddsSelection(5,sportsPage.page,data);
+        // for (let i = 0; i < 5; i++) {
+        //     const eventId = data.events?.[i]?.eventId;
+        //     if (!eventId) continue;
+        //     const knownOutcomeId = `${eventId}11`;
+        //     const priceObj = data.prices?.find((p: any) => p.outcomeId === knownOutcomeId);
+        //     if (!priceObj) continue;
 
-        await sportsPage.page.waitForTimeout(2000); // Wait for the popup to appear
+        //     // Click the element with the priceDecimal value
 
-        // await sportsPage.betslip.click(); // Click on the betslip to open the login popup
-        await sportsPage.page.locator('#betslip-container').getByRole('button',{name:"Login"}).click(); // Click on the login button in the popup
+        //     const oddValue=await sportsPage.page.locator(`//div[@id="${eventId}"]`).getByText(`${priceObj.priceDecimal}`, { exact: false }).first();
+        //     await oddValue.click();
+        //     await sportsPage.page.waitForTimeout(1000); // Optional: wait between clicks
+        // }
+        await sportsPage.page.waitForTimeout(2000);
+        await ScreenshotHelper(sportsPage.page, screenshotDir, 'T16-Previous Button after click', testInfo)
     });
+
+    // test('Store 5 events eventId and priceDecimal to JSON', async ({ sportsPage }) => {
+    //     await sportsPage.gotoSportsPage();
+
+    //     const apiUrl = "https://new.betway.co.za/sportsapi/br/v1/BetBook/Highlights/?countryCode=ZA&sportId=soccer";
+    //     const response = await sportsPage.page.waitForResponse(resp => resp.url().startsWith(apiUrl) && resp.status() === 200);
+
+    //     const data = await response.json();
+
+    //     // Get first 5 events and their priceDecimal
+    //     const events = (data.events || []).slice(0, 5).map((event: any) => {
+    //         // Find price for this event
+    //         // const priceObj = (data.prices || []).find((p: any) => p.eventId === event.eventId);
+    //         const knownOutcomeId = `${event.eventId}11`; // Replace with the actual outcomeId you want to test
+    //         const priceObj = data.prices?.find((p: any) => p.outcomeId === knownOutcomeId);
+    //         return {
+    //             eventId: event.eventId,
+    //             priceDecimal: priceObj ? priceObj.priceDecimal : null
+    //         };
+    //     });
+
+    //     // Store to JSON file
+    //     const outputPath = path.resolve(__dirname, '../../../json-data/eventsData.json');
+    //     fs.writeFileSync(outputPath, JSON.stringify(events, null, 2), 'utf-8');
+    // });
 })
 

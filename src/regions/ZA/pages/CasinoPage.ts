@@ -35,7 +35,7 @@ export class CasinoPage extends LoginPage {
     }
 
     async playGame(gameName: string) {
-        await this.page.getByText(gameName).click();
+        await this.page.getByText(gameName).first().click();
         await this.page.waitForLoadState('domcontentloaded');
     }
 

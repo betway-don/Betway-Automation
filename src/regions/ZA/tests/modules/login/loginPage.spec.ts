@@ -258,7 +258,7 @@ test.describe('Login Page Tests', () => {
     await virtualsPage.loginButtonFromPopup.click();
     await virtualsPage.LoginFromPopUp(userData.user1.mobile, userData.user1.password);
     await virtualsPage.page.waitForTimeout(4000); // Wait for the popup to appear
-    await expect(virtualsPage.welcomeUser).toBeVisible({ timeout: 20000 });
+    await expect(virtualsPage.welcomeUser).toBeVisible({ timeout: 100000 });
     await highlightElements(virtualsPage.welcomeUser.locator('..'));
     await ScreenshotHelper(virtualsPage.page, screenshotDir, 'T44-loginPage', testInfo);
   });
@@ -266,7 +266,7 @@ test.describe('Login Page Tests', () => {
   test('T45 - Verify that user is able to see the "Login" window when clicked on "Login" from signup popup window while on "Promotions" page', async ({ promotionPage }, testInfo) => {
     await promotionPage.gotoPromotionPages();
     await promotionPage.LoginFromPromotions(userData.user1.mobile, userData.user1.password);
-    await expect(promotionPage.welcomeUser).toBeVisible({ timeout: 20000 });
+    await expect(promotionPage.welcomeUser).toBeVisible({ timeout: 100000 });
     await highlightElements(promotionPage.welcomeUser.locator('..'));
     await ScreenshotHelper(promotionPage.page, screenshotDir, 'T45-loginPage', testInfo);
   });

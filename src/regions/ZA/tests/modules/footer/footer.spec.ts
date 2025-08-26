@@ -240,8 +240,8 @@ test.describe('Footer Module Tests', () => {
     test('T36-Verify expand and collapse functionality of any options button inside "Terms & Conditions" page', async ({ homePage },testInfo) => {
         await homePage.TermsAndConditions.click();
         await homePage.page.waitForTimeout(4000);
-        await homePage.page.getByText('General').first().click();
-        await highlightElementBorder(homePage.page.getByText('General').first());
+        await highlightElementBorder(homePage.page.getByRole('button',{name:"General"}).first());
+        await homePage.page.getByRole('button',{name:"General"}).click();
         await homePage.page.waitForTimeout(2000);
         await ScreenshotHelper(homePage.page, screenshotDir, 'T36.png', testInfo);
     });
@@ -286,7 +286,7 @@ test.describe('Footer Module Tests', () => {
         await expect(homePage.page).toHaveURL('https://new.betway.co.za/betway-app');
         await highlightElementBorder(homePage.page.getByText("Betway App").first().locator('..').locator('a').first());
         await ScreenshotHelper(homePage.page, screenshotDir, 'T41-a.png', testInfo);
-        await homePage.page.getByText("Betway App").first().locator('..').locator('a').first().click();
+        await homePage.page.getByRole('heading',{name:"Betway App"}).first().locator('..').locator('a').first().click();
         await homePage.page.waitForTimeout(4000);
         await expect(homePage.page).toHaveURL('https://new.betway.co.za/');
         await ScreenshotHelper(homePage.page, screenshotDir, 'T41-b.png', testInfo);
@@ -298,7 +298,7 @@ test.describe('Footer Module Tests', () => {
         await expect(homePage.page).toHaveURL('https://new.betway.co.za/betway-app');
         await highlightElementBorder(homePage.page.getByText("Betway App").first().locator('..').locator('a').first());
         await ScreenshotHelper(homePage.page, screenshotDir, 'T42-a.png', testInfo);
-        await homePage.page.getByText("Betway App").first().locator('..').locator('a').first().click();
+        await homePage.page.getByRole('heading',{name:"Betway App"}).first().locator('..').locator('a').first().click();
         await homePage.page.waitForTimeout(4000);
         await expect(homePage.page).toHaveURL('https://new.betway.co.za/');
         await ScreenshotHelper(homePage.page, screenshotDir, 'T42-b.png', testInfo);
