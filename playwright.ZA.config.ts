@@ -1,9 +1,10 @@
 import { defineConfig, devices } from '@playwright/test';
+// npx playwright test --config=playwright.ZA.config.ts src/regions/ZA/tests/modules/ --project="ZA Modules"
 
 export default defineConfig({
   testDir: './src/regions/ZA/tests',
   fullyParallel: true,
-  timeout: 26000000,
+  timeout: 300000, // 5 minutes
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 6 : 6,
@@ -16,15 +17,13 @@ export default defineConfig({
     launchOptions: {
       args: ['--start-maximized'],
     },
-    // baseURL: 'http://za.example.com', // Set region-specific baseURL if needed
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
-    // Store screenshots in region/module folders manually in test code if needed
   },
   projects: [
     {
-      name: 'Google Chrome',
+      name: 'ZA Region',
       use: {
         ...devices['Desktop Chrome'],
         viewport: null,
@@ -33,18 +32,18 @@ export default defineConfig({
           args: ['--start-maximized'],
         },
       }
+    },
+    {
+      name: 'ZA Modules', // Add this new project
+      testDir: './src/regions/ZA/tests/modules', // Point to the specific subdirectory
+      use: {
+        // Inherit from the default use or define new settings
+        ...devices['Desktop Chrome'],
+        viewport: null,
+        launchOptions: {
+          args: ['--start-maximized'],
+        },
+      }
     }
-    // {
-    //   name: 'chromium',
-    //   use: { ...devices['Desktop Chrome'] },
-    // },
-    // {
-    //   name: 'firefox',
-    //   use: { ...devices['Desktop Firefox'] },
-    // },
-    // {
-    //   name: 'webkit',
-    //   use: { ...devices['Desktop Safari'] },
-    // },
   ],
 });
