@@ -1,7 +1,8 @@
 import { betInfluencerModalLocators } from '../locators/betInfluencerModalLocators';
 import { LoginPage } from './LoginPage';
+import { SportsPage } from './SportsPage';
 
-export class BetInfluencerModal extends LoginPage {
+export class BetInfluencerModal extends SportsPage {
     page: import('@playwright/test').Page;
     summaryButton: ReturnType<import('@playwright/test').Page['getByRole']>;
     detailButton: ReturnType<import('@playwright/test').Page['getByRole']>;
@@ -45,7 +46,15 @@ export class BetInfluencerModal extends LoginPage {
         await this.page.waitForSelector('text=Revenue', { state: 'visible' });
         await this.page.waitForTimeout(2000);
     }
-
+    async goToBetInfluencerWithoutLogin(){
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.hamburgerMenu.click();
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.waitForTimeout(2000);
+        await this.BetInfluencer.click();
+        await this.page.waitForSelector('text=Revenue', { state: 'visible' });
+        await this.page.waitForTimeout(2000);
+    }
     async clickDetailButton() {
         await this.detailButton.click();
         await this.page.waitForSelector('text=Total monthly revenue', { state: 'visible' });
