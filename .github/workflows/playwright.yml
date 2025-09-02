@@ -9,7 +9,7 @@ on:
 jobs:
   test:
     runs-on: windows-latest
-    timeout-minutes: 60
+    timeout-minutes: 5
 
     steps:
     - name: Checkout code
