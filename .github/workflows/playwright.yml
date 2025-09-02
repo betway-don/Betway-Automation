@@ -8,7 +8,7 @@ on:
 
 jobs:
   test:
-    runs-on: [self-hosted, windows] 
+    runs-on: windows-latest
     timeout-minutes: 60
 
     steps:
@@ -27,7 +27,7 @@ jobs:
       run: npx playwright install --with-deps
 
     - name: Run Playwright tests (ZA modules)
-      run: npx playwright test src/regions/ZA/tests/modules/betInfluencer/betInfluencer.spec.ts --config=playwright.ZA.config.ts
+      run: npx playwright test src/regions/ZA/tests/modules/login/loginPage.spec.ts --config=playwright.ZA.config.ts --headed
 
     - name: Upload Playwright HTML report
       uses: actions/upload-artifact@v4
