@@ -4,7 +4,7 @@ import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
   testDir: './src/regions/ZA/tests',
   fullyParallel: true,
-  timeout: 300000, // 5 minutes
+  timeout: 120000,  
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 6 : 6,
@@ -33,17 +33,5 @@ export default defineConfig({
         },
       }
     },
-    {
-      name: 'ZA Modules', // Add this new project
-      testDir: './src/regions/ZA/tests/modules', // Point to the specific subdirectory
-      use: {
-        // Inherit from the default use or define new settings
-        ...devices['Desktop Chrome'],
-        viewport: null,
-        launchOptions: {
-          args: ['--start-maximized'],
-        },
-      }
-    }
   ],
 });

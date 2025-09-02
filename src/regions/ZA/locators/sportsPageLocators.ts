@@ -2,7 +2,7 @@ import { selectors } from "@playwright/test";
 
 export const sportsPageLocators = {
   
-  SportButton:{selector:'text', options: { name: 'Sport' }},
+  SportButton:{selector:'text', options: { name: 'Sport' },nth:0},
   CasinoButton:{selector:'text', options: { name: 'Casino' }},
   BetSlipButton:{selector:'text',options:{name:'Betslip 0'},nth:0},
   Betslip:{selector:"#betslip-container"},

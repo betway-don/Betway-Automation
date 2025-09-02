@@ -15,10 +15,14 @@ export class BetInfluencerModal extends SportsPage {
     betsTaken: import('@playwright/test').Locator;
     nextButton: import('@playwright/test').Locator;
     previousButton: import('@playwright/test').Locator;
+    revenue: ReturnType<import('@playwright/test').Page['getByText']>;
+    revenueGraph: import('@playwright/test').Locator;
 
     constructor(page: import('@playwright/test').Page) {
         super(page);
         this.page = page;
+        this.revenueGraph=page.locator(betInfluencerModalLocators.revnueGraph.selectors);
+        this.revenue=page.getByText('Revenue').nth(0);
         this.summaryButton = page.getByRole('button', betInfluencerModalLocators.summaryButton.options).nth(betInfluencerModalLocators.summaryButton.nth);
         this.detailButton = page.getByRole('button', betInfluencerModalLocators.detailButton.options).nth(betInfluencerModalLocators.detailButton.nth);
         this.lastFourWeeksCanvas = page.locator(betInfluencerModalLocators.lastFourWeeksCanvas.selectors);

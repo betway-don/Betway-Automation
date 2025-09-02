@@ -97,6 +97,7 @@ export const test = base.extend<PageFixtures>({
   betinfluencerModal: async ({ page }, use) => {
     const betinfluencerModal = new BetInfluencerModal(page);
     await betinfluencerModal.goto();
+    await betinfluencerModal.page.setViewportSize({ width: 1300, height: 780 });
     await betinfluencerModal.page.getByText('Got it').first().click();
     await use(betinfluencerModal);
   },

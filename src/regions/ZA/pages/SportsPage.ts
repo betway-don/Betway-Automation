@@ -35,6 +35,7 @@ export class SportsPage extends LoginPage {
     constructor(page: import('@playwright/test').Page) {
         super(page);
         this.page = page;
+        this.SportButton= page.getByRole('link').filter({ hasText: 'Sport' }).first();
         this.aviator = page.getByRole('link').filter({ hasText: 'Aviator' }).first();
         this.live = page.getByRole('link').filter({ hasText: 'Live' }).first();
         this.esports = page.getByRole('link').filter({ hasText: 'Esports' }).first();

@@ -15,7 +15,8 @@ const fakerdata = require('../../../json-data/faker.json');
 const userData = require('../../../json-data/userData.json');
 const projectRoot = path.resolve(__dirname, '../../..');
 const screenshotDir = path.join(projectRoot, 'screenshots/module/betInfluencer');
-const apidatafromHighlights = path.join(projectRoot, 'json-data/oddsData.json')
+const apidatafromHighlights = path.join(projectRoot, 'json-data/oddsData.json');
+const bookingCode=path.join(projectRoot, 'json-data/bookingcode-September.json');
 //14,15,25,26,29,31,19
 test.describe('BetInfluencer Tests', () => {
     test("T1-", async ({ betinfluencerModal }, testInfo) => {
@@ -23,6 +24,19 @@ test.describe('BetInfluencer Tests', () => {
         await highlightElements(betinfluencerModal.BetInfluencer);
         await ScreenshotHelper(betinfluencerModal.page, screenshotDir, 'T1-Bet Influencer', testInfo);
     });
+
+    test('NewT2-Verify presence of "Bet influencer" option in Hamburger menu on Account pop up window from My Bet.', async ({ betinfluencerModal }, testInfo) => {
+        await betinfluencerModal.Login();
+        await betinfluencerModal.page.waitForLoadState('domcontentloaded');
+        await betinfluencerModal.SportButton.click();
+        await betinfluencerModal.page.getByText('My Bets').nth(0).click();
+        await betinfluencerModal.page.getByText(`Account Options: ${userData.user1.mobile} `)
+        const windowBetInfluencer=await betinfluencerModal.page.locator('#booking-codes-account-nav');
+        await windowBetInfluencer.waitFor({state:'visible',timeout:5000});
+        await highlightElements(windowBetInfluencer);
+        await ScreenshotHelper(betinfluencerModal.page, screenshotDir, 'New-T2-Bet Influencer presence in My Bets', testInfo);
+    });
+
     test('T2-Summary page presence', async ({ betinfluencerModal },testInfo) => {
         await betinfluencerModal.gotoBetInfluencerModal();
         await highlightElements(betinfluencerModal.page.getByRole('button',{name:'Summary'}));
@@ -44,6 +58,16 @@ test.describe('BetInfluencer Tests', () => {
         await ScreenshotHelper(betinfluencerModal.page, screenshotDir, 'T4-Details page content', testInfo);
     });
 
+    test('New-T5-Verify functionality of "Revenue" on Summary page',async({ betinfluencerModal }, testInfo) => {
+        await betinfluencerModal.gotoBetInfluencerModal();
+        await highlightElements(betinfluencerModal.revenue);
+        await ScreenshotHelper(betinfluencerModal.page, screenshotDir, 'New-T5-Revenue presence', testInfo);
+    });
+    test('New-T6/T7-Verify graphical representational data for  "Number of codes" inside summary section./Verify graphical representational data for  "Total Bets taken" inside summary section.',async({ betinfluencerModal }, testInfo) => {
+        await betinfluencerModal.gotoBetInfluencerModal();
+        await highlightElements(betinfluencerModal.revenueGraph);
+        await ScreenshotHelper(betinfluencerModal.page, screenshotDir, 'New-T6-T7-Graphical representation', testInfo);
+    });
     test('T5-Go to Detailed Breakdown',async({ betinfluencerModal },testInfo) => {
         await betinfluencerModal.gotoBetInfluencerModal();
         await highlightElements(betinfluencerModal.detailedBreakdownButton);
@@ -70,7 +94,7 @@ test.describe('BetInfluencer Tests', () => {
         await ScreenshotHelper(betinfluencerModal.page, screenshotDir, 'T6-Month dropdown after click', testInfo);
     });
 
-    test('T7 - Verify functionality of sort by dropdown on Details page inside bet influencer from Hamburger menu.',async({ betinfluencerModal },testInfo) => {
+    test('T7/New T-18/T19/T20 - Verify functionality of sort by dropdown on Details page inside bet influencer from Hamburger menu.',async({ betinfluencerModal },testInfo) => {
         await betinfluencerModal.gotoBetInfluencerModal();
         await betinfluencerModal.clickDetailButton();
         await highlightElements(betinfluencerModal.sortBySelector);
@@ -118,6 +142,68 @@ test.describe('BetInfluencer Tests', () => {
         await ScreenshotHelper(betinfluencerModal.page, screenshotDir, 'T11-Sort Button after click', testInfo);
     });
 
+    test('New-T11-Verify  correct graphical representation of  "Last Four weeks" data .',async({ betinfluencerModal }, testInfo) => {
+        await betinfluencerModal.gotoBetInfluencerModal();
+        await highlightElements(betinfluencerModal.lastFourWeeksCanvas);
+        await ScreenshotHelper(betinfluencerModal.page, screenshotDir, 'New-T11-Last Four Weeks', testInfo);
+    });
+
+    test('New T21-Verify count of "Results"  on Detail section inside Bet influencer',async({ betinfluencerModal }, testInfo) => {      
+        await betinfluencerModal.gotoBetInfluencerModal();
+        await betinfluencerModal.clickDetailButton();
+        await highlightElements(betinfluencerModal.page.getByText('Results').nth(0).locator('..'));
+        await ScreenshotHelper(betinfluencerModal.page, screenshotDir, 'New-T21-Results count', testInfo);
+    });
+    test('New T21-Verify contents and UI of the "Result Section" on Details section inside Bet Influencer',async({ betinfluencerModal }, testInfo) => {      
+        await betinfluencerModal.gotoBetInfluencerModal();
+        await betinfluencerModal.clickDetailButton();
+        await highlightElements(betinfluencerModal.page.getByText('Usage').nth(0).locator('..'));
+        await ScreenshotHelper(betinfluencerModal.page, screenshotDir, 'New-T21-Results count', testInfo);
+    });
+
+    test('New T25-Verify "Booking code" Dropdown functionality on Details page inside Bet Influencer.',async({ betinfluencerModal }, testInfo) => {      
+        await betinfluencerModal.gotoBetInfluencerModal();
+        await betinfluencerModal.clickDetailButton();
+        await betinfluencerModal.page.locator(`#BWE8E173F`).locator('summary').click();
+        await betinfluencerModal.page.waitForTimeout(5000);
+        await highlightElements(betinfluencerModal.page.locator(`#BWE8E173F`).locator('summary'));
+        await ScreenshotHelper(betinfluencerModal.page, screenshotDir, 'New-T25-Booking code dropdown before click', testInfo);
+    });
+    test('New T26-Verify  "Share" booking code functionality on Result section inside Details Page from Bet Influencer.',async({ betinfluencerModal }, testInfo) => {      
+        await betinfluencerModal.gotoBetInfluencerModal();
+        await betinfluencerModal.clickDetailButton();
+        await highlightElements(betinfluencerModal.page.locator(`#BWE8E173F`).getByRole('img').first());
+        await ScreenshotHelper(betinfluencerModal.page, screenshotDir, 'New-T25-Booking code dropdown before click', testInfo);
+        await betinfluencerModal.page.locator(`#BWE8E173F`).getByRole('img').first().click();
+        await betinfluencerModal.page.waitForTimeout(2000);
+        await ScreenshotHelper(betinfluencerModal.page, screenshotDir, 'New-T26-Share booking code popup', testInfo);
+    });
+
+    test('New-T31-Verify "Social media" options presence and functionality on Bet confirmation pop up window.', async ({ sportsPage }, testInfo) => {
+        await sportsPage.page.setViewportSize({ width: 1300, height: 780 });
+        await sportsPage.Login();
+        await OddsSelection(5,sportsPage.page);
+        await sportsPage.betNow.click();
+        await sportsPage.betConfirmation.waitFor({state:'visible',timeout:5000});
+        await highlightElementBorder(sportsPage.page.locator('a[href*="whatsapp.com"]'));
+        await highlightElementBorder(sportsPage.page.locator('a[href*="facebook.com"]'));
+        await highlightElementBorder(sportsPage.page.locator('a[href*="mailto:"]'));
+        await highlightElementBorder(sportsPage.page.locator('a[href*="twitter.com"]'));
+        await highlightElementBorder(sportsPage.page.locator('a[href*="telegram.me"]'));
+        await ScreenshotHelper(sportsPage.page, screenshotDir, 'New T31-Socials', testInfo)
+    });
+    test('New-T32-Verify "QR code scanner" functionality on Bet confirmation pop up window.', async ({ sportsPage }, testInfo) => {
+        await sportsPage.page.setViewportSize({ width: 1300, height: 780 });
+        await sportsPage.Login();
+        await OddsSelection(5,sportsPage.page);
+        await sportsPage.betNow.click();
+        await sportsPage.betConfirmation.waitFor({state:'visible',timeout:5000});
+        await sportsPage.page.locator('a[href*="whatsapp.com"]').locator('..').getByRole('img').nth(5).click();
+        await sportsPage.page.waitForTimeout(3000);
+        await highlightElementBorder(sportsPage.page.locator('a[href*="whatsapp.com"]').locator('..').getByRole('img').nth(5));
+        await ScreenshotHelper(sportsPage.page, screenshotDir, 'New T32-QR', testInfo)
+    });
+
     test('T13-Verify Previous/Next button functionality on Details page inside bet influencer from Hamburger menu.', async ({ betinfluencerModal }, testInfo) => {
         await betinfluencerModal.gotoBetInfluencerModal();
         await betinfluencerModal.clickDetailButton();
@@ -147,7 +233,7 @@ test.describe('BetInfluencer Tests', () => {
         await betinfluencerModal.page.setViewportSize({ width: 1300, height: 780 });
         await betinfluencerModal.gotoSportsPage();
         await betinfluencerModal.Login();
-        const bookingCode = await betinfluencerModal.PlaceBets(5)
+        const bookingCode = await betinfluencerModal.PlaceBets(8)
         await betinfluencerModal.LogOut();
         await betinfluencerModal.LoginArgs(`${userData.user2.mobile}`, `${userData.user2.password}`)
         await betinfluencerModal.welcomeUser.waitFor({ state: 'visible' })
@@ -296,7 +382,7 @@ test.describe('BetInfluencer Tests', () => {
         await betinfluencerModal.page.setViewportSize({ width: 1300, height: 780 });
         await betinfluencerModal.gotoSportsPage();
         await betinfluencerModal.Login();
-        await OddsSelection(5,betinfluencerModal.page)
+        await OddsSelection(8,betinfluencerModal.page)
         await betinfluencerModal.shareButton.click();
         await betinfluencerModal.page.waitForTimeout(5000);
         await ScreenshotHelper(betinfluencerModal.page, screenshotDir, 'T24 A-Influencer Payout', testInfo)

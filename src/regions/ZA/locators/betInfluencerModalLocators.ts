@@ -11,5 +11,6 @@ export const betInfluencerModalLocators = {
     betsTaken:{selectors:'text', options:{name:'Bets taken'},nth:0},
     codesUsed:{selectors:'text', options:{name:'Codes used'},nth:0},
     nextButton:{selectors:'.NextPrevBtn', options:{name:'Next'},nth:0},
-    previousButton:{selectors:'.NextPrevBtn', options:{name:'Previous'},nth:0}
+    previousButton:{selectors:'.NextPrevBtn', options:{name:'Previous'},nth:0},
+    revnueGraph:{selectors:'#lastPrevMonthChart'}
 };
