@@ -1,0 +1,62 @@
+name: Manual and Scheduled Test Workflow (Windows)
+
+on:
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'info'
+        type: choice
+        options:
+          - info
+          - warn
+          - debug
+      environment:
+        description: 'Environment to run on'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+
+  schedule:
+    - cron: '30 5 * * *' # Every day at 5:30 AM UTC
+
+jobs:
+  run-tests:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Report trigger information
+        shell: pwsh
+        run: |
+          Write-Output "Workflow triggered by: ${{ github.event_name }}"
+          if ("${{ github.event_name }}" -eq "workflow_dispatch") {
+            Write-Output "Manual run with Log Level: ${{ github.event.inputs.logLevel }}"
+            Write-Output "Manual run on Environment: ${{ github.event.inputs.environment }}"
+          }
+
+      # 👉 Optional: Set up Node.js (change this if you use Python, Java, etc.)
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run test scripts
+        run: npm test
+
+      # 🖼️ Upload screenshots (even if tests fail)
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: ./screenshots/
