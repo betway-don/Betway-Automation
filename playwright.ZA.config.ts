@@ -4,9 +4,9 @@ import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
   testDir: './src/regions/ZA/tests',
   fullyParallel: true,
-  timeout: 250000,  
+  timeout: 100000,  
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 0,
+  // retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 6 : 6,
   reporter: [
     ['html', { outputFolder: 'src/regions/ZA/reports/html-report' }],

@@ -85,8 +85,11 @@ test.describe('Login Page Tests', () => {
   // });
 
   test('T10 - Verify user is able to login from hamburger menu', async ({ loginPage }, testInfo) => {
+    console.log('Timeout value is:', testInfo.timeout);
     await loginPage.LoginFromHamburgerMenu(userData.user1.mobile, userData.user1.password);
     const welcomeText = await loginPage.welcomeUser.locator('..');
+    await expect(loginPage.welcomeUser).toBeVisible({ timeout: 100000 });
+    console.log('Timeout value is:', testInfo.timeout);
     await highlightElements(welcomeText);
     await ScreenshotHelper(loginPage.page, screenshotDir, 'T10-loginPage', testInfo);
   });
@@ -94,6 +97,7 @@ test.describe('Login Page Tests', () => {
   test('T11 - Verify user is able to login from signup popup', async ({ loginPage }, testInfo) => {
     await loginPage.LoginPopUp();
     const welcomeText = await loginPage.welcomeUser.locator('..');
+    await expect(loginPage.welcomeUser).toBeVisible({ timeout: 100000 });
     await highlightElements(welcomeText);
     await ScreenshotHelper(loginPage.page, screenshotDir, 'T11-loginPage', testInfo);
   });
