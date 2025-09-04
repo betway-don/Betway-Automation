@@ -74,5 +74,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: html-report
-          path: 'src/regions/ZA/reports/html-report'  # <-- change this to your actual report folder
+          path: |
+            'src/regions/ZA/reports/html-report'  # <-- change this to your actual report folder
+            'src/regions/ZA/screenshots/module/login'
           retention-days: 30

@@ -7,7 +7,7 @@ export const loginLocators = {
   loginButton: '#login-btn',
   loginButtonFromPopup: { selector: 'button', options: { name: 'Login' }, nth: 1 },
   loginButtonfromHeader: { selector: 'button', options: { name: 'Login' }, nth: 1 },
-  signUpButton: { selector: 'button', options: { name: 'Sign Up' } },
+  signUpButton: '#sign-up-btn',
   signUpButtonfromHamburger: { selector: 'button', options: { name: 'Sign Up' }, nth: 1 },
   hamburgerMenu: '#header-hamburger-btn',
   SportButton:{selector:'text', options: { name: 'Sport' },nth:0},

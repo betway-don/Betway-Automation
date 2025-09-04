@@ -57,11 +57,7 @@ export class LoginPage {
             loginLocators.loginButtonfromHeader.options
         ).nth(loginLocators.loginButtonfromHeader.nth);
 
-        this.signUpButton = page.getByRole(
-            'button',
-            loginLocators.signUpButton.options
-        );
-
+        this.signUpButton = page.locator(loginLocators.signUpButton);
         this.hamburgerMenu = page.locator(loginLocators.hamburgerMenu);
 
         this.SportButton = page.getByText(
