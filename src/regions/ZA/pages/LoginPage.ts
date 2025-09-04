@@ -112,7 +112,7 @@ export class LoginPage {
         await this.page.waitForLoadState('domcontentloaded');
     }
     async clickLogin() {
-        await this.loginButtonFromPopup.click();
+        await this.loginButton.click();
     }
 
     async clickLoginButtonFromHeader() {
