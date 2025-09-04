@@ -71,7 +71,7 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run test scripts
-        run: npx playwright test src/regions/ZA/tests/modules/login/loginPage.spec.ts --config=playwright.ZA.config.ts
+        run: npx playwright test src/regions/ZA/tests/modules/login/loginPage.spec.ts --config=playwright.ZA.config.ts --headed
         continue-on-error: true
 
       - name: Upload HTML report
@@ -79,6 +79,6 @@ jobs:
         with:
           name: html-report
           path: |
-            'src/regions/ZA/reports/html-report'  # <-- change this to your actual report folder
-            'src/regions/ZA/screenshots/module/login'
+            src/regions/ZA/reports/html-report
+            src/regions/ZA/screenshots/module/login
           retention-days: 30

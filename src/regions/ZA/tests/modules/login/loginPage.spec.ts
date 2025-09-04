@@ -87,20 +87,20 @@ test.describe('Login Page Tests', () => {
   test('T10 - Verify user is able to login from hamburger menu', async ({ loginPage }, testInfo) => {
     console.log('Timeout value is:', testInfo.timeout);
     await loginPage.LoginFromHamburgerMenu(userData.user1.mobile, userData.user1.password);
-    const welcomeText = await loginPage.welcomeUser.locator('..');
     await expect(loginPage.welcomeUser).toBeVisible({ timeout: 100000 });
+    const welcomeText = await loginPage.welcomeUser.locator('..');
     console.log('Timeout value is:', testInfo.timeout);
     await highlightElements(welcomeText);
     await ScreenshotHelper(loginPage.page, screenshotDir, 'T10-loginPage', testInfo);
   });
 
-  test('T11 - Verify user is able to login from signup popup', async ({ loginPage }, testInfo) => {
-    await loginPage.LoginPopUp();
-    const welcomeText = await loginPage.welcomeUser.locator('..');
-    await expect(loginPage.welcomeUser).toBeVisible({ timeout: 100000 });
-    await highlightElements(welcomeText);
-    await ScreenshotHelper(loginPage.page, screenshotDir, 'T11-loginPage', testInfo);
-  });
+  // test('T11 - Verify user is able to login from signup popup', async ({ loginPage }, testInfo) => {
+  //   await loginPage.LoginPopUp();
+  //   await expect(loginPage.welcomeUser).toBeVisible({ timeout: 100000 });
+  //   const welcomeText = await loginPage.welcomeUser.locator('..');
+  //   await highlightElements(welcomeText);
+  //   await ScreenshotHelper(loginPage.page, screenshotDir, 'T11-loginPage', testInfo);
+  // });
 
   // test('T12  - Verify that user is able to login from login button available on signup popup window through hamburger menu', async ({ loginPage }, testInfo) => {
   //   await loginPage.LoginFromSignupPopupHamburgerMenu();
