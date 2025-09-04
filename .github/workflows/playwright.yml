@@ -38,6 +38,8 @@ on:
       - main
       - master
       - f/betway/ad/ZA_betInfluencer
+      - f/betway/ad/Login_ZA
+      
 
 jobs:
   run-tests:
