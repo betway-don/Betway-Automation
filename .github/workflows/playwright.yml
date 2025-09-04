@@ -59,10 +59,13 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: lts/*
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
 
       - name: Run test scripts
         run: npx playwright test src/regions/ZA/tests/modules/login/loginPage.spec.ts --config=playwright.ZA.config.ts
