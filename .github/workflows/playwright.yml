@@ -1,6 +1,7 @@
-name: Manual and Scheduled Test Workflow (Windows)
+name: Manual, Scheduled and Branch-Specific Test Workflow (Windows)
 
 on:
+  # Manual trigger with inputs
   workflow_dispatch:
     inputs:
       logLevel:
@@ -21,8 +22,22 @@ on:
           - staging
           - production
 
+  # Scheduled trigger (runs daily at 5:30 AM UTC)
   schedule:
-    - cron: '30 5 * * *' # Every day at 5:30 AM UTC
+    - cron: '30 5 * * *'
+
+  # Trigger on push or PR to specific branches
+  push:
+    branches:
+      - main
+      - master
+      - f/betway/ad/ZA_betInfluencer
+
+  pull_request:
+    branches:
+      - main
+      - master
+      - f/betway/ad/ZA_betInfluencer
 
 jobs:
   run-tests:
@@ -41,7 +56,6 @@ jobs:
             Write-Output "Manual run on Environment: ${{ github.event.inputs.environment }}"
           }
 
-      # 👉 Optional: Set up Node.js (change this if you use Python, Java, etc.)
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -51,12 +65,11 @@ jobs:
         run: npm install
 
       - name: Run test scripts
-        run: npm test
+        run: npx playwright test src/regions/ZA/tests/modules/login/loginPage.spec.ts --config=playwright.ZA.config.ts
 
-      # 🖼️ Upload screenshots (even if tests fail)
-      - name: Upload screenshots
-        if: always()
+      - name: Upload HTML report
         uses: actions/upload-artifact@v4
         with:
-          name: screenshots
-          path: ./screenshots/
+          name: html-report
+          path: 'src/regions/ZA/reports/html-report'  # <-- change this to your actual report folder
+          retention-days: 30
