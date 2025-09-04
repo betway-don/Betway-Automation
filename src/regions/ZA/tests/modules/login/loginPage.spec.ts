@@ -19,13 +19,15 @@ test.describe('Login Page Tests', () => {
     await expect(loginButton).toBeVisible();
     await highlightElements(loginButton);
     await ScreenshotHelper(loginPage.page, screenshotDir, 'T1-loginPage', testInfo);
-    await loginPage.goto();
+    await console.log(1)
   });
 
 
   test('T2 - Verify that user should able to click on "Login" button', async ({ loginPage }, testInfo) => {
     await loginPage.clickLogin();
     await ScreenshotHelper(loginPage.page, screenshotDir, 'T2-loginPage', testInfo);
+    await console.log(2)
+
   });
 
 
@@ -123,6 +125,8 @@ test.describe('Login Page Tests', () => {
     await loginPage.LoginFromSignupPopupHamburgerMenuArgs(fakerdata.user1.mobile, fakerdata.user1.password);
     await highlightElements(loginPage.formMobileInput);
     await ScreenshotHelper(loginPage.page, screenshotDir, 'T14-loginPage', testInfo);
+    await console.log(14)
+
   });
 
 
@@ -190,7 +194,10 @@ test.describe('Login Page Tests', () => {
     await sportsPage.gotoAviator();
     await sportsPage.AviatorLoginPopUpArgs(fakerdata.user12.mobile, fakerdata.user12.password);
     await highlightElements(sportsPage.formMobileInput);
+    
     await ScreenshotHelper(sportsPage.page, screenshotDir, 'T25-loginPage', testInfo);
+    await console.log(25)
+    
   });
   test('T26 - Verify that user is not able to enter special character in mobile number field when navigated from signup popup window  from  aviator page', async ({ sportsPage }, testInfo) => {
     await sportsPage.gotoAviator();
