@@ -32,6 +32,7 @@ on:
       - main
       - master
       - f/betway/ad/ZA_betInfluencer
+      - f/betway/ad/Login_ZA
 
   pull_request:
     branches:
