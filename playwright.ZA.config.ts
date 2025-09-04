@@ -9,7 +9,7 @@ export default defineConfig({
   // retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 6 : 6,
   reporter: [
-    ['html', { outputFolder: 'src/regions/ZA/reports/html-report' }],
+    ['html', { outputFolder: 'src/regions/ZA/reports/html-report',open: 'never' }],
     ['allure-playwright', { outputFolder: 'src/regions/ZA/reports/allure-results' }]
   ],
   use: {

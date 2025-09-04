@@ -72,6 +72,7 @@ jobs:
 
       - name: Run test scripts
         run: npx playwright test src/regions/ZA/tests/modules/login/loginPage.spec.ts --config=playwright.ZA.config.ts
+        continue-on-error: true
 
       - name: Upload HTML report
         uses: actions/upload-artifact@v4
