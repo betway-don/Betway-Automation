@@ -5,29 +5,29 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined,
+  workers: process.env.CI ? 1 : 5,
+  timeout: 200000,
   reporter: [
     ['html', { outputFolder: 'src/regions/GH/reports/html-report' }],
     ['allure-playwright', { outputFolder: 'src/regions/GH/reports/allure-results' }]
   ],
   use: {
-    // baseURL: 'http://gh.example.com',
+    baseURL: 'https://www.betway.co.zm/',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
   },
   projects: [
-    // {
-    //   name: 'chromium',
-    //   use: { ...devices['Desktop Chrome'] },
-    // },
-    // {
-    //   name: 'firefox',
-    //   use: { ...devices['Desktop Firefox'] },
-    // },
     {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
+      name: 'GH Region',
+      use: {
+        ...devices['Desktop Chrome'],
+        viewport: null,
+        deviceScaleFactor: undefined,
+        launchOptions: {
+          args: ['--start-maximized'],
+        },
+      }
     },
   ],
 });

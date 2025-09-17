@@ -1,0 +1,18 @@
+{
+  "user1": {
+    "mobile": "123456788",
+    "password": "12345"
+  },
+  "user2": {
+    "mobile": "999889793",
+    "password": "123456789"
+  },
+  "user3": {
+    "mobile": "834447889 ",
+    "password": "12345"
+  },
+  "usergh":{
+    "mobile": "123456788",
+    "password": "12345"
+  }
+}

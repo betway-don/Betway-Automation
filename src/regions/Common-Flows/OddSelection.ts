@@ -1,7 +1,10 @@
+import { expect } from '@playwright/test';
+
 // const data = require('../ZA/json-data/oddsData.json')
 export async function OddsSelection(numberOflegs: number, page: import('@playwright/test').Page) {
     await page.reload();
-    const apiUrl = "https://new.betway.co.za/sportsapi/br/v1/BetBook/Highlights/?countryCode=ZA&sportId=soccer";
+    await page.getByText('Upcoming').click();
+    const apiUrl = "https://new.betway.co.za/sportsapi/br/v1/BetBook/Upcoming/?countryCode=ZA&sportId=soccer";
     const response = await page.waitForResponse((resp: { url: () => string; status: () => number; }) => resp.url().startsWith(apiUrl) && resp.status() === 200);
     const data = await response.json();
     for (let i = 0; i < numberOflegs; i++) {
@@ -11,7 +14,12 @@ export async function OddsSelection(numberOflegs: number, page: import('@playwri
         const priceObj = data.prices?.find((p: any) => p.outcomeId === knownOutcomeId);
         if (!priceObj) continue;
         const oddValue = await page.locator(`//div[@id="${eventId}"]`).getByText(`${priceObj.priceDecimal}`, { exact: false }).first();
-        await oddValue.click();
+        try{
+            await expect(oddValue).toBeVisible({ timeout: 5000 });
+            await oddValue.click();
+        }catch(error){
+            continue;
+        }
         await page.waitForTimeout(1000); // Optional: wait between clicks
     }
 }

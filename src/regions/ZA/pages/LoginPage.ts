@@ -5,6 +5,7 @@ const userData = require('../json-data/userData.json');
 import { expect } from '@playwright/test';
 import { loginLocators } from '../locators/loginPageLocators';
 import { time } from 'console';
+const config = process.env.BASE_URL || 'https://betway.co.za/';
 
 export class LoginPage {
     page: import('@playwright/test').Page;
@@ -93,7 +94,7 @@ export class LoginPage {
     }
 
     async goto() {
-        await this.page.goto('https://new.betway.co.za/');
+        await this.page.goto(`${config}`);
     }
 
     

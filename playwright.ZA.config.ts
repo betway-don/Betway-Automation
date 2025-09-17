@@ -13,6 +13,7 @@ export default defineConfig({
     ['allure-playwright', { outputFolder: 'src/regions/ZA/reports/allure-results' }]
   ],
   use: {
+    baseURL: 'https://new.betway.co.za/',
     viewport: null,                        // <- This disables the fixed viewport size, so browser window controls actual size
     launchOptions: {
       args: ['--start-maximized'],
