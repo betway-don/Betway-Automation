@@ -60,6 +60,7 @@ export const test = base.extend<PageFixtures>({
   homePage: async ({ page }, use) => {
     const homePage = new HomePage(page);
     await homePage.gotoHomePage();
+    await homePage.page.setViewportSize({ width: 1300, height: 780 });
     await homePage.page.getByText('Got it').first().click();
 
     await use(homePage);
