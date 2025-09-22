@@ -13,7 +13,7 @@ const userData = require('../../../json-data/userData.json');
 const projectRoot = path.resolve(__dirname, '../../..');
 const screenshotDir = path.join(projectRoot, 'screenshots/module/footer');
 
-test.describe.serial('Footer Module Tests', () => {
+test.describe('Footer Module Tests', () => {
     test('T1-Verify Footer page', async ({ homePage },testInfo) => {
         await homePage.footer.waitFor({state:'visible',timeout:10000});
         await highlightElements(homePage.footer);

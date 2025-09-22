@@ -67,8 +67,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
+      - name: Install Playwright Chrome Browser only
+        run: npx playwright install chromium
 
       - name: Run test scripts
         run: npx playwright test src/regions/ZA/tests/modules/footer/footer.spec.ts --config=playwright.ZA.config.ts --headed
