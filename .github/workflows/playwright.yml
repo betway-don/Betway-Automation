@@ -71,7 +71,7 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run test scripts
-        run: npx playwright test src/regions/ZA/tests/modules/footer/.spec.ts --config=playwright.ZA.config.ts --headed
+        run: npx playwright test src/regions/ZA/tests/modules/footer/footer.spec.ts --config=playwright.ZA.config.ts --headed
         continue-on-error: true
 
       - name: Upload HTML report
