@@ -1,51 +1,66 @@
 const userData = require('../json-data/userData.json');
-import { expect } from '@playwright/test';
+import { expect, Page } from '@playwright/test';
 import { homepageLocators } from '../locators/homepageLocators';
 import { time } from 'console';
+// import { loadPageLocatorsFromExcel } from '../../../global/utils/file-utils/locatorLoader';
+
+const region = process.env.REGION || 'ZA';
+// const homepageLocators = loadPageLocatorsFromExcel('HomePage', region);
 
 export class HomePage {
-    page: import('@playwright/test').Page;
-    howtobet: ReturnType<import('@playwright/test').Page['getByRole']>;
-    FAQs: ReturnType<import('@playwright/test').Page['getByRole']>;
-    TermsAndConditions: ReturnType<import('@playwright/test').Page['getByText']>;
-    BettingRules: ReturnType<import('@playwright/test').Page['getByRole']>;
-    BetwayApp: ReturnType<import('@playwright/test').Page['getByRole']>;
-    AffiliateProgram: ReturnType<import('@playwright/test').Page['getByRole']>;
-    ResponsibleGaming: ReturnType<import('@playwright/test').Page['getByText']>;
-    PrivacyPolicy: ReturnType<import('@playwright/test').Page['getByText']>;
-    Sponsorships: ReturnType<import('@playwright/test').Page['getByText']>;
-    ContactUs: ReturnType<import('@playwright/test').Page['getByRole']>;
-    betwayLogo: ReturnType<import('@playwright/test').Page['getByText']>;
-    footer: ReturnType<import('@playwright/test').Page['locator']>;
-    arsenalLogo: ReturnType<import('@playwright/test').Page['locator']>;
-    currentTime: ReturnType<import('@playwright/test').Page['getByText']>;
-    downloadBetwayApp: ReturnType<import('@playwright/test').Page['getByText']>;
-    appleLogo: ReturnType<import('@playwright/test').Page['locator']>;
-    linkToSocials: ReturnType<import('@playwright/test').Page['locator']>;
-    version: ReturnType<import('@playwright/test').Page['getByText']>;
+    page;
+    howtobet;
+    FAQs;
+    TermsAndConditions;
+    BettingRules;
+    BetwayApp;
+    AffiliateProgram;
+    ResponsibleGaming;
+    PrivacyPolicy;
+    Sponsorships;
+    ContactUs;
+    betwayLogo;
+    footer;
+    arsenalLogo;
+    currentTime;
+    downloadBetwayApp;
+    appleLogo;
+    linkToSocials;
+    version;
 
-    constructor(page: import('@playwright/test').Page) {
+    constructor(page: Page) {
         this.page = page;
-        this.howtobet = page.getByRole('link',{name:homepageLocators.howtobet.options.name}).nth(homepageLocators.howtobet.nth || 0);
-        this.FAQs = page.getByRole('link',{name:homepageLocators.FAQs.options.name}).nth(homepageLocators.FAQs.nth || 0);
-        this.TermsAndConditions = page.getByText(homepageLocators.TermsAndConditions.options.name).nth(homepageLocators.TermsAndConditions.nth || 0);
-        this.BettingRules = page.getByRole('link',{name:homepageLocators.BettingRules.options.name}).nth(homepageLocators.BettingRules.nth || 0);
-        this.BetwayApp = page.getByRole('link',{name:homepageLocators.BetwayApp.options.name}).nth(homepageLocators.BetwayApp.nth || 0);
-        this.AffiliateProgram = page.getByRole('link',{name:homepageLocators.AffiliateProgram.options.name}).nth(homepageLocators.AffiliateProgram.nth || 0);
-        this.ResponsibleGaming = page.getByText(homepageLocators.ResponsibleGaming.options.name).nth(homepageLocators.ResponsibleGaming.nth || 0);
-        this.PrivacyPolicy = page.getByText(homepageLocators.PrivacyPolicy.options.name).nth(homepageLocators.PrivacyPolicy.nth || 0);
-        this.Sponsorships = page.getByText(homepageLocators.Sponsorships.options.name).nth(homepageLocators.Sponsorships.nth || 0);
-        this.betwayLogo = page.locator(homepageLocators.betwayLogo.selector);
-        this.footer = page.locator(homepageLocators.footer.selector);
-        this.arsenalLogo = page.locator(homepageLocators.arsenalLogo.selector);
-        this.currentTime = page.getByText(homepageLocators.currentTime.options.name);
-        this.downloadBetwayApp = page.getByText(homepageLocators.downloadBetwayApp.options.name).nth(homepageLocators.downloadBetwayApp.nth || 0);
-        this.appleLogo = page.locator(homepageLocators.appleLogo.selector);
-        this.linkToSocials = page.locator(homepageLocators.linkToSocials.selector);
-        this.version = page.getByText(homepageLocators.version.options.name).nth(homepageLocators.version.nth || 0);
-        this.ContactUs = page.getByRole('link', { name: homepageLocators.ContactUs.options.name }).nth(homepageLocators.ContactUs.nth || 0);
-    }
 
+        const get = (key: string) => homepageLocators[key];
+        const role = (key: string) =>
+            page.getByRole(get(key).selector as any, { name: get(key).options?.name }).nth(get(key).nth || 0);
+        const text = (key: string) => {
+            const name = get(key).options?.name;
+            if (!name) throw new Error(`Missing 'options.name' for locator: ${key}`);
+            return page.getByText(name).nth(get(key).nth || 0);
+        };
+        const locator = (key: string) => page.locator(get(key).selector!);
+
+        this.howtobet = role('howtobet');
+        this.FAQs = role('FAQs');
+        this.TermsAndConditions = text('TermsAndConditions');
+        this.BettingRules = role('BettingRules');
+        this.BetwayApp = role('BetwayApp');
+        this.AffiliateProgram = role('AffiliateProgram');
+        this.ResponsibleGaming = text('ResponsibleGaming');
+        this.PrivacyPolicy = text('PrivacyPolicy');
+        this.Sponsorships = text('Sponsorships');
+        this.ContactUs = role('ContactUs');
+
+        this.betwayLogo = locator('betwayLogo');
+        this.footer = locator('footer');
+        this.arsenalLogo = locator('arsenalLogo');
+        this.currentTime = text('currentTime');
+        this.downloadBetwayApp = text('downloadBetwayApp');
+        this.appleLogo = locator('appleLogo');
+        this.linkToSocials = locator('linkToSocials');
+        this.version = text('version');
+    }
     async gotoHomePage() {
         await this.page.goto('/');
         await this.page.waitForLoadState('domcontentloaded');

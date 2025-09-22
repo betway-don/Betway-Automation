@@ -71,7 +71,7 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run test scripts
-        run: npx playwright test src/regions/ZA/tests/modules/login/loginPage.spec.ts --config=playwright.ZA.config.ts --headed
+        run: npx playwright test src/regions/ZA/tests/modules/footer/.spec.ts --config=playwright.ZA.config.ts --headed
         continue-on-error: true
 
       - name: Upload HTML report
@@ -81,4 +81,15 @@ jobs:
           path: |
             src/regions/ZA/reports/html-report
             src/regions/ZA/screenshots/module/login
+          retention-days: 30
+      # Add after your Playwright test step
+
+      - name: Generate Allure HTML report
+        run: allure generate allure-results --clean -o src/regions/ZA/reports/allure-report
+
+      - name: Upload Allure HTML report as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: src/regions/ZA/reports/allure-report
           retention-days: 30

@@ -1,6 +1,6 @@
 import { test } from '../../../fixtures/MasterFixtureFile';
 import { expect } from '@playwright/test';
-import { log } from 'console';
+import { log, time } from 'console';
 import path from 'path';
 import { highlightElementBorder, highlightElements } from '../../../../Common-Flows/HighlightElements';
 import { ScreenshotHelper } from '../../../../Common-Flows/ScreenshotHelper';
@@ -538,38 +538,41 @@ test.describe('Footer Module Tests', () => {
         await ScreenshotHelper(homePage.page, screenshotDir, 'T57-a.png', testInfo);
     });
 
-    // test('T58-Verify presence of Legal information about Betway at footer section', async ({ homePage },testInfo) => {
-    //     await homePage.page.waitForTimeout(5000);
-    //     await highlightElements(await homePage.page.getByText('Raging River Trading (Pty) Ltd').first().locator('..'));
-    //     await ScreenshotHelper(homePage.page, screenshotDir, 'T58.png', testInfo);
-    // });
+    test('T64-Verify presence of Legal information about Betway at footer section', async ({ homePage },testInfo) => {
+        // await homePage.page.waitForEvent('domcontentloaded')
+        await highlightElements(await homePage.page.getByText('Raging River Trading (Pty) Ltd').first().locator('..'));
+        await ScreenshotHelper(homePage.page, screenshotDir, 'T64.png', testInfo);
+    });
 
-    // test('T59-Verify presence of version information of Betway application at footer section', async ({ homePage },testInfo) => {
-    //     await homePage.page.waitForTimeout(5000);
-    //     await highlightElementBorder(homePage.version);
-    //     await ScreenshotHelper(homePage.page, screenshotDir, 'T59.png', testInfo);
-    // }); 
+    test('T65-Verify presence of version information of Betway application at footer section', async ({ homePage },testInfo) => {
+        await homePage.version.waitFor({state:'visible',timeout:3000})
+        await highlightElementBorder(homePage.version);
+        await ScreenshotHelper(homePage.page, screenshotDir, 'T65.png', testInfo);
+    }); 
 
-    // test('T60-Verify presence of Current time at footer section', async ({ homePage },testInfo) => {
-    //     await homePage.page.waitForTimeout(5000);
-    //     await highlightElementBorder(homePage.currentTime);
-    //     await ScreenshotHelper(homePage.page, screenshotDir, 'T60.png', testInfo);
-    // });
+    test('T66-Verify presence of Current time at footer section', async ({ homePage },testInfo) => {
+        await homePage.currentTime.waitFor({state:'visible'})
+        await highlightElementBorder(homePage.currentTime);
+        await ScreenshotHelper(homePage.page, screenshotDir, 'T66.png', testInfo);
+    });
 
-    test('T61-Verify presence and functionality of "Betway App QR code " at footer section', async ({ homePage },testInfo) => {
+    test('T67-Verify presence and functionality of "Betway App QR code " at footer section', async ({ homePage },testInfo) => {
+        await homePage.downloadBetwayApp.waitFor({state:'visible',timeout:30000})
         await highlightElementBorder(homePage.downloadBetwayApp.locator('..').locator('..'));
         await homePage.page.waitForTimeout(5000);
         await ScreenshotHelper(homePage.page, screenshotDir, 'T61.png', testInfo);
     });
 
-    test('T62-Verify functionality of "App store" icons from the footer section', async ({ homePage },testInfo) => {
+    test('T68-Verify functionality of "App store" icons from the footer section', async ({ homePage },testInfo) => {
+        await homePage.appleLogo.waitFor({state:'visible',timeout:30000});
         await highlightElementBorder(homePage.appleLogo);
         await homePage.page.waitForTimeout(5000);
         await ScreenshotHelper(homePage.page, screenshotDir, 'T62-a.png', testInfo);
 
     });
 
-    test('T63-Verify presence and functionality of social media icons at footer section', async ({ homePage },testInfo) => {
+    test('T69-Verify presence and functionality of social media icons at footer section', async ({ homePage },testInfo) => {
+        await homePage.linkToSocials.waitFor({state:'visible',timeout:30000})
         await highlightElementBorder(homePage.linkToSocials.locator('..').locator('..'));
         await homePage.page.waitForTimeout(5000);
         await ScreenshotHelper(homePage.page, screenshotDir, 'T63-a.png', testInfo);
@@ -578,9 +581,8 @@ test.describe('Footer Module Tests', () => {
     test('T64-Verify functionality of "18" logo at footer section', async ({ homePage },testInfo) => {
         const logos=await homePage.arsenalLogo.locator('..').locator('..');
         const eighteenplusLogo = logos.getByRole('link').last();
-        await homePage.page.waitForLoadState('domcontentloaded');
-        await highlightElements(eighteenplusLogo);        
-        await homePage.page.waitForTimeout(5000);
-        await ScreenshotHelper(homePage.page, screenshotDir, 'T64-a.png', testInfo);
+        await eighteenplusLogo.waitFor({state:'visible',timeout:60000})
+        await highlightElementBorder(eighteenplusLogo);
+        await ScreenshotHelper(homePage.page, screenshotDir, 'T70-a.png', testInfo);
     });
 });
