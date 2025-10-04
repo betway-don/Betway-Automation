@@ -2,6 +2,7 @@ const userData = require('../json-data/userData.json');
 import { expect } from '@playwright/test';
 import { homepageLocators } from '../locators/homepageLocators';
 import { time } from 'console';
+import { ContactUsPage } from './ContactUsPage';
 
 export class HomePage {
     page: import('@playwright/test').Page;
@@ -102,4 +103,8 @@ export class HomePage {
         await this.ContactUs.click();
         await this.page.waitForTimeout(1000);
     }
+    
+    // async creatContactUsPage(page : import('@playwright/test').Page) {
+    //     return new ContactUsPage(page);
+    // }
 }

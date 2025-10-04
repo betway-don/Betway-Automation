@@ -67,24 +67,29 @@ export const test = base.extend<PageFixtures>({
   },
   loginPage: async ({ page }, use) => {
     const loginPage = new LoginPage(page);
+    await loginPage.page.setViewportSize({ width: 1300, height: 780 });
     await loginPage.goto();
     await loginPage.page.getByText('Got it').first().click();
     await use(loginPage);
   },
   sportsPage: async ({ page }, use) => {
     const sportsPage = new SportsPage(page);
+    await sportsPage.page.setViewportSize({ width: 1300, height: 780 });
     await sportsPage.gotoSportsPage();
     await sportsPage.page.getByText('Got it').first().click();
     await use(sportsPage);
   },
   casinoPage: async ({ page }, use) => {
     const casinoPage = new CasinoPage(page);
+    await casinoPage.page.setViewportSize({ width: 1300, height: 780 });
     await casinoPage.gotoCasino();
     await casinoPage.page.getByText('Got it').first().click();
     await use(casinoPage);
   },
   virtualsPage: async ({ page }, use) => {
     const virtualsPage = new VirtualsPage(page);
+    await virtualsPage.page.setViewportSize({ width: 1300, height: 780 });
+    await virtualsPage.gotoVirtuals();
     await use(virtualsPage);
   },
   promotionPage: async ({ page }, use) => {
@@ -93,6 +98,8 @@ export const test = base.extend<PageFixtures>({
   },
   betgamesPage: async ({ page }, use) => {
     const betgamesPage = new BetgamesPage(page);
+    await betgamesPage.page.setViewportSize({ width: 1300, height: 780 });
+    await betgamesPage.gotoBetgames();
     await use(betgamesPage);
   },
   betinfluencerModal: async ({ page }, use) => {

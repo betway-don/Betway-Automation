@@ -1,7 +1,8 @@
 {
   "user1": {
     "mobile": "123456788",
-    "password": "12345"
+    "password": "12345",
+    "email":"test@test.com"
   },
   "user2": {
     "mobile": "999889793",

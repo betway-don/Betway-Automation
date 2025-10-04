@@ -6,8 +6,8 @@ export default defineConfig({
   fullyParallel: true,
   timeout: 200000,  
   forbidOnly: !!process.env.CI,
-  // retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 3 : undefined,
+  retries: process.env.CI ? 2 : 0,
+  workers: process.env.CI ? 3 : 6,
   reporter: [
     ['html', { outputFolder: 'src/regions/ZA/reports/html-report',open: 'never' }],
     ['allure-playwright', { outputFolder: 'src/regions/ZA/reports/allure-results' }]
@@ -20,7 +20,6 @@ export default defineConfig({
     },
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
-    video: 'retain-on-failure',
   },
   projects: [
     {

@@ -1,1 +1,1 @@
-{"total":1,"items":[{"uid":"fda0c3946c1a761001ee7a589dde43bb","name":"ZA Region","statistic":{"failed":2,"broken":0,"skipped":0,"passed":109,"unknown":0,"total":111}}]}
+{"total":2,"items":[{"uid":"fda0c3946c1a761001ee7a589dde43bb","name":"ZA Region","statistic":{"failed":38,"broken":0,"skipped":53,"passed":105,"unknown":0,"total":196}},{"uid":"58b98149e7dea9201fd77bb8fcdc92d0","name":"GH Region","statistic":{"failed":9,"broken":2,"skipped":1,"passed":58,"unknown":0,"total":70}}]}

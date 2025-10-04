@@ -5,120 +5,120 @@ const userData = require('../json-data/userData.json');
 import { expect } from '@playwright/test';
 import { loginLocators } from '../locators/loginPageLocators';
 import { time } from 'console';
+
+
 const config = process.env.BASE_URL || 'https://betway.co.za/';
+import { loadLocatorsFromExcel } from "../../../global/utils/file-utils/excelReader";
+import { getLocator } from "../../../global/utils/file-utils/locatorResolver";
+import { highlightElementBorder, highlightElements } from '../../Common-Flows/HighlightElements';
 
 export class LoginPage {
-    page: import('@playwright/test').Page;
-    mobileInput: import('@playwright/test').Locator;
-    passwordInput: import('@playwright/test').Locator;
-    loginButton: ReturnType<import('@playwright/test').Page['getByRole']>;
-    signUpButton: ReturnType<import('@playwright/test').Page['getByRole']>;
-    signUpButtonfromHamburger: ReturnType<import('@playwright/test').Page['getByRole']>;
-    hamburgerMenu: ReturnType<import('@playwright/test').Page['locator']>;
-    loginButtonfromHeader: ReturnType<import('@playwright/test').Page['getByRole']>;
-    SportButton: ReturnType<import('@playwright/test').Page['getByText']>;
-    CasinoButton: ReturnType<import('@playwright/test').Page['getByText']>;
-    loginButtonFromPopup: ReturnType<import('@playwright/test').Page['getByRole']>;
-    welcomeUser: ReturnType<import('@playwright/test').Page['getByText']>;
-    username: ReturnType<import('@playwright/test').Page['getByText']>;
-    formMobileInput: import('@playwright/test').Locator;
-    formPasswordInput: import('@playwright/test').Locator;
-    eyeButton: ReturnType<import('@playwright/test').Page['locator']>;
-    BetInfluencer: ReturnType<import('@playwright/test').Page['getByText']>;
 
-    /**
-    * @param {import('@playwright/test').Page} page
-    */
+    readonly LoginPagelocatorsRegistry: Record<string, import('@playwright/test').Locator>;
+    page: import('@playwright/test').Page;
+
     constructor(page: import('@playwright/test').Page) {
         this.page = page;
-        this.mobileInput = page.getByRole(
-            'textbox',
-            loginLocators.mobileInput.options
-        ).nth(loginLocators.mobileInput.nth);
+        const configs = loadLocatorsFromExcel("src/global/utils/file-utils/locators.xlsx", "LoginPage");
 
-        this.passwordInput = page.getByRole(
-            'textbox',
-            loginLocators.passwordInput.options
-        ).nth(loginLocators.passwordInput.nth);
+        this.LoginPagelocatorsRegistry = {
+            mobileInput: getLocator(page, configs["mobileInput"]),
+            formPasswordInput: getLocator(page, configs["formPasswordInput"]),
+            passwordInput: getLocator(page, configs["passwordInput"]),
+            formMobileInput: getLocator(page, configs["formMobileInput"]),
+            loginButton: getLocator(page, configs["loginButton"]),
+            hamburgerloginButton: getLocator(page, configs["loginButtonfromHeader"]),
+            signUpButton: getLocator(page, configs["signUpButton"]),
+            hamburgerMenu: getLocator(page, configs["hamburgerMenu"]),
+            SportButton: getLocator(page, configs["SportButton"]),
+            CasinoButton: getLocator(page, configs["CasinoButton"]),
+            signUpButtonfromHamburger: getLocator(page, configs["signUpButtonfromHamburger"]),
+            loginButtonFromPopup: getLocator(page, configs["loginButtonFromPopup"]),
+            welcomeUser: getLocator(page, configs["welcomeUser"]),
+            username: getLocator(page, configs["username"]),
+            eyeButton: getLocator(page, configs["formPasswordInput"]).locator('..').getByRole('img').first(),
+            BetInfluencer: getLocator(page, configs["betInfluencer"]),
+        };
+    }
 
-        this.formMobileInput = page.getByRole(
-            'textbox',
-            loginLocators.formMobileInput.options
-        ).nth(loginLocators.formMobileInput.nth);
+    // Verify presence functions
+    async verifyLoginWindow() {
+        await this.LoginPagelocatorsRegistry.formMobileInput.waitFor({ state: 'visible', timeout: 15000 });
+        await highlightElements(this.LoginPagelocatorsRegistry.formMobileInput.locator('..').locator('..').locator('..').locator('..'));
+    }
 
-        this.formPasswordInput = page.getByRole(
-            'textbox',
-            loginLocators.formPasswordInput.options
-        ).nth(loginLocators.formPasswordInput.nth);
+    async verifyHamburgerLoginButton() {
+        await this.LoginPagelocatorsRegistry.hamburgerloginButton.waitFor({ state: 'visible', timeout: 15000 });
+        await highlightElements(this.LoginPagelocatorsRegistry.hamburgerloginButton);
+    }
 
-        this.loginButton = page.locator(loginLocators.loginButton);
+    async verifyHeaderLoginButton() {
+        await expect(this.LoginPagelocatorsRegistry.loginButton).toBeVisible({ timeout: 15000 });
+        await highlightElements(this.LoginPagelocatorsRegistry.loginButton);
+    }
 
-        this.loginButtonfromHeader = page.getByRole(
-            'button',
-            loginLocators.loginButtonfromHeader.options
-        ).nth(loginLocators.loginButtonfromHeader.nth);
+    async verifyLoginButtonFromPopupThroughHamburger() {
+        const loginButtonSignUpPopup = this.page.getByRole('button', { name: 'Login' }).nth(2);
+        await expect(loginButtonSignUpPopup).toBeVisible({ timeout: 15000 });
+        await highlightElementBorder(loginButtonSignUpPopup);
+    }
+    async verifyLoginButtonFromPopupWithoutHamburger() {
+        await expect(this.LoginPagelocatorsRegistry.loginButtonFromPopup).toBeVisible({ timeout: 15000 });
+        await this.LoginPagelocatorsRegistry.loginButtonFromPopup.click();
+        await highlightElementBorder(this.LoginPagelocatorsRegistry.loginButtonFromPopup);
+    }
 
-        this.signUpButton = page.locator(loginLocators.signUpButton);
-        this.hamburgerMenu = page.locator(loginLocators.hamburgerMenu);
+    async verifyLoginButtonInSignUp() {
+        await this.LoginPagelocatorsRegistry.loginButtonFromPopup.waitFor({ state: 'visible', timeout: 15000 });
+        await highlightElementBorder(this.LoginPagelocatorsRegistry.loginButtonFromPopup);
+    }
 
-        this.SportButton = page.getByText(
-            loginLocators.SportButton.options.name
-        ).nth(loginLocators.SportButton.nth);
+    async verifyWelcomeUser(username: string) {
+        await expect(this.page.getByText(`${username}`)).toBeVisible({ timeout: 15000 });
+        await highlightElements(this.page.getByText(`${username}`).locator('..'));
+    }
 
-        this.CasinoButton = page.getByText(
-            loginLocators.CasinoButton.options.name
-        ).nth(loginLocators.CasinoButton.nth);
+    // Navigation Functions
+    async gotoSignUpfromLoginPopUp() {
+        await this.LoginPagelocatorsRegistry.signUpButtonfromHamburger.click();
+    }
 
-        this.signUpButtonfromHamburger = page.getByRole(
-            'button',
-            loginLocators.signUpButtonfromHamburger.options
-        ).nth(loginLocators.signUpButtonfromHamburger.nth);
-
-        this.loginButtonFromPopup = page.getByRole(
-            'button',
-            loginLocators.loginButtonFromPopup.options
-        ).nth(loginLocators.loginButtonFromPopup.nth);
-
-        this.welcomeUser = page.getByText(
-            loginLocators.welcomeUser.options.name
-        ).nth(loginLocators.welcomeUser.nth);
-        this.username = page.getByText(
-            loginLocators.username.options.name
-        ).nth(loginLocators.username.nth);
-
-        this.eyeButton = this.formPasswordInput.locator('..').getByRole('img').first();
-        this.BetInfluencer = page.getByText(
-            loginLocators.betInfluencer.options.name
-        ).nth(loginLocators.betInfluencer.nth);
-
+    async gotoLoginFromSignUp() {
+        await this.LoginPagelocatorsRegistry.loginButtonFromPopup.click();
     }
 
     async goto() {
         await this.page.goto(`${config}`);
     }
 
-    
     async gotoAviatorPage() {
         await this.page.goto(data.aviator);
-        await this.page.waitForLoadState('networkidle');
-    }
-    
-    async gotoSportsPage() {
-        await this.goto();
-        await this.SportButton.click();
         await this.page.waitForLoadState('domcontentloaded');
     }
-    async clickLogin() {
-        await this.loginButton.click();
+
+    async gotoSportsPage() {
+        await this.goto();
+        await this.LoginPagelocatorsRegistry.SportButton.click();
+        await this.page.waitForLoadState('domcontentloaded');
     }
 
-    async clickLoginButtonFromHeader() {
-        await this.hamburgerMenu.click();
-        await this.loginButtonfromHeader.click();
+    // Clicking Functions
+    async clickLogin() {
+        await this.LoginPagelocatorsRegistry.loginButton.click();
+    }
+
+    async clickHamburgerMenu() {
+        await this.page.waitForLoadState('domcontentloaded')
+        await this.LoginPagelocatorsRegistry.hamburgerMenu.click();
+    }
+
+    async clickLoginButtonFromHamburger() {
+        await this.clickHamburgerMenu();
+        await this.LoginPagelocatorsRegistry.hamburgerloginButton.click();
     }
 
     async clickSignUp() {
-        await this.signUpButton.click();
+        await this.LoginPagelocatorsRegistry.signUpButton.click();
         const apiPromise = this.page.waitForResponse(response =>
             response.url().includes(apidata.signupButtonClick) && response.status() === 200
         );
@@ -126,81 +126,69 @@ export class LoginPage {
     }
 
     async clickSignUpFromHeader() {
-        await this.hamburgerMenu.click();
-        await this.signUpButtonfromHamburger.click();
-        await this.page.waitForLoadState('domcontentloaded');
-        await this.page.waitForTimeout(2000); // Wait for the sign-up modal to appear
+        await this.clickHamburgerMenu();
+        await this.LoginPagelocatorsRegistry.signUpButtonfromHamburger.click();
     }
 
-    async clickOnLoginButtonFromHeader() {
-        await this.hamburgerMenu.click();
-        await this.loginButtonfromHeader.click();
-        await this.page.waitForLoadState('domcontentloaded');
-    }
 
+
+    // Login Functions
     async Login() {
         await this.goto();
-        await this.mobileInput.fill(`${userData.user1.mobile}`);
-        await this.passwordInput.fill(`${userData.user1.password}`);
+        await this.LoginPagelocatorsRegistry.mobileInput.fill(`${userData.user1.mobile}`);
+        await this.LoginPagelocatorsRegistry.passwordInput.fill(`${userData.user1.password}`);
         await this.page.keyboard.press('Enter');
-        await this.page.waitForTimeout(7000); // Wait for login to complete
+        await this.verifyWelcomeUser(userData.user1.name);
     }
+
     async LoginArgs(mobile: string, password: string) {
         await this.goto();
-        await this.mobileInput.fill(`${mobile}`);
-        await this.passwordInput.fill(`${password}`);
+        await this.LoginPagelocatorsRegistry.mobileInput.fill(`${mobile}`);
+        await this.LoginPagelocatorsRegistry.passwordInput.fill(`${password}`);
         await this.page.keyboard.press('Enter');
         await this.page.waitForTimeout(7000); // Wait for login to complete
     }
 
     async LoginFromSignupPopupHamburgerMenu() {
         await this.clickSignUpFromHeader();
-        const loginButtonSignUpPopup = this.page.getByRole('button', { name: 'Login' }).nth(1);
-        await loginButtonSignUpPopup.click();
-        await this.page.waitForTimeout(2000); 
-        await this.formMobileInput.fill(`${userData.user1.mobile}`);
-        await this.formPasswordInput.fill(`${userData.user1.password}`);
-        await this.page.keyboard.press('Enter');
+        await this.LoginPagelocatorsRegistry.loginButtonFromPopup.click();
         await this.page.waitForTimeout(2000);
+        await this.LoginFromPopUp();
+        await this.verifyWelcomeUser(userData.user1.name);
     }
     async LoginFromSignupPopupHamburgerMenuArgs(mobile: string, password: string) {
-        await this.clickOnLoginButtonFromHeader();
-        await this.page.waitForTimeout(2000); 
-        await this.formMobileInput.fill(`${mobile}`);
-        await this.formPasswordInput.fill(`${password}`);
+        await this.clickLoginButtonFromHamburger();
+        await this.LoginPagelocatorsRegistry.formMobileInput.fill(`${mobile}`);
+        await this.LoginPagelocatorsRegistry.formPasswordInput.fill(`${password}`);
         await this.page.keyboard.press('Enter');
         await this.page.waitForTimeout(2000);
+        await this.LoginPagelocatorsRegistry.eyeButton.click();
+        await highlightElements(this.LoginPagelocatorsRegistry.formMobileInput);
+        await highlightElements(this.LoginPagelocatorsRegistry.formPasswordInput);
     }
 
-    async LoginPopUp() {
-        await this.goto();
+    async LoginThroughPopUp() {
         await this.clickSignUp();
-        const loginButtonSignUpPopup = this.page.getByRole('button', { name: 'Login' }).nth(1);
-        await loginButtonSignUpPopup.click();
-        await this.page.waitForTimeout(2000); 
-        await this.formMobileInput.fill(`${userData.user1.mobile}`);
-        await this.formPasswordInput.fill(`${userData.user1.password}`);
-        await this.page.keyboard.press('Enter');
-        await this.page.waitForTimeout(2000); // Wait for login to complete
+        await this.LoginPagelocatorsRegistry.loginButtonFromPopup.click();
+        await this.LoginFromPopUp();
     }
 
-    async LoginFromPopUp(mobile: string, password: string) {
-        await this.formMobileInput.fill(`${userData.user1.mobile}`);
-        await this.formPasswordInput.fill(`${userData.user1.password}`);
+    async LoginFromPopUp() {
+        await this.LoginPagelocatorsRegistry.formMobileInput.fill(`${userData.user1.mobile}`);
+        await this.LoginPagelocatorsRegistry.formPasswordInput.fill(`${userData.user1.password}`);
         await this.page.keyboard.press('Enter');
         await this.page.waitForTimeout(2000); // Wait for login to complete
+        await this.verifyWelcomeUser(userData.user1.name);
     }
 
     async LoginFromHamburgerMenu(mobile: string, password: string) {
-        await this.hamburgerMenu.click();
-        await this.loginButtonfromHeader.click();
-        await this.page.waitForTimeout(2000); // Wait for the login modal to appear
-        await this.formMobileInput.fill(`${mobile}`);
-        await this.formPasswordInput.fill(`${password}`);
-        await this.page.keyboard.press('Enter');
-
-        await this.page.waitForTimeout(2000); // Wait for login to complete
         await this.page.waitForLoadState('domcontentloaded');
+        await this.clickLoginButtonFromHamburger();
+        await this.LoginPagelocatorsRegistry.formMobileInput.fill(`${mobile}`);
+        await this.LoginPagelocatorsRegistry.formPasswordInput.fill(`${password}`);
+        await this.page.keyboard.press('Enter');
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.verifyWelcomeUser(userData.user1.name);
     }
 
 }

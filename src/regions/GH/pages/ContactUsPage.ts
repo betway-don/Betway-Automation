@@ -8,6 +8,10 @@ export class ContactUsPage extends HomePage{
     X:ReturnType<import('@playwright/test').Page['getByText']>;
     facebook: ReturnType<import('@playwright/test').Page['getByText']>;
     call: ReturnType<import('@playwright/test').Page['getByText']>;
+    mobile_input: ReturnType<import('@playwright/test').Page['locator']>;
+    email_input: ReturnType<import('@playwright/test').Page['locator']>
+    query_input: ReturnType<import('@playwright/test').Page['locator']>;
+    submit_button: ReturnType<import('@playwright/test').Page['getByRole']>;
 
     constructor(page: import('@playwright/test').Page) {
         super(page);
@@ -18,6 +22,10 @@ export class ContactUsPage extends HomePage{
         this.X = page.getByText(contactUsPageLocators.X.options.name);
         this.facebook = page.getByText(contactUsPageLocators.facebook.options.name);
         this.call = page.getByText(contactUsPageLocators.call.options.name);
+        this.mobile_input = page.locator(contactUsPageLocators.mobile_input);
+        this.email_input = page.locator(contactUsPageLocators.email_input);
+        this.query_input = page.locator(contactUsPageLocators.query_input);
+        this.submit_button = page.getByRole('button', { name: contactUsPageLocators.submit_button.options.name }).nth(contactUsPageLocators.submit_button.nth || 0);
     }
 
     async clickOnChatToLiveSupport() {

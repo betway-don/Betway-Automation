@@ -12,7 +12,7 @@ export default defineConfig({
     ['allure-playwright', { outputFolder: 'src/regions/GH/reports/allure-results' }]
   ],
   use: {
-    baseURL: 'https://www.betway.co.zm/',
+    baseURL: 'https://www.betway.com.gh/',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
