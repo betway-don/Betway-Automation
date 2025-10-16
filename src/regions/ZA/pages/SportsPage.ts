@@ -9,6 +9,7 @@ import { getLocator } from "../../../global/utils/file-utils/locatorResolver";
 import { highlightElements } from '../../Common-Flows/HighlightElements';
 const file = "src/global/utils/file-utils/locators.xlsx";
 
+const LOCATOR_URL="https://github.com/athrvzoz/LocatorFile/raw/refs/heads/main/locators.xlsx"
 
 
 export class SportsPage extends LoginPage {
@@ -18,7 +19,7 @@ export class SportsPage extends LoginPage {
     constructor(page: import('@playwright/test').Page) {
         super(page);
         this.page = page;
-        const configs = loadLocatorsFromExcel("src/global/utils/file-utils/locators.xlsx", "SportsPage");
+        const configs = loadLocatorsFromExcel(LOCATOR_URL, "SportsPage");
         this.SportsPagelocatorRegistry = {
             ...this.LoginPagelocatorsRegistry,
             SportButton: getLocator(this.page, configs["SportButton"]),
@@ -49,8 +50,7 @@ export class SportsPage extends LoginPage {
         };
     }
 
-    // Verification Functions :
-    
+    // Clicking Functions :
 
     async gotoSportsPage() {
         await this.page.goto('/sport/soccer');

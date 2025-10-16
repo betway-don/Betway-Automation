@@ -10,6 +10,8 @@ import { SignUpPage } from '../pages/SignUpPage';
 import { SignupUtils } from '../utils/signupUtils';
 import { HomePage } from '../pages/HomePage';
 import { BetInfluencerModal } from '../pages/BetInfluencerModal';
+import { ContactUsPage } from '../pages/ContactUsPage';
+import { HowToPage } from '../pages/HowToPage';
 
 // Test data interface for signup
 export interface TestData {
@@ -48,6 +50,8 @@ type PageFixtures = {
   promotionPage: PromotionPage;
   betgamesPage: BetgamesPage;
   betinfluencerModal: BetInfluencerModal;
+  contactUs:ContactUsPage;
+  howTo:HowToPage
   // Signup-specific fixtures
   signupPage: SignUpPage;
   signupUtils: SignupUtils;
@@ -95,6 +99,18 @@ export const test = base.extend<PageFixtures>({
   promotionPage: async ({ page }, use) => {
     const promotionPage = new PromotionPage(page);
     await use(promotionPage);
+  },
+  contactUs:async({page},use)=>{
+    const contactUsPage=new ContactUsPage(page);
+    await contactUsPage.page.setViewportSize({ width: 1300, height: 780 });
+    await contactUsPage.gotoContactUs();
+    await use(contactUsPage)
+  },
+  howTo: async({page},use)=>{
+    const howTo=new HowToPage(page);
+    await howTo.page.setViewportSize({ width: 1300, height: 780 });
+    await howTo.gotoHowTo();
+    await use(howTo)
   },
   betgamesPage: async ({ page }, use) => {
     const betgamesPage = new BetgamesPage(page);

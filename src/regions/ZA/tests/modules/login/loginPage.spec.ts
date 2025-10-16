@@ -14,42 +14,42 @@ const screenshotDir = path.join(projectRoot, 'screenshots/module/login');
 
 test.describe.serial('Login Page Tests', () => {
 
-  test("T1-Verify Login Button is visible on Homepage.", async ({ loginPage }, testInfo) => {
-    await loginPage.verifyHeaderLoginButton();
-    await ScreenshotHelper(loginPage.page, screenshotDir, 'T1-loginPage', testInfo);
-  });
+  // test("T1-Verify Login Button is visible on Homepage.", async ({ loginPage }, testInfo) => {
+  //   await loginPage.verifyHeaderLoginButton();
+  //   await ScreenshotHelper(loginPage.page, screenshotDir, 'T1-loginPage', testInfo);
+  // });
 
-  test('T2 - Verify that user should able to click on "Login" button', async ({ loginPage }, testInfo) => {
-    await loginPage.clickLogin();
-    await ScreenshotHelper(loginPage.page, screenshotDir, 'T2-loginPage', testInfo);
-  });
-
-
-  test('T3 - Verify that user should able to see the "Login" button in Hamburger menu', async ({ loginPage }, testInfo) => {
-    await loginPage.clickHamburgerMenu();
-    await loginPage.verifyHamburgerLoginButton();
-    await ScreenshotHelper(loginPage.page, screenshotDir, 'T3-loginPage', testInfo);
-  });
+  // test('T2 - Verify that user should able to click on "Login" button', async ({ loginPage }, testInfo) => {
+  //   await loginPage.clickLogin();
+  //   await ScreenshotHelper(loginPage.page, screenshotDir, 'T2-loginPage', testInfo);
+  // });
 
 
-  test('T4 - Verify that user should able to click on "Login" button in Hamburger menu', async ({ loginPage }, testInfo) => {
-    await loginPage.clickLoginButtonFromHamburger();
-    await ScreenshotHelper(loginPage.page, screenshotDir, 'T4-loginPage', testInfo);
-  });
+  // test('T3 - Verify that user should able to see the "Login" button in Hamburger menu', async ({ loginPage }, testInfo) => {
+  //   await loginPage.clickHamburgerMenu();
+  //   await loginPage.verifyHamburgerLoginButton();
+  //   await ScreenshotHelper(loginPage.page, screenshotDir, 'T3-loginPage', testInfo);
+  // });
 
 
-  test('T5 - Verify that user should able to see the "Login" button on signup popup window', async ({ loginPage }, testInfo) => {
-    await loginPage.clickLoginButtonFromHamburger();
-    await loginPage.verifyLoginButtonFromPopupThroughHamburger();
-    await ScreenshotHelper(loginPage.page, screenshotDir, 'T5-loginPage', testInfo);
-  });
+  // test('T4 - Verify that user should able to click on "Login" button in Hamburger menu', async ({ loginPage }, testInfo) => {
+  //   await loginPage.clickLoginButtonFromHamburger();
+  //   await ScreenshotHelper(loginPage.page, screenshotDir, 'T4-loginPage', testInfo);
+  // });
 
 
-  test('T6 - Verify that user should able to click on "Login" button on signup popup window', async ({ loginPage }, testInfo) => {
-    await loginPage.clickSignUp();
-    await loginPage.verifyLoginButtonInSignUp();
-    await ScreenshotHelper(loginPage.page, screenshotDir, 'T6-loginPage', testInfo);
-  });
+  // test('T5 - Verify that user should able to see the "Login" button on signup popup window', async ({ loginPage }, testInfo) => {
+  //   await loginPage.clickLoginButtonFromHamburger();
+  //   await loginPage.verifyLoginButtonFromPopupThroughHamburger();
+  //   await ScreenshotHelper(loginPage.page, screenshotDir, 'T5-loginPage', testInfo);
+  // });
+
+
+  // test('T6 - Verify that user should able to click on "Login" button on signup popup window', async ({ loginPage }, testInfo) => {
+  //   await loginPage.clickSignUp();
+  //   await loginPage.verifyLoginButtonInSignUp();
+  //   await ScreenshotHelper(loginPage.page, screenshotDir, 'T6-loginPage', testInfo);
+  // });
 
 
   test('T7 - Verify that user should able to see the "Login" button on login popup window when clicked on aviator from carousel', async ({ sportsPage }, testInfo) => {

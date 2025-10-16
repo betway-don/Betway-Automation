@@ -11,17 +11,21 @@ const config = process.env.BASE_URL || 'https://betway.co.za/';
 import { loadLocatorsFromExcel } from "../../../global/utils/file-utils/excelReader";
 import { getLocator } from "../../../global/utils/file-utils/locatorResolver";
 import { highlightElementBorder, highlightElements } from '../../Common-Flows/HighlightElements';
+import { HomePage } from './HomePage';
+const LOCATOR_URL="https://github.com/athrvzoz/LocatorFile/raw/refs/heads/main/locators.xlsx"
 
-export class LoginPage {
+export class LoginPage extends HomePage{
 
     readonly LoginPagelocatorsRegistry: Record<string, import('@playwright/test').Locator>;
     page: import('@playwright/test').Page;
 
     constructor(page: import('@playwright/test').Page) {
+        super(page);
         this.page = page;
-        const configs = loadLocatorsFromExcel("src/global/utils/file-utils/locators.xlsx", "LoginPage");
+        const configs = loadLocatorsFromExcel(LOCATOR_URL, "LoginPage");
 
         this.LoginPagelocatorsRegistry = {
+            ...this.HomePagelocatorsRegistry,
             mobileInput: getLocator(page, configs["mobileInput"]),
             formPasswordInput: getLocator(page, configs["formPasswordInput"]),
             passwordInput: getLocator(page, configs["passwordInput"]),
