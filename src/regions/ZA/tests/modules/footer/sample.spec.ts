@@ -12,11 +12,14 @@ import { loadLocatorsFromExcel } from '../../../../../global/utils/file-utils/ex
 const APP_URL = 'https://new.betway.co.za/sport';
 const USER_MOBILE = '713533467';
 const USER_PASSWORD = '12345';
-const OPENROUTER_API_KEY = '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';
+const OPENROUTER_API_KEY = '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'
 
 // Excel source (raw GitHub URL)
 const LOCATOR_URL = "https://github.com/athrvzoz/LocatorFile/raw/refs/heads/main/locatorsDemo.xlsx";
 const SHEET_NAME = "SampleDemoSheet";
+
+// Collector for healed locators (we persist them in a batch at test end)
+const healedLocators: { key: string; locator: string }[] = [];
 
 // Small helpers
 function isHttpUrl(u: string) {
@@ -24,95 +27,16 @@ function isHttpUrl(u: string) {
 }
 
 function guessLocatorType(locatorStr: string) {
-  const s = locatorStr.trim();
+  const s = String(locatorStr).trim();
   if (/^role=/i.test(s)) return { type: 'role', value: s.replace(/^role=/i, '') };
   if (/^xpath=/i.test(s)) return { type: 'xpath', value: s.replace(/^xpath=/i, '') };
   if (/^text=/i.test(s)) return { type: 'text', value: s.replace(/^text=/i, '') };
-  // If it looks like Playwright "input[name=...]" or "button:has-text('x')" treat as css
   return { type: 'css', value: s };
-}
-
-/**
- * Update a single locator row in the workbook.
- * - If source is a remote URL: download, update in-memory, save as locators-updated.xlsx in CWD.
- * - If source is a local path: update/overwrite that file.
- *
- * We match rows by the 'key' column. If no row matches, append a new row with the key.
- */
-async function updateLocatorInWorkbook(
-  source: string,
-  sheetName: string,
-  keyToUpdate: string,
-  suggestedLocatorStr: string
-): Promise<string> {
-  let workbook: XLSX.WorkBook;
-
-  if (isHttpUrl(source)) {
-    // fetch remote
-    const resp = await fetch(source);
-    if (!resp.ok) {
-      throw new Error(`Failed to download remote locator file: ${resp.status} ${resp.statusText}`);
-    }
-    const buffer = Buffer.from(await resp.arrayBuffer());
-    workbook = XLSX.read(buffer, { type: 'buffer' });
-  } else {
-    if (!fs.existsSync(source)) {
-      throw new Error(`Local locator file not found: ${source}`);
-    }
-    const buffer = fs.readFileSync(source);
-    workbook = XLSX.read(buffer, { type: 'buffer' });
-  }
-
-  // Ensure sheet exists and get rows
-  let rows: any[] = [];
-  if (workbook.Sheets[sheetName]) {
-    rows = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { defval: '' }) as any[];
-  }
-
-  // Find index by key
-  const idx = rows.findIndex(r => String(r.key) === String(keyToUpdate));
-
-  const guessed = guessLocatorType(suggestedLocatorStr);
-
-  const updatedRow = {
-    key: keyToUpdate,
-    // Keep original columns but set 'type' and 'value' columns to healed values.
-    type: guessed.type,
-    value: guessed.value,
-    // optionally you can add a healedAt column to trace
-    healedAt: new Date().toISOString()
-  };
-
-  if (idx >= 0) {
-    // Merge with existing row to preserve other columns
-    rows[idx] = Object.assign({}, rows[idx], updatedRow);
-  } else {
-    // append new
-    rows.push(updatedRow);
-  }
-
-  // Write back into workbook
-  const newSheet = XLSX.utils.json_to_sheet(rows);
-  workbook.Sheets[sheetName] = newSheet;
-  if (!workbook.SheetNames.includes(sheetName)) {
-    workbook.SheetNames.push(sheetName);
-  }
-
-  // Save locally
-  let outPath: string;
-  if (isHttpUrl(source)) {
-    outPath = path.join(process.cwd(), 'locators-updated.xlsx');
-  } else {
-    outPath = path.resolve(source); // overwrite local file
-  }
-  XLSX.writeFile(workbook, outPath);
-  return outPath;
 }
 
 // ====================================
 // SELF-HEALING LOCATOR CLASS
-// - exposes findByExcelConfig which accepts an excel-style config object (with key,type,value,...).
-// - if primary (excel) locator fails, calls AI, validates suggested locator and updates excel sheet.
+// - findByExcelConfig: when AI heals a locator, record it in healedLocators (no file I/O here)
 class SelfHealingLocator {
   private page: Page;
 
@@ -120,10 +44,6 @@ class SelfHealingLocator {
     this.page = page;
   }
 
-  /**
-   * Try excel-style config first, then AI heal & persist change if needed.
-   * excelConfig must at least include { key?: string, type?: string, value?: string, options?: any, nth?: number }
-   */
   async findByExcelConfig(
     excelConfig: { key?: string; type?: string; value?: string; options?: any; nth?: number },
     description: string,
@@ -132,7 +52,7 @@ class SelfHealingLocator {
     sheetName: string,
     waitTimeout: number = 10000
   ): Promise<Locator> {
-    // first, try using getLocator (keeps same resolution logic as the rest of your suite)
+    // Try primary locator using existing resolver
     try {
       const primaryLocator = getLocator(this.page, {
         key: excelConfig.key,
@@ -141,7 +61,6 @@ class SelfHealingLocator {
         options: excelConfig.options,
         nth: excelConfig.nth
       } as any);
-      // wait a small time only; if it exists we use it.
       await primaryLocator.waitFor({ state: 'visible', timeout: waitTimeout });
       console.log(`✅ Excel locator (key=${excelConfig.key}) found and will be used.`);
       return primaryLocator;
@@ -149,31 +68,28 @@ class SelfHealingLocator {
       console.log(`❌ Excel locator (key=${excelConfig.key}) failed to find element. Starting AI healing...`);
     }
 
-    // AI Healing flow
+    // AI Healing
     const domInfo = await this.extractDOMInfo();
     const suggested = await this.getAISuggestion(description, context, domInfo);
     if (!suggested) {
       throw new Error('AI could not suggest a locator');
     }
 
-    // Clean and pick the first sensible line
+    // normalize result -> take first meaningful line
     let locatorStr = suggested.replace(/```/g, '').replace(/`/g, '').replace(/^LOCATOR:\s*/i, '').trim();
     locatorStr = locatorStr.split('\n')[0].trim();
 
-    // Validate AI suggestion
+    // validate
     try {
       const healedLocator = this.page.locator(locatorStr).first();
       await healedLocator.waitFor({ state: 'visible', timeout: 5000 });
       console.log(`✅ AI suggestion is valid: ${locatorStr}`);
-      // Persist into workbook (update only the row with the excel key)
-      try {
-        const keyToUpdate = excelConfig.key || 'passwordInput';
-        const savedPath = await updateLocatorInWorkbook(excelSourceUrl, sheetName, keyToUpdate, locatorStr);
-        console.log(`💾 Updated locator saved to: ${savedPath}`);
-        console.log('  (Note: remote URL cannot be overwritten anonymously — file saved locally. Commit & push to propagate.)');
-      } catch (persistErr: any) {
-        console.warn('⚠️ Could not persist healed locator:', persistErr?.message || persistErr);
-      }
+
+      // record healed locator for batch persist at test end
+      const keyToUpdate = excelConfig.key || `ai_${Date.now()}`;
+      healedLocators.push({ key: keyToUpdate, locator: locatorStr });
+      console.log(`🗂️ Recorded healed locator for key='${keyToUpdate}' (will persist at test end).`);
+
       return healedLocator;
     } catch (err) {
       console.error('❌ AI suggestion did not match any visible element on the page:', locatorStr);
@@ -181,9 +97,6 @@ class SelfHealingLocator {
     }
   }
 
-  /**
-   * Extract page DOM info (small snapshot) for AI.
-   */
   private async extractDOMInfo(): Promise<string> {
     const domData = await this.page.evaluate(() => {
       const elements: Array<{
@@ -229,9 +142,6 @@ class SelfHealingLocator {
     return JSON.stringify(domData, null, 2);
   }
 
-  /**
-   * Ask AI for a locator string using OpenRouter (same API call structure as before).
-   */
   private async getAISuggestion(description: string, context: string, domInfo: string): Promise<string | null> {
     const prompt = `You are a Playwright automation expert. Find the best locator for this element.
  
@@ -302,19 +212,25 @@ LOCATOR:`;
 // ====================================
 // TEST
 // ====================================
-test('AI Healing Demo - Replace password locator in Excel when needed', async ({ page }) => {
-  test.setTimeout(90000);
+test('AI Healing Demo - Replace changed locators in batch at end', async ({ page }) => {
+  test.setTimeout(120000);
 
-  // Load locators (this uses your excelReader which supports remote URLs)
+  // Load locators (remote) using your loader
   const configs = loadLocatorsFromExcel(LOCATOR_URL, SHEET_NAME);
+
+  // Get excel configs properly (as objects)
   const excelPasswordConfig = configs['passwordInput'];
   const excelMobileConfig = configs['mobileInput'];
+
   if (!excelPasswordConfig) {
     throw new Error('passwordInput key not found in Excel sheet');
   }
+  if (!excelMobileConfig) {
+    throw new Error('mobileInput key not found in Excel sheet');
+  }
 
   console.log('\n' + '='.repeat(60));
-  console.log('🎯 AI SELF-HEALING DEMO (with Excel update)');
+  console.log('🎯 AI SELF-HEALING DEMO (batch updates)');
   console.log('='.repeat(60));
 
   await page.goto(APP_URL);
@@ -322,26 +238,223 @@ test('AI Healing Demo - Replace password locator in Excel when needed', async ({
 
   const healer = new SelfHealingLocator(page);
 
-  console.log(`\n🔍 Trying password locator from Excel (key=passwordInput, type=${excelMobileConfig.type}) ...`);
-
-  const descriptionMobile = 'Mobile input field where user enters their password, has label "Enter Mobile Number"';
-  const contextMobile = 'Located in header of the page, first input field';
-  // Fill mobile number
-  const mobileInput=await healer.findByExcelConfig(excelMobileConfig, descriptionMobile, contextMobile, LOCATOR_URL, SHEET_NAME, 3000);
+  // Try mobile first (use Excel locator)
+  console.log(`\n🔍 Trying mobile locator from Excel (key=mobileInput, type=${excelMobileConfig.type}) ...`);
+  const descriptionMobile = 'Mobile input field where user enters their mobile number, has label "Mobile Number"';
+  const contextMobile = 'Login form, first input field';
+  const mobileInput = await healer.findByExcelConfig(excelMobileConfig, descriptionMobile, contextMobile, LOCATOR_URL, SHEET_NAME, 3000);
   await mobileInput.fill(USER_MOBILE);
   console.log('🎉 Mobile number entered (using healed/validated locator).');
 
-  // Use the Excel-provided password locator (treat as "may be wrong")
+  // Now password (will record any healed locator)
   console.log(`\n🔍 Trying password locator from Excel (key=passwordInput, type=${excelPasswordConfig.type}) ...`);
   const description = 'Password input field where user enters their password, has label "Enter Password"';
   const context = 'Located below the mobile number field in the login form, second input field';
 
-  // This will try the excel locator first; if it fails, AI will suggest a new locator and we will update Excel (saved locally).
   const passwordField = await healer.findByExcelConfig(excelPasswordConfig, description, context, LOCATOR_URL, SHEET_NAME, 3000);
-
   await passwordField.fill(USER_PASSWORD);
   await passwordField.press('Enter');
 
   console.log('🎉 Password entered and Enter pressed (using healed/validated locator).');
-  await page.waitForTimeout(2000);
+  await page.waitForTimeout(1500);
+
+  // --- Batch persist healed locators here ---
+  if (healedLocators.length > 0) {
+    try {
+      const saved = await batchUpdateLocatorsInWorkbook(LOCATOR_URL, SHEET_NAME, healedLocators);
+      console.log('✅ Persisted healed locators to:', saved);
+      console.log('Healed Loc', healedLocators);
+    } catch (err: any) {
+      console.error('❌ Failed to persist healed locators:', err?.message || err);
+    }
+  } else {
+    console.log('ℹ️ No healed locators to persist.');
+  }
+
+  await page.waitForTimeout(1000);
 });
+
+// ====================================
+// Batch update function (placed after test as requested)
+// - applies all updates in memory and either writes back to GitHub (if GITHUB_TOKEN + parseable raw URL)
+//   or saves 'locators-updated.xlsx' locally.
+// ====================================
+// Replace the existing batchUpdateLocatorsInWorkbook with this improved version:
+
+async function batchUpdateLocatorsInWorkbook(
+  source: string,
+  sheetName: string,
+  updates: { key: string; locator: string }[]
+): Promise<string> {
+  if (!updates || updates.length === 0) {
+    throw new Error('No updates provided');
+  }
+
+  // Helper: normalize strings for comparison
+  const norm = (s: any) => (s === undefined || s === null) ? '' : String(s).trim().toLowerCase();
+
+  // helper: read workbook
+  let workbook: XLSX.WorkBook;
+  if (isHttpUrl(source)) {
+    const resp = await fetch(source);
+    if (!resp.ok) {
+      throw new Error(`Failed to download remote locator file: ${resp.status} ${resp.statusText}`);
+    }
+    const buffer = Buffer.from(await resp.arrayBuffer());
+    workbook = XLSX.read(buffer, { type: 'buffer' });
+  } else {
+    if (!fs.existsSync(source)) {
+      throw new Error(`Local locator file not found: ${source}`);
+    }
+    const buffer = fs.readFileSync(source);
+    workbook = XLSX.read(buffer, { type: 'buffer' });
+  }
+
+  // Read existing rows (or start empty)
+  let rows: any[] = [];
+  if (workbook.Sheets[sheetName]) {
+    rows = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { defval: '' }) as any[];
+  }
+
+  // Determine which property in each row acts as the key (support multiple header names)
+  // We'll create an array of key header names to check for existence
+  const possibleKeyNames = ['key', 'Key', 'KEY', 'locatorKey', 'locator_key', 'name', 'id', 'locator', 'value'];
+
+  // Build a helper that returns { foundName, foundValue } for a row
+  function findRowKeyAndName(row: any): { foundName?: string; foundValue?: string } {
+    for (const candidate of possibleKeyNames) {
+      if (Object.prototype.hasOwnProperty.call(row, candidate) && row[candidate] !== undefined && row[candidate] !== '') {
+        return { foundName: candidate, foundValue: String(row[candidate]) };
+      }
+    }
+    // If none of the candidate column names exist, try to detect any header that equals 'key' ignoring case
+    for (const header of Object.keys(row)) {
+      if (norm(header) === 'key' && row[header] !== undefined && row[header] !== '') {
+        return { foundName: header, foundValue: String(row[header]) };
+      }
+    }
+    // Last resort: no key found on this row
+    return {};
+  }
+
+  // Apply updates by matching 'key' robustly
+  updates.forEach(({ key, locator }) => {
+    const keyNormalized = norm(key);
+    let matchedIdx = -1;
+    let matchedKeyName: string | undefined;
+
+    for (let i = 0; i < rows.length; i++) {
+      const { foundName, foundValue } = findRowKeyAndName(rows[i]);
+      if (foundName && norm(foundValue) === keyNormalized) {
+        matchedIdx = i;
+        matchedKeyName = foundName;
+        break;
+      }
+    }
+
+    const guessed = guessLocatorType(locator);
+
+    const updatedRowFragment: any = {
+      // try to set both 'value' and 'locator' columns, and the 'type'
+      type: guessed.type,
+      value: guessed.value,
+      locator: guessed.value,
+      healedAt: new Date().toISOString()
+    };
+
+    if (matchedIdx >= 0) {
+      // Merge preserving other columns and keep the original key column name/value
+      rows[matchedIdx] = Object.assign({}, rows[matchedIdx], updatedRowFragment);
+      // Ensure the key column still exists with same value (in case header uses a different name)
+      if (matchedKeyName) {
+        rows[matchedIdx][matchedKeyName] = rows[matchedIdx][matchedKeyName] ?? key;
+      }
+    } else {
+      // No match found: append a new row. Use 'key' as column name unless existing sheet uses another key header
+      const appendRow: any = Object.assign({}, updatedRowFragment, { key });
+      // If sheet had rows and a different key header is common, attempt to reuse that header name
+      if (rows.length > 0) {
+        // find the best key header name used in sheet (first row)
+        const firstRowKeyInfo = findRowKeyAndName(rows[0]);
+        if (firstRowKeyInfo.foundName) {
+          appendRow[firstRowKeyInfo.foundName] = key;
+          // remove default 'key' property if it would create duplicate columns
+          delete appendRow.key;
+        }
+      }
+      rows.push(appendRow);
+    }
+  });
+
+  // Write back to workbook object
+  const newSheet = XLSX.utils.json_to_sheet(rows);
+  workbook.Sheets[sheetName] = newSheet;
+  if (!workbook.SheetNames.includes(sheetName)) {
+    workbook.SheetNames.push(sheetName);
+  }
+
+  // Serialize workbook
+  const outBuffer = XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
+
+  // Either push to GitHub or save locally
+  const githubToken = process.env.GITHUB_TOKEN;
+  if (githubToken && isHttpUrl(source)) {
+    // Parse owner/repo/branch/path from raw GitHub URL pattern:
+    const rawPattern = /https:\/\/github\.com\/([^/]+)\/([^/]+)\/raw\/refs\/heads\/([^/]+)\/(.+)$/;
+    const m = String(source).match(rawPattern);
+    if (!m) {
+      const outPath = path.join(process.cwd(), 'locators-updated.xlsx');
+      fs.writeFileSync(outPath, outBuffer);
+      return outPath;
+    }
+    const owner = m[1];
+    const repo = m[2];
+    const branch = m[3];
+    const filePath = m[4];
+
+    const getUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}?ref=${branch}`;
+    const getResp = await fetch(getUrl, {
+      headers: {
+        Authorization: `Bearer ${githubToken}`,
+        Accept: 'application/vnd.github.v3+json'
+      }
+    });
+    if (!getResp.ok) {
+      const txt = await getResp.text();
+      throw new Error(`Failed to get current file from GitHub: ${getResp.status} ${txt}`);
+    }
+    const getJson = await getResp.json();
+    const sha = getJson.sha;
+
+    const putUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
+    const putBody = {
+      message: `chore: update healed locators (${updates.map(u => u.key).join(', ')})`,
+      content: outBuffer.toString('base64'),
+      sha,
+      branch
+    };
+
+    const putResp = await fetch(putUrl, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${githubToken}`,
+        Accept: 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(putBody)
+    });
+
+    if (!putResp.ok) {
+      const txt = await putResp.text();
+      throw new Error(`Failed to update file on GitHub: ${putResp.status} ${txt}`);
+    }
+    const putJson = await putResp.json();
+    console.log('✅ GitHub file updated:', putJson.content?.path);
+    return `github://${owner}/${repo}@${branch}/${filePath}`;
+  } else {
+    const outPath = path.join(process.cwd(), 'locators-updated.xlsx');
+    fs.writeFileSync(outPath, outBuffer);
+    console.log('💾 Saved updated workbook locally:', outPath);
+    return outPath;
+  }
+}
