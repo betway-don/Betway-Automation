@@ -26,7 +26,7 @@ export class SelfHealingLocator {
     excelConfig: LocatorConfig,
     description: string,
     context: string,
-    waitTimeout: number = 10000
+    waitTimeout: number
   ): Promise<Locator> {
     // Update metadata first with the Excel config
     try {
@@ -39,7 +39,7 @@ export class SelfHealingLocator {
     try {
       console.log('Attempting to find element with config:', JSON.stringify(excelConfig, null, 2));
       const primaryLocator = getLocator(this.page, excelConfig);
-      await primaryLocator.waitFor({ state: 'visible', timeout: waitTimeout });
+      await primaryLocator.waitFor({ state: 'visible', timeout: 10000 });
       console.log(`✅ Excel locator (key=${excelConfig.key}) found and will be used.`);
       return primaryLocator;
     } catch (error) {
@@ -58,7 +58,7 @@ export class SelfHealingLocator {
     // validate suggested locator
     console.log('Trying AI suggested locator:', locatorStr);
     const healedLocator = this.page.locator(locatorStr);
-    await healedLocator.waitFor({ state: 'visible', timeout: 5000 });
+    await healedLocator.waitFor({ state: 'visible', timeout: 10000 });
 
     const key = excelConfig.key || `ai_${Date.now()}`;
     this.healedLocators.push({ key, locator: locatorStr });
@@ -130,9 +130,19 @@ ${domInfo}
  
 RULES:
 1. Return ONLY the locator string, nothing else
-2. Priority: data-testid > role > placeholder > text > CSS
-3. Use Playwright syntax like: role=button[name='Login'], input[name='mobile'], button:has-text('Login')
-4. Must match exactly ONE element
+2. Use these strategies in order of preference:
+   a. Unique ID if available
+   b. Precise getByRole with name/label and index if needed
+   c. Precise CSS with multiple attributes to ensure uniqueness
+3. If multiple similar elements exist, use these techniques to be specific:
+   - For getByRole, add index: getByRole('button', { name: 'Login' }).nth(0)
+   - Use parent elements or nearby text to narrow down
+   - Combine multiple attributes: button[id='login-btn'][aria-label='Login']
+4. ALWAYS check if your selector might match multiple elements
+5. If context mentions specific instance (like "first", "nth=0"), use appropriate nth() selector
+6. Prefer exact matches over partial matches
+
+IMPORTANT: The context provided describes which specific instance is needed. Use this information to select the correct element when multiple similar elements exist.
  
 LOCATOR:`;
 
@@ -148,7 +158,7 @@ LOCATOR:`;
           { role: 'system', content: 'You are a Playwright expert. Return only the locator string.' },
           { role: 'user', content: prompt }
         ],
-        temperature: 0.3,
+        temperature: 0.2,
         max_tokens: 150
       })
     });

@@ -49,6 +49,8 @@ export function updateLocatorMetadata(key: string, config: LocatorConfig) {
       lastUpdated: new Date().toISOString()
     };
   }
+
+  console.log(`Locator metadata updated for key="${key}":`, locatorMetadataMap[key]);
 }
 
 export function getLocatorMetadata(key: string): LocatorMetadata {
