@@ -3,7 +3,7 @@ import { LocatorConfig, HealedLocator } from './types';
 import { getLocator } from '../file-utils/locatorResolver';
 import { updateLocatorMetadata } from './metadata';
 
-const OPENROUTER_API_KEY = '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'
+const OPENROUTER_API_KEY = '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'
 
 /**
  * SelfHealingLocator class:
@@ -153,7 +153,7 @@ LOCATOR:`;
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        model: 'openai/gpt-4o-mini',
+        model: 'meta-llama/llama-3.3-8b-instruct:free',
         messages: [
           { role: 'system', content: 'You are a Playwright expert. Return only the locator string.' },
           { role: 'user', content: prompt }
