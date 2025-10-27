@@ -54,9 +54,9 @@ test('AI Healing Demo - Replace changed locators in batch at end', async ({ logi
     await loginButton.click();
 
     // Batch update Excel if any locators were healed
-    const healed = healer.getHealedLocators();
-    if (healed.length > 0) {
-        const saved = await batchUpdateLocatorsInWorkbook(LOCATOR_URL, SHEET_NAME, healed);
-        console.log('Updated locators saved to:', saved);
-    }
+const healed = healer.getHealedLocators();
+if (healed.length > 0) {
+    console.log(`🧩 Found ${healed.length} healed locators. Updating Excel in GitHub...`);
+    await batchUpdateLocatorsInWorkbook(LOCATOR_URL, SHEET_NAME, healed);
+}
 });

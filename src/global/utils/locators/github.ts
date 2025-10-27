@@ -21,6 +21,7 @@ export async function updateGitHubFile(
 
   const [, owner, repo, branch, filePath] = m;
 
+  // const getUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}?ref=${branch}`;
   const getUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}?ref=${branch}`;
   const getResp = await fetch(getUrl, {
     headers: {
