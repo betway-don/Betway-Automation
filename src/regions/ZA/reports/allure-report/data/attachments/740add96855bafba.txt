@@ -1,0 +1,48 @@
+📋 CSV Headers found: [ 'Key', 'Selector', 'Options_Name', 'nth' ]
+✅ Loaded: howtobet -> link (link)
+✅ Loaded: FAQs -> link (link)
+✅ Loaded: TermsAndConditions -> text (text)
+✅ Loaded: BettingRules -> link (link)
+✅ Loaded: BetwayApp -> link (link)
+✅ Loaded: AffiliateProgram -> link (link)
+✅ Loaded: ResponsibleGaming -> text (text)
+✅ Loaded: PrivacyPolicy -> text (text)
+✅ Loaded: Sponsorships -> text (text)
+✅ Loaded: ContactUs -> link (link)
+✅ Loaded: betwayLogo -> img[alt="Betway Logo"] (image)
+✅ Loaded: footer -> footer (generic)
+✅ Loaded: arsenalLogo -> img[alt="Arsenal Logo"] (image)
+✅ Loaded: currentTime -> text (text)
+✅ Loaded: version -> text (text)
+✅ Loaded: downloadBetwayApp -> text (text)
+✅ Loaded: appleLogo -> img[alt="apple-logo"] (image)
+✅ Loaded: linkToSocials -> a[href="https://x.com/betway"] (link)
+
+🎯 Total locators loaded: 18
+
+📊 Locator Summary:
+  link: 7
+  text: 7
+  image: 3
+  generic: 1
+
+📚 Available Locators:
+  howtobet: "How to Bet" (link) -> link
+  FAQs: "Frequently asked questions" (link) -> link
+  TermsAndConditions: "Terms & Conditions" (text) -> text
+  BettingRules: "Betting Rules" (link) -> link
+  BetwayApp: "Betway App" (link) -> link
+  AffiliateProgram: "Affiliate Program" (link) -> link
+  ResponsibleGaming: "Responsible Gaming" (text) -> text
+  PrivacyPolicy: "Privacy Policy" (text) -> text
+  Sponsorships: "Sponsorship" (text) -> text
+  ContactUs: "Contact Us" (link) -> link
+  betwayLogo: "" (image) -> img[alt="Betway Logo"]
+  footer: "" (generic) -> footer
+  arsenalLogo: "" (image) -> img[alt="Arsenal Logo"]
+  currentTime: "Current time" (text) -> text
+  version: "Version" (text) -> text
+  downloadBetwayApp: "Scan the QR code" (text) -> text
+  appleLogo: "" (image) -> img[alt="apple-logo"]
+  linkToSocials: "" (link) -> a[href="https://x.com/betway"]
+🎯 Getting locator for "howtobet": link

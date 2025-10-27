@@ -1,0 +1,10 @@
+Loaded locators: [ 'undefined' ] [
+  {
+    key: undefined,
+    type: undefined,
+    value: undefined,
+    options: {},
+    nth: NaN
+  }
+]
+Resolving locator: undefined

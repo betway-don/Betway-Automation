@@ -1,15 +1,18 @@
 import { Page, Locator } from '@playwright/test';
-import { LocatorConfig, HealedLocator } from './types';
+import { LocatorConfig as ExcelLocatorConfig } from '../file-utils/excelReader';
+
+// Define HealedLocator type locally if not exported from excelReader
+export type HealedLocator = {
+  key: string;
+  locator: string;
+};
 import { getLocator } from '../file-utils/locatorResolver';
 import { updateLocatorMetadata } from './metadata';
 
-const OPENROUTER_API_KEY = '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'
+const OPENROUTER_API_KEY =
+  process.env.OPENROUTER_API_KEY ||
+  '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';
 
-/**
- * SelfHealingLocator class:
- * - tries a locator from excel (resolved by getLocator)
- * - if it fails, asks AI for a locator, validates it, records healed locators and updates metadata
- */
 export class SelfHealingLocator {
   private page: Page;
   private healedLocators: HealedLocator[] = [];
@@ -23,47 +26,70 @@ export class SelfHealingLocator {
   }
 
   async findByExcelConfig(
-    excelConfig: LocatorConfig,
+    excelConfig: ExcelLocatorConfig,
     description: string,
     context: string,
     waitTimeout: number
   ): Promise<Locator> {
-    // Update metadata first with the Excel config
+    const key = excelConfig.key ?? '';
+
     try {
-      updateLocatorMetadata(excelConfig.key, excelConfig);
+      updateLocatorMetadata(key, excelConfig);
     } catch (e) {
       console.warn('Warning: could not update metadata from Excel config', e);
     }
 
-    // try primary locator
+    // Try Excel locator first
     try {
       console.log('Attempting to find element with config:', JSON.stringify(excelConfig, null, 2));
       const primaryLocator = getLocator(this.page, excelConfig);
-      await primaryLocator.waitFor({ state: 'visible', timeout: 10000 });
-      console.log(`✅ Excel locator (key=${excelConfig.key}) found and will be used.`);
+      await primaryLocator.waitFor({ state: 'visible', timeout: waitTimeout });
+      console.log(`✅ Excel locator (key=${key}) found and will be used.`);
       return primaryLocator;
     } catch (error) {
-      console.log(`❌ Excel locator (key=${excelConfig.key}) failed. Error:`, error);
+      console.log(`❌ Excel locator (key=${key}) failed. Error:`, error);
       console.log('Starting AI healing...');
     }
 
-    // AI healing
+    // AI healing step
     const domInfo = await this.extractDOMInfo();
     const suggested = await this.getAISuggestion(description, context, domInfo);
     if (!suggested) throw new Error('AI could not suggest a locator');
 
-    let locatorStr = suggested.replace(/```/g, '').replace(/`/g, '').replace(/^LOCATOR:\s*/i, '').trim();
+    let locatorStr = suggested
+      .replace(/```/g, '')
+      .replace(/`/g, '')
+      .replace(/^LOCATOR:\s*/i, '')
+      .trim();
+
     locatorStr = locatorStr.split('\n')[0].trim();
 
-    // validate suggested locator
+    // Ensure valid locator syntax (Playwright safe)
     console.log('Trying AI suggested locator:', locatorStr);
-    const healedLocator = this.page.locator(locatorStr);
-    await healedLocator.waitFor({ state: 'visible', timeout: 10000 });
 
-    const key = excelConfig.key || `ai_${Date.now()}`;
+    // If AI gives something like getByRole('textbox'...), we evaluate it properly
+    let healedLocator: Locator;
+    if (locatorStr.startsWith('getByRole')) {
+      // Extract role and name safely
+      const match = locatorStr.match(/getByRole\(['"]([^'"]+)['"],\s*\{[^}]*name:\s*['"]([^'"]+)['"]/i);
+      if (match) {
+        const role = match[1] as Parameters<Page['getByRole']>[0]; // Safe cast to Playwright RoleType
+        const name = match[2];
+        healedLocator = this.page.getByRole(role, { name });
+      } else {
+        throw new Error(`Invalid AI locator format: ${locatorStr}`);
+      }
+    } else if (locatorStr.startsWith('css=')) {
+      healedLocator = this.page.locator(locatorStr.replace(/^css=/, ''));
+    } else {
+      healedLocator = this.page.locator(locatorStr);
+    }
+
+    await healedLocator.waitFor({ state: 'visible', timeout: waitTimeout });
+
     this.healedLocators.push({ key, locator: locatorStr });
-
     console.log(`✅ Healed locator for ${key}: ${locatorStr}`);
+
     return healedLocator;
   }
 
@@ -93,9 +119,9 @@ export class SelfHealingLocator {
             id: htmlEl.id || '',
             class: htmlEl.className || '',
             text: (htmlEl.innerText || '').substring(0, 100),
-            type: (inputEl && inputEl.type) || '',
-            name: (inputEl && inputEl.name) || '',
-            placeholder: (inputEl && inputEl.placeholder) || '',
+            type: inputEl?.type || '',
+            name: inputEl?.name || '',
+            placeholder: inputEl?.placeholder || '',
             role: htmlEl.getAttribute('role') || '',
             ariaLabel: htmlEl.getAttribute('aria-label') || ''
           });
@@ -105,74 +131,64 @@ export class SelfHealingLocator {
       return {
         url: window.location.href,
         title: document.title,
-        elements: elements
+        elements
       };
     });
 
     return JSON.stringify(domData, null, 2);
   }
 
-  private async getAISuggestion(description: string, context: string, domInfo: string): Promise<string | null> {
+  private async getAISuggestion(
+    description: string,
+    context: string,
+    domInfo: string
+  ): Promise<string | null> {
     if (!OPENROUTER_API_KEY) {
       throw new Error('OPENROUTER_API_KEY is not set in environment');
     }
 
     const prompt = `You are a Playwright automation expert. Find the best locator for this element.
- 
+
 ELEMENT DESCRIPTION:
 ${description}
- 
+
 CONTEXT:
 ${context}
- 
+
 PAGE DOM:
 ${domInfo}
- 
-RULES:
-1. Return ONLY the locator string, nothing else
-2. Use these strategies in order of preference:
-   a. Unique ID if available
-   b. Precise getByRole with name/label and index if needed
-   c. Precise CSS with multiple attributes to ensure uniqueness
-3. If multiple similar elements exist, use these techniques to be specific:
-   - For getByRole, add index: getByRole('button', { name: 'Login' }).nth(0)
-   - Use parent elements or nearby text to narrow down
-   - Combine multiple attributes: button[id='login-btn'][aria-label='Login']
-4. ALWAYS check if your selector might match multiple elements
-5. If context mentions specific instance (like "first", "nth=0"), use appropriate nth() selector
-6. Prefer exact matches over partial matches
 
-IMPORTANT: The context provided describes which specific instance is needed. Use this information to select the correct element when multiple similar elements exist.
- 
+RULES:
+1. Return ONLY the locator string.
+2. Prefer getByRole with name and nth() when possible.
+3. Fallback to CSS selectors if needed.
+4. Do not include explanations or markdown.
 LOCATOR:`;
 
     const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${OPENROUTER_API_KEY}`,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         model: 'meta-llama/llama-3.3-8b-instruct:free',
         messages: [
           { role: 'system', content: 'You are a Playwright expert. Return only the locator string.' },
-          { role: 'user', content: prompt }
+          { role: 'user', content: prompt },
         ],
         temperature: 0.2,
-        max_tokens: 150
-      })
+        max_tokens: 150,
+      }),
     });
 
     if (!response.ok) {
-      const txt = await response.text();
-      console.error('AI API error:', txt);
+      console.error('AI API error:', await response.text());
       return null;
     }
 
-    const data: any = await response.json();
-    let locator = data.choices?.[0]?.message?.content?.trim();
-    if (!locator) return null;
-    locator = locator.replace(/```/g, '').replace(/`/g, '').replace(/^LOCATOR:\s*/i, '').trim();
-    return locator;
+    const data = (await response.json()) as any;
+    const locator = data?.choices?.[0]?.message?.content?.trim();
+    return locator || null;
   }
 }
