@@ -7,4 +7,6 @@ node_modules/
 /playwright/.cache/
 /allure-results/
 /src/regions/ZA/screenshots
+/src/regions/GH/screenshots
 /src/regions/ZA/reports
+/src/regions/GH/reports

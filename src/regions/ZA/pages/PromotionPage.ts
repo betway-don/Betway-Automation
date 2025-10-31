@@ -4,6 +4,7 @@ import { SportsPage } from "./SportsPage";
 import userData from '../json-data/userData.json'; // Adjust the path as needed
 import { loadLocatorsFromExcel } from "../../../global/utils/file-utils/excelReader";
 import { getLocator } from "../../../global/utils/file-utils/locatorResolver";
+const LOCATOR_URL="https://github.com/athrvzoz/LocatorFile/raw/refs/heads/main/locators.xlsx"
 
 export class PromotionPage extends SportsPage {
     promotionPagelocatorsRegistry: Record<string, import('@playwright/test').Locator>;
@@ -11,7 +12,7 @@ export class PromotionPage extends SportsPage {
     constructor(page: import('@playwright/test').Page) {
         super(page);
         this.page = page;
-        const configs = loadLocatorsFromExcel("src/global/utils/file-utils/locators.xlsx", "PromotionPage");
+        const configs = loadLocatorsFromExcel(LOCATOR_URL, "PromotionPage");
         this.promotionPagelocatorsRegistry = {
             ...this.SportsPagelocatorRegistry,
             promotionPage: getLocator(this.page, configs["promotionPage"]),

@@ -122,7 +122,7 @@ export const test = base.extend<PageFixtures>({
     const betinfluencerModal = new BetInfluencerModal(page);
     await betinfluencerModal.goto();
     await betinfluencerModal.page.setViewportSize({ width: 1300, height: 780 });
-    await betinfluencerModal.page.getByText('Got it').first().click();
+    // await betinfluencerModal.page.getByText('Got it').first().click();
     await use(betinfluencerModal);
   },
 

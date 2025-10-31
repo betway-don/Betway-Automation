@@ -57,7 +57,9 @@ export class SportsPage extends LoginPage {
     }
 
     async gotoAviator() {
-        await this.page.getByRole('link', { name: 'Aviator' }).click();
+        await this.page.goto('/sport/soccer');
+        
+        await this.SportsPagelocatorRegistry.aviator.click();
     }
 
     async AviatorLoginPopUp() {
