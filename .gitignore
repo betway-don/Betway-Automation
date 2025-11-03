@@ -8,3 +8,9 @@ node_modules/
 
 # Playwright
 /playwright/.auth/
+
+# Test Screenshots 
+/screenshots/**/*
+!/screenshots/**/
+!/screenshots/**/.gitkeep
+!/screenshots/**/README.md
