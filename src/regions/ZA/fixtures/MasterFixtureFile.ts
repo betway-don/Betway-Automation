@@ -1,5 +1,8 @@
 import { test as base, expect, Page, BrowserContext } from '@playwright/test';
 import path from 'path';
+import * as fs from 'fs';
+
+// --- Page Object Imports ---
 import { LoginPage } from '../pages/LoginPage';
 import { SportsPage } from '../pages/SportsPage';
 import { CasinoPage } from '../pages/CasinoPage';
@@ -9,34 +12,44 @@ import { BetgamesPage } from '../pages/BetGamesPage';
 import { SignUpPage } from '../pages/SignUpPage';
 import { SignupUtils } from '../utils/signupUtils';
 import { HomePage } from '../pages/HomePage';
+import { BetInfluencerModal } from '../pages/BetInfluencerModal';
+import { ContactUsPage } from '../pages/ContactUsPage';
+import { HowToPage } from '../pages/HowToPage';
 
-// Test data interface for signup
-export interface TestData {
-  mobile: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  saId: string;
-  passportNumber: string;
-  referralCode: string;
-  voucherCode: string;
+// ------------------------------------------------------------------
+// 1. LOAD TEST DATA FROM JSON
+// ------------------------------------------------------------------
+
+// Define the shape of the data/testData.json file
+export interface FullTestData {
+  basicInfo: {
+    mobile: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+  };
+  mobileValidation: { [key: string]: string };
+  passwordValidation: { [key: string]: string };
+  nameValidation: { [key: string]: string };
+  idValidation: { [key: string]: string };
+  codeValidation: { [key: string]: string };
 }
 
-// Worker-scoped variables to maintain single context/page approach for signup tests
-let sharedSignupContext: BrowserContext;
-let sharedSignupPage: Page;
+// Read the JSON file *once* when the test runner starts
+// Assumes 'data' folder is a sibling of your 'fixtures' folder
+const testDataPath = path.resolve(__dirname, '../json-data/SignupData.json');
+const testDataFile = fs.readFileSync(testDataPath, 'utf-8');
+const allTestData: FullTestData = JSON.parse(testDataFile);
 
-// Default test data - matches original test values
-const defaultTestData: TestData = {
-  mobile: '999881234',
-  password: '123456789',
-  firstName: 'Test',
-  lastName: 'User',
-  saId: '9001010001084',
-  passportNumber: 'B12345678',
-  referralCode: 'VALID123',
-  voucherCode: 'AbCdEf'
-};
+// DEPRECATED: Export the loaded data under the old name 'TestDataVariations'
+// This is for backward compatibility with any old spec files.
+// New spec files should use the 'testData' fixture.
+// You can delete this export once all old files are updated.
+export const TestDataVariations = allTestData;
+
+// ------------------------------------------------------------------
+// 2. DEFINE FIXTURE TYPES
+// ------------------------------------------------------------------
 
 type PageFixtures = {
   homePage: HomePage;
@@ -46,201 +59,122 @@ type PageFixtures = {
   virtualsPage: VirtualsPage;
   promotionPage: PromotionPage;
   betgamesPage: BetgamesPage;
+  betinfluencerModal: BetInfluencerModal;
+  contactUs: ContactUsPage;
+  howTo: HowToPage;
+
   // Signup-specific fixtures
   signupPage: SignUpPage;
   signupUtils: SignupUtils;
   screenshotDir: string;
-  testData: TestData;
-
+  
+  // Use the FullTestData interface for our fixture
+  testData: FullTestData; 
 };
 
+// ------------------------------------------------------------------
+// 3. EXTEND PLAYWRIGHT'S 'test' OBJECT
+// ------------------------------------------------------------------
+
 export const test = base.extend<PageFixtures>({
+
+  // --- Standard Page Fixtures (Test-Isolated) ---
+  // (These use the default 'page' fixture, so they get a new page every time)
+
   homePage: async ({ page }, use) => {
     const homePage = new HomePage(page);
     await homePage.gotoHomePage();
+    await homePage.page.setViewportSize({ width: 1300, height: 780 });
     await homePage.page.getByText('Got it').first().click();
-
     await use(homePage);
   },
   loginPage: async ({ page }, use) => {
     const loginPage = new LoginPage(page);
+    await loginPage.page.setViewportSize({ width: 1300, height: 780 });
     await loginPage.goto();
+    await loginPage.page.getByText('Got it').first().click();
     await use(loginPage);
   },
   sportsPage: async ({ page }, use) => {
     const sportsPage = new SportsPage(page);
+    await sportsPage.page.setViewportSize({ width: 1300, height: 780 });
+    await sportsPage.gotoSportsPage();
+    await sportsPage.page.getByText('Got it').first().click();
     await use(sportsPage);
   },
   casinoPage: async ({ page }, use) => {
     const casinoPage = new CasinoPage(page);
+    await casinoPage.page.setViewportSize({ width: 1300, height: 780 });
+    await casinoPage.gotoCasino();
+    await casinoPage.page.getByText('Got it').first().click();
     await use(casinoPage);
   },
   virtualsPage: async ({ page }, use) => {
     const virtualsPage = new VirtualsPage(page);
+    await virtualsPage.page.setViewportSize({ width: 1300, height: 780 });
+    await virtualsPage.gotoVirtuals();
     await use(virtualsPage);
   },
   promotionPage: async ({ page }, use) => {
     const promotionPage = new PromotionPage(page);
     await use(promotionPage);
   },
+  contactUs: async ({ page }, use) => {
+    const contactUsPage = new ContactUsPage(page);
+    await contactUsPage.page.setViewportSize({ width: 1300, height: 780 });
+    await contactUsPage.gotoContactUs();
+    await use(contactUsPage)
+  },
+  howTo: async ({ page }, use) => {
+    const howTo = new HowToPage(page);
+    await howTo.page.setViewportSize({ width: 1300, height: 780 });
+    await howTo.gotoHowTo();
+    await use(howTo)
+  },
   betgamesPage: async ({ page }, use) => {
     const betgamesPage = new BetgamesPage(page);
+    await betgamesPage.page.setViewportSize({ width: 1300, height: 780 });
+    await betgamesPage.gotoBetgames();
     await use(betgamesPage);
   },
+  betinfluencerModal: async ({ page }, use) => {
+    const betinfluencerModal = new BetInfluencerModal(page);
+    await betinfluencerModal.goto();
+    await betinfluencerModal.page.setViewportSize({ width: 1300, height: 780 });
+    await betinfluencerModal.page.getByText('Got it').first().click();
+    await use(betinfluencerModal);
+  },
 
-  // Signup fixtures - using shared page approach for no-refresh strategy
+  // --- Utility Fixtures ---
+
   screenshotDir: async ({ }, use) => {
-    const projectRoot = path.resolve(__dirname, '../../..');
+    // This assumes your fixture file is at a path like 'project/src/fixtures'
+    const projectRoot = path.resolve(__dirname, '../../..'); 
     const screenshotDir = path.join(projectRoot, 'screenshots/module/sign-up');
     await use(screenshotDir);
   },
 
   testData: async ({ }, use) => {
-    await use(defaultTestData);
+    // Provide the 'allTestData' object loaded from the JSON file.
+    await use(allTestData);
   },
 
-  signupPage: async ({ browser }, use) => {
-    // Initialize shared context and page if not already done
-    if (!sharedSignupContext) {
-      sharedSignupContext = await browser.newContext();
-    }
-    if (!sharedSignupPage) {
-      sharedSignupPage = await sharedSignupContext.newPage();
+  // --- REFACTORED Signup Fixtures ---
+  // These now use Playwright's built-in 'page' fixture,
+  // ensuring a new, clean page for every single test (test isolation).
 
-      // Initialize the page and wait for load state - matches original beforeAll
-      const signupPage = new SignUpPage(sharedSignupPage);
-      await signupPage.goto();
-      await sharedSignupPage.waitForLoadState('domcontentloaded');
-    }
-
-    const signupPage = new SignUpPage(sharedSignupPage);
+  signupPage: async ({ page }, use) => {
+    // Use the isolated 'page' for this test.
+    // The spec file's 'beforeEach' hook is responsible for navigation.
+    await page.setViewportSize({ width: 1300, height: 780 });
+    const signupPage = new SignUpPage(page);
     await use(signupPage);
   },
 
-  signupUtils: async ({ browser }, use) => {
-    // Use the same shared page
-    if (!sharedSignupContext) {
-      sharedSignupContext = await browser.newContext();
-    }
-    if (!sharedSignupPage) {
-      sharedSignupPage = await sharedSignupContext.newPage();
-
-      // Initialize the page and wait for load state - matches original beforeAll
-      const signupPage = new SignUpPage(sharedSignupPage);
-      await signupPage.goto();
-      await sharedSignupPage.waitForLoadState('domcontentloaded');
-    }
-
-    const signupUtils = new SignupUtils(sharedSignupPage);
+  signupUtils: async ({ page }, use) => {
+    // Use the same isolated 'page' as the signupPage fixture.
+    await page.setViewportSize({ width: 1300, height: 780 });
+    const signupUtils = new SignupUtils(page);
     await use(signupUtils);
   }
 });
-
-// Export expect for convenience
-export { expect };
-
-// Test data variations for different test scenarios
-export const TestDataVariations = {
-  // Mobile number variations
-  validMobile: '999881234',
-  shortMobile: '99988',
-  longMobile: '999887373737',
-  alphabeticMobile: '999a89793',
-  specialCharMobile: '999-88@123',
-
-  // Password variations
-  strongPassword: 'TestPassword',
-  passwordWithNumbers: 'Password123',
-  passwordWithSpecialChars: 'Password@123!',
-  minLengthPassword: 'Test123!',
-  maxLengthPassword: 'TestPassword123456!@',
-  allCharTypesPassword: 'TestPass123!@#',
-  passwordWithSpaces: 'Test Pass 123!',
-  weakPassword: '123456',
-  shortPassword: 'Test1',
-  longPassword: 'ThisIsAVeryLongPasswordThatExceedsMaximumAllowedLength123!@#',
-
-  // Name variations
-  validFirstName: 'John',
-  validLastName: 'Smith',
-  nameWithSpaces: 'Mary Jane',
-  lastNameWithSpaces: 'Van Der Berg',
-  nameWithHyphen: 'Anna-Marie',
-  lastNameWithHyphen: 'Smith-Jones',
-  nameWithNumbers: 'John123',
-  lastNameWithNumbers: 'Smith456',
-  nameWithSpecialChars: 'John@#',
-  lastNameWithSpecialChars: 'Smith$%',
-
-  // ID variations
-  validSAId: '9001010001084',
-  shortSAId: '90010100010', // 11 digits instead of 13
-  saIdWithLetters: '9001010A01084',
-  saIdWithSpecialChars: '900101-001084',
-
-  // Passport variations
-  validPassport: 'B12345678',
-  shortPassport: 'A123',
-  passportWithSpecialChars: 'ABC@#$123',
-  allNumericPassport: '123456789',
-
-  // Code variations
-  mixedCaseCode: 'AbCdEf',
-  codeWithNumbers: 'ABC123',
-  codeWithSpecialChars: 'ABC@#',
-  validReferralCode: 'VALID123',
-  lowercaseReferralCode: 'valid123',
-  uppercaseReferralCode: 'VALID123',
-  referralWithNumbers: 'REF12345',
-  referralWithHyphen: 'REF-2024'
-};
-
-// Screenshot helper functions - matches original screenshot logic
-export class ScreenshotHelper {
-  static async takeScreenshot(page: Page, screenshotDir: string, testId: string, testInfo: any) {
-    const screenshotPath = `${screenshotDir}/${testId}.png`;
-    await page.screenshot({ path: screenshotPath, fullPage: false });
-
-    await testInfo.attach(`${testId} Screenshot`, {
-      path: screenshotPath,
-      contentType: 'image/png',
-    });
-  }
-}
-
-// Test setup hooks that match original beforeEach/afterEach logic
-export const setupSignupTestHooks = () => {
-  test.beforeEach(async ({ signupUtils }, testInfo) => {
-    await signupUtils.clearHighlights();
-
-    // Get current test name to determine which reset method to use
-    const testName = testInfo.title;
-    await signupUtils.performTestReset(testName);
-  });
-
-  test.afterEach(async ({ signupUtils }, testInfo) => {
-    // Get current test name for cleanup
-    const testName = testInfo.title;
-    await signupUtils.performTestReset(testName);
-  });
-};
-
-// Test describe setup function - matches original test.describe structure
-export const setupSignupTestSuite = (suiteName: string) => {
-  return test.describe(suiteName, () => {
-    setupSignupTestHooks();
-
-    // Matches original afterAll cleanup
-    test.afterAll(async ({ browser }) => {
-      // Clean up shared resources
-      if (sharedSignupPage) {
-        const signupUtils = new SignupUtils(sharedSignupPage);
-        await signupUtils.clearHighlights();
-        await signupUtils.resetModalState();
-      }
-      if (sharedSignupContext) {
-        await sharedSignupContext.close();
-      }
-    });
-  });
-};

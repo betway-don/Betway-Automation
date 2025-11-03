@@ -1,71 +1,96 @@
+import { OddsSelection } from '../../Common-Flows/OddSelection';
 import { loginLocators } from '../locators/loginPageLocators';
+import { sportsPageLocators } from '../locators/sportsPageLocators';
+
 const userData = require('../json-data/userData.json');
 import { LoginPage } from './LoginPage';
+import { loadLocatorsFromExcel } from "../../../global/utils/file-utils/excelReader";
+import { getLocator } from "../../../global/utils/file-utils/locatorResolver";
+import { highlightElements } from '../../Common-Flows/HighlightElements';
+const file = "src/global/utils/file-utils/locators.xlsx";
+
+const LOCATOR_URL="https://github.com/athrvzoz/LocatorFile/raw/refs/heads/main/locators.xlsx"
+
 
 export class SportsPage extends LoginPage {
+    SportsPagelocatorRegistry: Record<string, import('@playwright/test').Locator>;
     page: import('@playwright/test').Page;
-    aviator: ReturnType<import('@playwright/test').Page['getByRole']>;
-    live: ReturnType<import('@playwright/test').Page['getByRole']>;
-    esports: ReturnType<import('@playwright/test').Page['getByRole']>;
-    soccerTote: ReturnType<import('@playwright/test').Page['getByRole']>;
-    betwayJackpots: ReturnType<import('@playwright/test').Page['getByRole']>;
-    betgames: ReturnType<import('@playwright/test').Page['getByRole']>;
-    LuckyNumbers: ReturnType<import('@playwright/test').Page['getByRole']>;
-    HorseRacing: ReturnType<import('@playwright/test').Page['getByRole']>;
-    Jetx: ReturnType<import('@playwright/test').Page['getByRole']>;
-    ChickenGame: ReturnType<import('@playwright/test').Page['getByRole']>;
-    OldSite: ReturnType<import('@playwright/test').Page['getByRole']>;
-    Home: ReturnType<import('@playwright/test').Page['getByRole']>;
-    CasinoGames: ReturnType<import('@playwright/test').Page['getByRole']>;
-    Virtuals: ReturnType<import('@playwright/test').Page['getByRole']>;
-    promotionPage: ReturnType<import('@playwright/test').Page['getByRole']>;
-    betslip: ReturnType<import('@playwright/test').Page['getByRole']>;
     
     constructor(page: import('@playwright/test').Page) {
         super(page);
         this.page = page;
-        this.aviator = page.getByRole('link').filter({ hasText: 'Aviator' }).first();
-        this.live = page.getByRole('link').filter({ hasText: 'Live' }).first();
-        this.esports = page.getByRole('link').filter({ hasText: 'Esports' }).first();
-        this.soccerTote = page.getByRole('link').filter({ hasText: 'Soccer Tote' }).first();
-        this.betwayJackpots = page.getByRole('link').filter({ hasText: 'Betway Jackpots' }).first();
-        this.betgames = page.getByRole('link').filter({ hasText: 'Betgames' }).first();
-        this.LuckyNumbers = page.getByRole('link').filter({ hasText: 'Lucky Numbers' }).first();
-        this.HorseRacing = page.getByRole('link').filter({ hasText: 'Horse Racing' }).first();
-        this.Jetx = page.getByRole('link').filter({ hasText: 'JetX' }).first();
-        this.ChickenGame = page.getByRole('link').filter({ hasText: 'Chicken Game' }).first();
-        this.OldSite = page.getByRole('link').filter({ hasText: 'Old Site' }).first();
-        this.Home = page.getByRole('link').filter({ hasText: 'Home' }).first();
-        this.CasinoGames = page.getByRole('link').filter({ hasText: 'Casino Games' }).first();
-        this.Virtuals = page.getByRole('link').filter({ hasText: 'Virtuals' }).first();
-        this.promotionPage = page.getByRole('link').filter({ hasText: 'Promotions' }).first();
-        this.betslip = page.getByRole('link').filter({ hasText: 'Betslip' }).first();
+        const configs = loadLocatorsFromExcel(LOCATOR_URL, "SportsPage");
+        this.SportsPagelocatorRegistry = {
+            ...this.LoginPagelocatorsRegistry,
+            SportButton: getLocator(this.page, configs["SportButton"]),
+            aviator: getLocator(this.page, configs["aviator"]),
+            live: getLocator(this.page, configs["live"]),
+            esports: getLocator(this.page, configs["esports"]),
+            soccerTote: getLocator(this.page, configs["soccerTote"]),
+            betwayJackpots: getLocator(this.page, configs["betwayJackpots"]),
+            betgames: getLocator(this.page, configs["betgames"]),
+            LuckyNumbers: getLocator(this.page, configs["LuckyNumbers"]),
+            HorseRacing: getLocator(this.page, configs["HorseRacing"]),
+            Jetx: getLocator(this.page, configs["Jetx"]),
+            ChickenGame: getLocator(this.page, configs["ChickenGame"]),
+            OldSite: getLocator(this.page, configs["OldSite"]),
+            Home: getLocator(this.page, configs["Home"]),
+            CasinoGames: getLocator(this.page, configs["CasinoGames"]),
+            Virtuals: getLocator(this.page, configs["Virtuals"]),
+            promotionPage: getLocator(this.page, configs["promotionPage"]),
+            betslip: getLocator(this.page, configs["betslip"]),
+            betslipButton: getLocator(this.page, configs["betslipButton"]),
+            loginButtonFromBetslip: getLocator(this.page, configs["loginButtonFromBetslip"]),
+            betNow: getLocator(this.page, configs["betNow"]),
+            shareButton: getLocator(this.page, configs["shareButton"]),
+            betConfirmation: getLocator(this.page, configs["betConfirmation"]),
+            bookingCodeMessage: getLocator(this.page, configs["bookingCodeMessage"]),
+            enterBookingCodeTextbox: getLocator(this.page, configs["enterBookingCode"]),
+            modalCloseButton: getLocator(this.page, configs["modalCloseButton"]),
+        };
     }
+
+    // Clicking Functions :
+
     async gotoSportsPage() {
-        await this.goto();
-        await this.SportButton.click();
-        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.goto('/sport/soccer');
     }
 
     async gotoAviator() {
-       await this.goto();
-       await this.SportButton.click();
-       await this.page.waitForLoadState('domcontentloaded');
-       await this.aviator.click();
-       await this.page.waitForLoadState('domcontentloaded');
+        await this.page.getByRole('link', { name: 'Aviator' }).click();
     }
 
     async AviatorLoginPopUp() {
-        await this.formMobileInput.fill(`${userData.user1.mobile}`);
-        await this.formPasswordInput.fill(`${userData.user1.password}`);
+        await this.SportsPagelocatorRegistry.formMobileInput.fill(`${userData.user1.mobile}`);
+        await this.SportsPagelocatorRegistry.formPasswordInput.fill(`${userData.user1.password}`);
         await this.page.keyboard.press('Enter');
         await this.page.waitForTimeout(2000); // Wait for login to complete
     }
 
     async AviatorLoginPopUpArgs(mobile: string, password: string) {
-        await this.formMobileInput.fill(`${mobile}`);
-        await this.formPasswordInput.fill(`${password}`);
+        await this.SportsPagelocatorRegistry.formMobileInput.fill(`${mobile}`);
+        await this.SportsPagelocatorRegistry.formPasswordInput.fill(`${password}`);
         await this.page.keyboard.press('Enter');
         await this.page.waitForTimeout(2000); // Wait for login to complete
+        await this.SportsPagelocatorRegistry.eyeButton.click();
+        await highlightElements(this.SportsPagelocatorRegistry.formMobileInput);
+        await highlightElements(this.SportsPagelocatorRegistry.formPasswordInput);
+    }
+
+    async LogOut() {
+        await this.SportsPagelocatorRegistry.hamburgerMenu.click();
+        await this.page.getByText('All Balances').waitFor({ state: 'visible' });
+        await this.page.getByText('Log out').click();
+        await this.page.getByRole('button', { name: 'Proceed' }).click();
+        await this.SportsPagelocatorRegistry.loginButton.waitFor({ state: 'visible' });
+    }
+
+    async PlaceBets(legsCount: number) {
+        await OddsSelection(legsCount, this.page);
+        await this.SportsPagelocatorRegistry.betNow.click();
+        const bookingCode = await this.SportsPagelocatorRegistry.bookingCodeMessage.innerText();
+        console.log(bookingCode);
+        await this.SportsPagelocatorRegistry.modalCloseButton.click();
+        return bookingCode;
     }
 }
