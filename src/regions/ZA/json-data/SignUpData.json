@@ -57,5 +57,10 @@
     "uppercaseReferral": "REF123",
     "referralWithNumbers": "MyRef99",
     "referralWithHyphen": "My-Ref-99"
+  },
+ 
+  "myBetsCredentials": {
+    "mobile": "222212222",
+    "password": "1234567890"
   }
 }

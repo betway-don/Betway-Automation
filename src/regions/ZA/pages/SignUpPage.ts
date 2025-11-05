@@ -497,3 +497,36 @@ export class SignUpPage {
         await this.page.waitForTimeout(1000);
     }
 }
+
+
+// update excel with these locators
+
+
+
+// key type value options nth
+// mobileInput role textbox {"name":"Mobile Number"} 1
+// passwordInput role textbox {"name":"Password"} 1
+// firstNameInput role textbox {"name":"First Name"} 0
+// lastNameInput role textbox {"name":"Surname"} 0
+// loginButton role button {"name":"Login"} 0
+// signUpButton role button {"name":"Sign Up"} 0
+// nextButton role button {"name":"Next"} 0
+// previousButton role button {"name":"Previous"} 0
+// registerButton role button {"name":"Register"} 0
+// hamburgerMenu locator #header-hamburger-btn {} 0
+// hamburgerSignupBtn role button {"name":"Sign Up"} 1
+// idDropdownBase role combobox {"name":"South African ID"} 0
+// saIdOptionBase role option {"name":"South African ID"} 0
+// passportOption text Passport {} 0
+// saIdInput role textbox {"name":"South African ID"} 0
+// passportInput role textbox {"name":"Passport"} 0
+// dobDropdown role combobox {"name":"Date of Birth"} 0
+// signupCodeToggle text I have a signup code {} 0
+// voucherCodeField role textbox {"name":"Voucher Code"} 0
+// referralCodeField role textbox {"name":"Referral Code"} 0
+// agreeToAllCheckbox label Agree to All {"exact":false} 0
+// diallingCode text +27 {} 1
+// forms role form {} 0
+// signUpCodeField role textbox `{"name": "/sign.?up.?code signup.?code
+// idNumberField role textbox `{"name": "/ID Number IDNumber/i"}`
+ 

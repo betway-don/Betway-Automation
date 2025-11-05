@@ -1,363 +1,191 @@
+import { test } from '../../../fixtures/MasterFixtureFile'; // Adjust path
+import { expect } from '@playwright/test';
 import path from 'path';
-import { test } from '@playwright/test';
-import { highlightElements } from '../../../../../regions/Common-Flows/HighlightElements';
-import { ScreenshotHelper } from '../../../../../regions/Common-Flows/ScreenshotHelper';
+import { ScreenshotHelper } from '../../../../../regions/Common-Flows/ScreenshotHelper'; // Adjust path
+import { OddsSelection } from '../../../../../regions/Common-Flows/OddSelection'; // Adjust path
 
-const projectRoot = path.resolve(__dirname, '../../..');
-const screenshotDir = path.join(projectRoot, 'screenshots/module/footer');
+// Setup screenshot directory
+const projectRoot = path.resolve(__dirname, '../../../..'); // Adjust depth as needed
+const screenshotDir = path.join(projectRoot, 'screenshots/module/my-bets'); // New screenshot folder
 
-async function login(page, mobile, password) {
-    await page.getByRole('textbox', { name: 'Mobile Number' }).fill(mobile);
-    await page.getByRole('textbox', { name: 'Enter Password' }).fill(password);
-    await page.getByRole('textbox', { name: 'Enter Password' }).press('Enter');
-    await page.waitForLoadState('domcontentloaded');
-}
-
-const APP_URL = 'https://new.betway.co.za/sport'; // Replace with actual URL
-const USER_MOBILE = '713533467';
-const USER_PASSWORD = '12345';
+// Global hook for clearing highlights
+test.afterEach(async ({ signupUtils }) => {
+    if (signupUtils) { // Use signupUtils if available, or create a common one
+        await signupUtils.clearHighlights();
+    }
+});
 
 test.describe('My Bets Page Functionality', () => {
-    test.beforeEach(async ({ page }) => {
-        await page.goto(APP_URL);
-        await login(page, USER_MOBILE, USER_PASSWORD);
+
+    // --- MAIN SETUP ---
+    // Logs in before any test in this suite
+    test.beforeEach(async ({ myBetsPage, testData }) => {
+        await myBetsPage.gotoSports();
+        await myBetsPage.login(
+            testData.myBetsCredentials.mobile,
+            testData.myBetsCredentials.password
+        );
     });
 
-    test('T1,2,3. Verify contents and structure of My Bets page', async ({ page }, testInfo) => {
-        // Click 'My Bets'
-        const myBets = page.getByText('My Bets').first();
-        await myBets.click();
+    // --- OPEN BETS TESTS ---
+    test.describe('Open Bets Section', () => {
 
-        // Highlight 'Open Bets'
-        const OpenBets = page.getByText('Open Bets');
-        await highlightElements(OpenBets);
+        // Clicks "My Bets" and "Open Bets" tab before each test in this group
+        test.beforeEach(async ({ myBetsPage }) => {
+            await myBetsPage.clickMyBets();
+            await myBetsPage.clickOpenBetsTab();
+        });
 
-        // Highlight 'Settled Bets'
-        const settledBets = page.getByText('Settled Bets');
-        await highlightElements(settledBets);
+        test('T1,2,3. Verify contents and structure of My Bets page', async ({ page, myBetsPage }, testInfo) => {
+            await myBetsPage.highlightOpenBetsTab();
+            await myBetsPage.highlightSettledBetsTab();
+            await ScreenshotHelper(page, screenshotDir, 'my-bets-structure', testInfo);
+        });
 
-        // Take screenshot
-        await ScreenshotHelper(page, screenshotDir, 'login-my-bets-highlight', testInfo);
+        test('T5. Verify category dropdown options in Open Bets', async ({ page, myBetsPage }, testInfo) => {
+            await myBetsPage.selectCategory('Betgames');
+            await ScreenshotHelper(page, screenshotDir, 'open-bets-cat-betgames', testInfo);
+
+            await myBetsPage.selectCategory('Lucky Numbers');
+            await ScreenshotHelper(page, screenshotDir, 'open-bets-cat-lucky-numbers', testInfo);
+
+            await myBetsPage.selectCategory('Jackpots');
+            await ScreenshotHelper(page, screenshotDir, 'open-bets-cat-jackpots', testInfo);
+
+            await myBetsPage.selectCategory('Tote');
+            await ScreenshotHelper(page, screenshotDir, 'open-bets-cat-tote', testInfo);
+        });
+
+        test('T6. Verify "All Drop-down" result data options in Open Bets', async ({ page, myBetsPage }, testInfo) => {
+            // Note: This test seems identical to T38. It's testing the same dropdown.
+            // Assuming this dropdown is for "Filter"
+            await myBetsPage.selectFilter('All');
+            await ScreenshotHelper(page, screenshotDir, 'open-bets-filter-all', testInfo);
+
+            await myBetsPage.selectFilter('Cashout');
+            await ScreenshotHelper(page, screenshotDir, 'open-bets-filter-cashout', testInfo);
+
+            await myBetsPage.selectFilter('Win');
+            await ScreenshotHelper(page, screenshotDir, 'open-bets-filter-win', testInfo);
+
+            await myBetsPage.selectFilter('Loss');
+            await ScreenshotHelper(page, screenshotDir, 'open-bets-filter-loss', testInfo);
+        });
+
+        test('T7. Verify search text box in Open Bets', async ({ page, myBetsPage }, testInfo) => {
+            await myBetsPage.highlightSearchBox();
+            await myBetsPage.searchFor('fc');
+            await ScreenshotHelper(page, screenshotDir, 'open-bets-search-fc', testInfo);
+        });
+
+        test('T9. Open Bets>>Verify Detail view button functionality', async ({ page, myBetsPage }, testInfo) => {
+            await myBetsPage.clickDetailView(0);
+            await myBetsPage.highlightDetailViewContainer(0);
+            await ScreenshotHelper(page, screenshotDir, 'open-bets-detail-view', testInfo);
+        });
+
+        test('T11. Open Bets>>Verify share functionality', async ({ page, myBetsPage }, testInfo) => {
+            await myBetsPage.clickShare(0);
+            // Note: Screenshotting a native share dialog is not reliable.
+            // We screenshot the page *after* the click.
+            await ScreenshotHelper(page, screenshotDir, 'open-bets-share-click', testInfo);
+        });
+
+        test('T17-22. Select 6 odds and check edit functionality', async ({ page, myBetsPage }, testInfo) => {
+            await OddsSelection(6, page); // External helper
+            await myBetsPage.placeBet();
+            await ScreenshotHelper(page, screenshotDir, 'select-6-odds', testInfo);
+
+            // Navigate back to My Bets (placing bet might close it)
+            await myBetsPage.clickMyBets();
+            await myBetsPage.clickOpenBetsTab();
+
+            // Perform edit and continue
+            await myBetsPage.performEditBetFlow('continue', 0);
+            await ScreenshotHelper(page, screenshotDir, 'edit-bet-continue', testInfo);
+
+            // Perform edit and cancel
+            await myBetsPage.performEditBetFlow('cancel', 0);
+            await ScreenshotHelper(page, screenshotDir, 'edit-bet-cancel', testInfo);
+        });
+
+        test('T23-26. My Bets Cashout flow and success highlight', async ({ page, myBetsPage }, testInfo) => {
+            // Note: This test requires a bet to be in a cashout-able state.
+            await myBetsPage.attemptCashout('confirm', 0);
+
+            await expect(myBetsPage.getCashoutSuccessMessage()).toBeVisible();
+            await myBetsPage.highlightCashoutSuccess();
+            await ScreenshotHelper(page, screenshotDir, 'cashout-success', testInfo);
+        });
     });
 
+    // --- SETTLED BETS TESTS ---
+    test.describe('Settled Bets Section', () => {
 
+        // Clicks "My Bets" and "Settled Bets" tab before each test in this group
+        test.beforeEach(async ({ myBetsPage }) => {
+            await myBetsPage.clickMyBets();
+            await myBetsPage.clickSettledBetsTab();
+        });
 
-test('T5. Verify category dropdown options and functionality in Open Bets', async ({ page }, testInfo) => {
-        // Click 'My Bets'
-        const myBets = page.getByText('My Bets').first();
-        await myBets.click();
+        test('T36,40,42. Verify Settled Bets section loads', async ({ page, myBetsPage }, testInfo) => {
+            await expect(myBetsPage.getSettledBetsTab()).toBeVisible(); // Simple check
+            await page.waitForTimeout(2000); // Wait for data to load
+            await ScreenshotHelper(page, screenshotDir, 'settled-bets-section', testInfo);
+        });
 
-        // Click 'Settled Bets'
-        const settledBets = page.getByText('Open Bets');
-        await settledBets.click();
+        test('T37. Verify category dropdown options in Settled Bets', async ({ page, myBetsPage }, testInfo) => {
+            await myBetsPage.selectCategory('Betgames');
+            await ScreenshotHelper(page, screenshotDir, 'settled-bets-cat-betgames', testInfo);
 
-        // Step 1: Click 'Sports', then 'Betgames', take screenshot
-        const sports = page.getByText('Sports', { exact: true });
-        await sports.click();
-        const betgames = page.getByLabel('Betgames').getByText('Betgames');
-        await betgames.click();
-        await page.waitForTimeout(1000);
-        await ScreenshotHelper(page, screenshotDir, 'combobox-betgames', testInfo);
+            await myBetsPage.selectCategory('Lucky Numbers');
+            await ScreenshotHelper(page, screenshotDir, 'settled-bets-cat-lucky-numbers', testInfo);
 
-        // Step 2: Click 'Betgames', then 'Lucky Numbers', take screenshot
-        await betgames.click();
-        const luckyNumbers = page.getByLabel('Lucky Numbers').getByText('Lucky Numbers');
-        await luckyNumbers.click();
-        await page.waitForTimeout(1000);
-        await ScreenshotHelper(page, screenshotDir, 'combobox-lucky-numbers', testInfo);
+            await myBetsPage.selectCategory('Jackpots');
+            await ScreenshotHelper(page, screenshotDir, 'settled-bets-cat-jackpots', testInfo);
 
-        // Step 3: Click 'Lucky Numbers', then 'Betway Jackpots', take screenshot
-        await luckyNumbers.click();
-        const jackpots = page.getByLabel('Betway Jackpots').getByText('Betway Jackpots');
-        await jackpots.click();
-        await page.waitForTimeout(1000);
-        await ScreenshotHelper(page, screenshotDir, 'combobox-jackpots', testInfo);
+            await myBetsPage.selectCategory('Tote');
+            await ScreenshotHelper(page, screenshotDir, 'settled-bets-cat-tote', testInfo);
+        });
 
-        // Step 4: Click 'Betway Jackpots', then 'Tote', take screenshot
-        await jackpots.click();
-        const tote = page.getByText('Tote', { exact: true });
-        await tote.click();
-        await page.waitForTimeout(1000);
-        await ScreenshotHelper(page, screenshotDir, 'combobox-tote', testInfo);
+        test('T38. Verify "All Drop-down" result data options in Settled Bets', async ({ page, myBetsPage }, testInfo) => {
+            await myBetsPage.selectFilter('All');
+            await ScreenshotHelper(page, screenshotDir, 'settled-bets-filter-all', testInfo);
+
+            await myBetsPage.selectFilter('Cashout');
+            await ScreenshotHelper(page, screenshotDir, 'settled-bets-filter-cashout', testInfo);
+
+            await myBetsPage.selectFilter('Win');
+            await ScreenshotHelper(page, screenshotDir, 'settled-bets-filter-win', testInfo);
+
+            await myBetsPage.selectFilter('Loss');
+            await ScreenshotHelper(page, screenshotDir, 'settled-bets-filter-loss', testInfo);
+        });
+
+        test('T39. Verify search text box in Settled Bets', async ({ page, myBetsPage }, testInfo) => {
+            await myBetsPage.highlightSearchBox();
+            await myBetsPage.searchFor('fc');
+            await ScreenshotHelper(page, screenshotDir, 'settled-bets-search-fc', testInfo);
+        });
+
+        test('T41. Verify "Hide Losses" toggle functionality', async ({ page, myBetsPage }, testInfo) => {
+            await myBetsPage.highlightHideLossesToggle();
+            await myBetsPage.toggleHideLosses();
+            await ScreenshotHelper(page, screenshotDir, 'settled-bets-hide-losses-on', testInfo);
+        });
+
+        test('T43 & T45. Settled Bets>>Verify Detail view button', async ({ page, myBetsPage }, testInfo) => {
+            // Merged T43 and T45 as they are identical
+            await myBetsPage.clickDetailView(0);
+            await myBetsPage.highlightDetailViewContainer(0);
+            await ScreenshotHelper(page, screenshotDir, 'settled-bets-detail-view', testInfo);
+        });
+
+        test('T44. settled bets verify pagination', async ({ page, myBetsPage }, testInfo) => {
+            await myBetsPage.clickNextPage();
+            // We screenshot after the click to show the *new* page state
+            await page.waitForTimeout(1000); // Wait for new content to load
+            await ScreenshotHelper(page, screenshotDir, 'settled-bets-pagination-next', testInfo);
+        });
     });
-
-    test('T6. Verify "All Drop-down" result data options in Open Bets', async ({ page }, testInfo) => {
-        // Click 'My Bets'
-        const myBets = page.getByText('My Bets').first();
-        await myBets.click();
-
-        // Click 'Settled Bets'
-        const settledBets = page.getByText('Open Bets');
-        await settledBets.click();
-
-        // Step 1: Click 'All', take screenshot
-        const all = page.getByText('All', { exact: true });
-        await all.click();
-        await page.waitForTimeout(1000);
-        await ScreenshotHelper(page, screenshotDir, 'settled-all', testInfo);
-
-        // Step 2: Click 'All', then 'Cashout', take screenshot
-        await all.click();
-        const cashout = page.getByText('Cashout');
-        await cashout.click();
-        await page.waitForTimeout(1000);
-        await ScreenshotHelper(page, screenshotDir, 'settled-cashout', testInfo);
-
-        // Step 3: Click 'Cashout', then 'Win', take screenshot
-        await cashout.click();
-        const win = page.getByText('Win', { exact: true });
-        await win.click();
-        await page.waitForTimeout(1000);
-        await ScreenshotHelper(page, screenshotDir, 'settled-win', testInfo);
-
-        // Step 4: Click 'Win', then 'Loss', take screenshot
-        await win.click();
-        const loss = page.getByLabel('Loss').getByText('Loss');
-        await loss.click();
-        await page.waitForTimeout(1000);
-        await ScreenshotHelper(page, screenshotDir, 'settled-loss', testInfo);
-    });
-
-    test('T7. Verify search text box, button, and refresh in Open Bets', async ({ page }, testInfo) => {
-        // Click 'My Bets'
-        const myBets = page.getByText('My Bets').first();
-        await myBets.click();
-
-        // Click 'Settled Bets'
-        const settledBets = page.getByText('Open Bets');
-        await settledBets.click();
-
-        // Find the search textbox, highlight, fill 'fc', and press Enter
-        const searchBox = page.getByRole('textbox', { name: 'Search bets...' });
-        await highlightElements(searchBox);
-        await searchBox.fill('fc');
-        await searchBox.press('Enter');
-        await page.waitForTimeout(3000);
-
-        // Take screenshot
-        await ScreenshotHelper(page, screenshotDir, 'search-bets-fc', testInfo);
-    });
-
-    test('T9. Open Bets>>Verify Detail view button functionality)', async ({ page }, testInfo) => {
-        // Click 'My Bets'
-        const myBets = page.getByText('My Bets').first();
-        await myBets.click();
-
-        // Click 'Settled Bets'
-        const settledBets = page.getByText('Open Bets');
-        await settledBets.click();
-
-        await page.getByText('Detail View').first().click();
-        const detailofbet =  page.locator('.w-full.px-2.bg-light-100').first();
-        await highlightElements(detailofbet);
-
-        // Take screenshot
-        await ScreenshotHelper(page, screenshotDir, 'custom-label-sportsallhide-losses', testInfo);
-    });
-
-     test('T11. Open Bets>>Verify share functionality)', async ({ page }, testInfo) => {
-        // Click 'My Bets'
-        const myBets = page.getByText('My Bets').first();
-        await myBets.click();
-
-        // Click 'Settled Bets'
-        const settledBets = page.getByText('Open Bets');
-        await settledBets.click();
-
-        await page.locator('.cursor-pointer.w-5.h-5.rounded').first().click();
-
-        // Take screenshot
-        await ScreenshotHelper(page, screenshotDir, 'custom-label-sportsallhide-losses', testInfo);
-    });
-
-
-
-  
-
-
-    // setteled bets section
-    test('T36,40,42. Verify Settled Bets section functionality', async ({ page }, testInfo) => {
-        // Click 'My Bets'
-        const myBets = page.getByText('My Bets').first();
-        await myBets.click();
-
-        // Click 'Settled Bets'
-        const settledBets = page.getByText('Settled Bets');
-        await settledBets.click();
-
-        // Wait for 2 seconds
-        await page.waitForTimeout(2000);
-
-        // Take screenshot
-        await ScreenshotHelper(page, screenshotDir, 'settled-bets-section', testInfo);
-    });
-
-    test('T37. Verify category dropdown options and functionality in Settled Bets', async ({ page }, testInfo) => {
-        // Click 'My Bets'
-        const myBets = page.getByText('My Bets').first();
-        await myBets.click();
-
-        // Click 'Settled Bets'
-        const settledBets = page.getByText('Settled Bets');
-        await settledBets.click();
-
-        // Step 1: Click 'Sports', then 'Betgames', take screenshot
-        const sports = page.getByText('Sports', { exact: true });
-        await sports.click();
-        const betgames = page.getByLabel('Betgames').getByText('Betgames');
-        await betgames.click();
-        await page.waitForTimeout(1000);
-        await ScreenshotHelper(page, screenshotDir, 'combobox-betgames', testInfo);
-
-        // Step 2: Click 'Betgames', then 'Lucky Numbers', take screenshot
-        await betgames.click();
-        const luckyNumbers = page.getByLabel('Lucky Numbers').getByText('Lucky Numbers');
-        await luckyNumbers.click();
-        await page.waitForTimeout(1000);
-        await ScreenshotHelper(page, screenshotDir, 'combobox-lucky-numbers', testInfo);
-
-        // Step 3: Click 'Lucky Numbers', then 'Betway Jackpots', take screenshot
-        await luckyNumbers.click();
-        const jackpots = page.getByLabel('Betway Jackpots').getByText('Betway Jackpots');
-        await jackpots.click();
-        await page.waitForTimeout(1000);
-        await ScreenshotHelper(page, screenshotDir, 'combobox-jackpots', testInfo);
-
-        // Step 4: Click 'Betway Jackpots', then 'Tote', take screenshot
-        await jackpots.click();
-        const tote = page.getByText('Tote', { exact: true });
-        await tote.click();
-        await page.waitForTimeout(1000);
-        await ScreenshotHelper(page, screenshotDir, 'combobox-tote', testInfo);
-    });
-
-    test('T38. Verify "All Drop-down" result data options in Settled Bets', async ({ page }, testInfo) => {
-        // Click 'My Bets'
-        const myBets = page.getByText('My Bets').first();
-        await myBets.click();
-
-        // Click 'Settled Bets'
-        const settledBets = page.getByText('Settled Bets');
-        await settledBets.click();
-
-        // Step 1: Click 'All', take screenshot
-        const all = page.getByText('All', { exact: true });
-        await all.click();
-        await page.waitForTimeout(1000);
-        await ScreenshotHelper(page, screenshotDir, 'settled-all', testInfo);
-
-        // Step 2: Click 'All', then 'Cashout', take screenshot
-        await all.click();
-        const cashout = page.getByText('Cashout');
-        await cashout.click();
-        await page.waitForTimeout(1000);
-        await ScreenshotHelper(page, screenshotDir, 'settled-cashout', testInfo);
-
-        // Step 3: Click 'Cashout', then 'Win', take screenshot
-        await cashout.click();
-        const win = page.getByText('Win', { exact: true });
-        await win.click();
-        await page.waitForTimeout(1000);
-        await ScreenshotHelper(page, screenshotDir, 'settled-win', testInfo);
-
-        // Step 4: Click 'Win', then 'Loss', take screenshot
-        await win.click();
-        const loss = page.getByLabel('Loss').getByText('Loss');
-        await loss.click();
-        await page.waitForTimeout(1000);
-        await ScreenshotHelper(page, screenshotDir, 'settled-loss', testInfo);
-    });
-
-    test('T39. Verify search text box, button, and refresh in Settled Bets', async ({ page }, testInfo) => {
-        // Click 'My Bets'
-        const myBets = page.getByText('My Bets').first();
-        await myBets.click();
-
-        // Click 'Settled Bets'
-        const settledBets = page.getByText('Settled Bets');
-        await settledBets.click();
-
-        // Find the search textbox, highlight, fill 'fc', and press Enter
-        const searchBox = page.getByRole('textbox', { name: 'Search bets...' });
-        await highlightElements(searchBox);
-        await searchBox.fill('fc');
-        await searchBox.press('Enter');
-        await page.waitForTimeout(3000);
-
-        // Take screenshot
-        await ScreenshotHelper(page, screenshotDir, 'search-bets-fc', testInfo);
-    });
-
-    test('T41. Verify "Hide Losses" toggle functionality (OFF state)', async ({ page }, testInfo) => {
-        // Click 'My Bets'
-        const myBets = page.getByText('My Bets').first();
-        await myBets.click();
-
-        // Click 'Settled Bets'
-        const settledBets = page.getByText('Settled Bets');
-        await settledBets.click();
-
-        // Find the custom label, highlight and click it
-        const customLabel = page.locator('#my-bets-container div').filter({ hasText: 'SportsAllHide Losses' }).locator('label span');
-        await highlightElements(customLabel);
-        await customLabel.click();
-        await page.waitForTimeout(5000);
-
-        // Take screenshot
-        await ScreenshotHelper(page, screenshotDir, 'custom-label-sportsallhide-losses', testInfo);
-    });
-
-
-    test('T43. Settled Bets>>Verify Detail view button functionality)', async ({ page }, testInfo) => {
-        // Click 'My Bets'
-        const myBets = page.getByText('My Bets').first();
-        await myBets.click();
-
-        // Click 'Settled Bets'
-        const settledBets = page.getByText('Settled Bets');
-        await settledBets.click();
-
-        await page.getByText('Detail View').first().click();
-        const detailofbet =  page.locator('.w-full.px-2.bg-light-100').first();
-        await highlightElements(detailofbet);
-
-        // Take screenshot
-        await ScreenshotHelper(page, screenshotDir, 'custom-label-sportsallhide-losses', testInfo);
-    });
-
-
-    test('T44. settled bets verify pagination', async ({ page }, testInfo) => {
-        // Click 'My Bets'
-        const myBets = page.getByText('My Bets').first();
-        await myBets.click();
-
-        // Click 'Settled Bets'
-        const settledBets = page.getByText('Settled Bets');
-        await settledBets.click();
-
-         await page.locator('#transaction-history-next').click();
-
-
-        // Take screenshot
-        await ScreenshotHelper(page, screenshotDir, 'custom-label-sportsallhide-losses', testInfo);
-    });
-
-
-    test('T45. Settled Bets>>Verify Detail view button functionality)', async ({ page }, testInfo) => {
-        // Click 'My Bets'
-        const myBets = page.getByText('My Bets').first();
-        await myBets.click();
-
-        // Click 'Settled Bets'
-        const settledBets = page.getByText('Settled Bets');
-        await settledBets.click();
-
-        await page.getByText('Detail View').first().click();
-        const detailofbet =  page.locator('.w-full.px-2.bg-light-100').first();
-        await highlightElements(detailofbet);
-
-        // Take screenshot
-        await ScreenshotHelper(page, screenshotDir, 'custom-label-sportsallhide-losses', testInfo);
-    });
-
 });
