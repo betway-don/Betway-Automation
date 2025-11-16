@@ -24,6 +24,8 @@ export class HomePage {
     linkToSocials: ReturnType<import('@playwright/test').Page['locator']>;
     version: ReturnType<import('@playwright/test').Page['getByText']>;
 
+    
+
     constructor(page: import('@playwright/test').Page) {
         this.page = page;
         this.howtobet = page.getByRole('link',{name:homepageLocators.howtobet.options.name}).nth(homepageLocators.howtobet.nth || 0);
@@ -44,6 +46,9 @@ export class HomePage {
         this.linkToSocials = page.locator(homepageLocators.linkToSocials.selector);
         this.version = page.getByText(homepageLocators.version.options.name).nth(homepageLocators.version.nth || 0);
         this.ContactUs = page.getByRole('link', { name: homepageLocators.ContactUs.options.name }).nth(homepageLocators.ContactUs.nth || 0);
+       
+      
+
     }
 
     async gotoHomePage() {

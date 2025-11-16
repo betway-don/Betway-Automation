@@ -9,6 +9,8 @@ import { BetgamesPage } from '../pages/BetGamesPage';
 import { SignUpPage } from '../pages/SignUpPage';
 import { SignupUtils } from '../utils/signupUtils';
 import { HomePage } from '../pages/HomePage';
+import { HeaderPage } from '../pages/HeaderPage';
+import {BetslipPage} from '../pages/BetslipPage';
 
 // Test data interface for signup
 export interface TestData {
@@ -46,11 +48,13 @@ type PageFixtures = {
   virtualsPage: VirtualsPage;
   promotionPage: PromotionPage;
   betgamesPage: BetgamesPage;
+  headerPage: HeaderPage;
   // Signup-specific fixtures
   signupPage: SignUpPage;
   signupUtils: SignupUtils;
   screenshotDir: string;
   testData: TestData;
+  betslipPage: BetslipPage;
 
 };
 
@@ -86,6 +90,16 @@ export const test = base.extend<PageFixtures>({
   betgamesPage: async ({ page }, use) => {
     const betgamesPage = new BetgamesPage(page);
     await use(betgamesPage);
+  },
+  headerPage: async ({ page }, use) => {
+    const headerPage = new HeaderPage(page);
+    await headerPage.goto();
+    await use(headerPage);
+  },
+  betslipPage: async ({ page }, use) => {
+    const betslipPage = new BetslipPage(page);
+    await betslipPage.goto();
+    await use(betslipPage);
   },
 
   // Signup fixtures - using shared page approach for no-refresh strategy
