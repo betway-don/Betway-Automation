@@ -8,3 +8,11 @@ node_modules/
 /allure-results/
 /src/regions/ZA/screenshots
 /src/regions/ZA/reports
+/screenshots/**/*
+!/screenshots/**/
+!/screenshots/**/.gitkeep
+!/screenshots/**/README.md
+allure-results/
+reports/
+screenshots/
+/playwright/.auth/

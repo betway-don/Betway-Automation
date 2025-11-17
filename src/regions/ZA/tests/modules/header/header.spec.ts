@@ -1,5 +1,5 @@
 // npx playwright test src/regions/ZA/tests/modules/header/header.spec.ts --config=playwright.ZA.config.ts --headed
-import { expect, test } from '../../../fixtures/MasterFixtureFile';
+import { test } from '../../../fixtures/MasterFixtureFile';
 import path from 'path';
 import { ScreenshotHelper } from '../../../../Common-Flows/ScreenshotHelper';
 

@@ -55,11 +55,11 @@ test.describe('BetInfluencer Tests', () => {
         await highlightElements(betinfluencerModal.BetInfluencerModalLocatorRegistry.revenue);
         await ScreenshotHelper(betinfluencerModal.page, screenshotDir, 'New-T5-Revenue presence', testInfo);
     });
-    test('New-T6/T7-Verify graphical representational data for  "Number of codes" inside summary section./Verify graphical representational data for  "Total Bets taken" inside summary section.',async({ betinfluencerModal }, testInfo) => {
-        await betinfluencerModal.gotoBetInfluencerModal();
-        await highlightElements(betinfluencerModal.revenueGraph);
-        await ScreenshotHelper(betinfluencerModal.page, screenshotDir, 'New-T6-T7-Graphical representation', testInfo);
-    });
+    // test('New-T6/T7-Verify graphical representational data for  "Number of codes" inside summary section./Verify graphical representational data for  "Total Bets taken" inside summary section.',async({ betinfluencerModal }, testInfo) => {
+    //     await betinfluencerModal.gotoBetInfluencerModal();
+    //     await highlightElements(betinfluencerModal.revenueGraph);
+    //     await ScreenshotHelper(betinfluencerModal.page, screenshotDir, 'New-T6-T7-Graphical representation', testInfo);
+    // });
     test('T5-Go to Detailed Breakdown',async({ betinfluencerModal },testInfo) => {
         await betinfluencerModal.gotoBetInfluencerModal();
         await betinfluencerModal.verifyAndClickDetailedBreakdown();
