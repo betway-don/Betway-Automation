@@ -20,5 +20,6 @@ export const homepageLocators = {
     version: { selector: 'text', options: { name: `Version` }, nth: 0 },
     downloadBetwayApp:{selector : 'text', options: { name: 'Scan the QR code' }, nth: 0},
     appleLogo: { selector: 'img[alt="apple-logo"]' },
-    linkToSocials: { selector: 'a[href="https://x.com/betway"]' }
+    linkToSocials: { selector: 'a[href="https://x.com/betway"]' },
+
 }

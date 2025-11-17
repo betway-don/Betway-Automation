@@ -11,5 +11,15 @@
   "user3": {
     "mobile": "834447889 ",
     "password": "12345"
+  },
+
+  "user4": {
+    "mobile": "222212222",
+    "password": "1234567890"
+  },
+
+  "user5": {
+    "mobile": "808080806",
+    "password": "Pass1234"
   }
 }

@@ -22,11 +22,14 @@ export function getLocator(page: Page, config: LocatorConfig): Locator {
     case "xpath":
       locator = page.locator(`xpath=${config.value}`);
       break;
+    case "label":
+      locator = page.getByLabel(config.value, config.options || {});
+      break;
     default:
       throw new Error(`Unsupported locator type: ${config.type}`);
   }
 
-  if (config.nth !== undefined) {
+  if (config.nth !== undefined ) {
     locator = locator.nth(config.nth);
   }
 
