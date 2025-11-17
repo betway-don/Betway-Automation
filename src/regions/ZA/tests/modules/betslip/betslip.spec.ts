@@ -1,5 +1,5 @@
 // npx playwright test src/regions/ZA/tests/modules/betslip/betslip2.spec.ts --config=playwright.ZA.config.ts --headed
-import { test, expect } from '../../../fixtures/MasterFixtureFile';
+import { test} from '../../../fixtures/MasterFixtureFile';
 import path from 'path';
 import { ScreenshotHelper } from '../../../../Common-Flows/ScreenshotHelper';
 import { OddsSelection, OddsSelectionAbove } from '../../../../Common-Flows/OddSelection';
