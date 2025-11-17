@@ -23,7 +23,7 @@ export function getLocator(page: Page, config: LocatorConfig): Locator {
       locator = page.locator(`xpath=${config.value}`);
       break;
     case "label":
-      console.log("tmkc")
+      locator = page.getByLabel(config.value, config.options || {});
       break;
     default:
       throw new Error(`Unsupported locator type: ${config.type}`);

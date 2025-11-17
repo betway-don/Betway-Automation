@@ -14,3 +14,5 @@ node_modules/
 !/screenshots/**/
 !/screenshots/**/.gitkeep
 !/screenshots/**/README.md
+allure-results/
+

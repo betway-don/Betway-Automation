@@ -14,10 +14,11 @@ const file = "src/global/utils/file-utils/locators.xlsx";
 // ------------------------------------------------------------------
 const mockSignUpConfigs = {
     // key: { type, value, options, nth }
-    "mobileInput": { type: "role", value: "textbox", options: '{"name":"Mobile Number"}', nth: 1 },
-    "passwordInput": { type: "role", value: "textbox", options: '{"name":"Password"}', nth: 1 },
+    "mobileInput": { type: "role", value: "textbox", options: '{"name":"MobileNumber"}', nth: 1 },
+    "passwordInput": { type: "role", value: "textbox", options: '{"name":"Enter Password"}', nth: 1 },
     "firstNameInput": { type: "role", value: "textbox", options: '{"name":"First Name"}', nth: 0 },
     "lastNameInput": { type: "role", value: "textbox", options: '{"name":"Surname"}', nth: 0 },
+    "emailInput": { type: "role", value: "textbox", options: '{"name":"Email"}', nth: 0 },
     "loginButton": { type: "role", value: "button", options: '{"name":"Login"}', nth: 0 },
     "signUpButton": { type: "role", value: "button", options: '{"name":"Sign Up"}', nth: 0 },
     "nextButton": { type: "role", value: "button", options: '{"name":"Next"}', nth: 0 },
@@ -75,10 +76,11 @@ export class SignUpPage {
             registerButton: getLocator(this.page, configs["registerButton"]),
             hamburgerMenu: getLocator(this.page, configs["hamburgerMenu"]),
             hamburgerSignupBtn: getLocator(this.page, configs["hamburgerSignupBtn"]),
+            emailInput: getLocator(this.page, configs["emailInput"]),
 
             // Relative locators
-            idDropdown: idDropdownBase.locator('div'),
-            saIdOption: saIdOptionBase.locator('div'),
+            idDropdown: getLocator(this.page, configs["idDropdownBase"]),
+            saIdOption: getLocator(this.page, configs["saIdOptionBase"]),
 
             passportOption: getLocator(this.page, configs["passportOption"]),
             saIdInput: getLocator(this.page, configs["saIdInput"]),
@@ -155,11 +157,16 @@ export class SignUpPage {
     // 3. Form Filling Methods
     // ------------------------------------------------------------------
 
-    async fillBasicInfo(mobile: string, password: string, firstName: string, lastName: string) {
+    async fillBasicInfo(mobile: string, password: string, firstName: string, lastName: string, email: string) {
         await this.signUpLocatorsRegistry.mobileInput.fill(mobile);
         await this.signUpLocatorsRegistry.passwordInput.fill(password);
         await this.signUpLocatorsRegistry.firstNameInput.fill(firstName);
         await this.signUpLocatorsRegistry.lastNameInput.fill(lastName);
+        await this.signUpLocatorsRegistry.emailInput.fill(email);
+    }
+
+    async fillEmail(email: string) {
+        await this.signUpLocatorsRegistry.emailInput.fill(email);
     }
 
     async fillMobileNumber(mobile: string) {
@@ -306,6 +313,9 @@ export class SignUpPage {
     getLastNameInput(): Locator {
         return this.signUpLocatorsRegistry.lastNameInput;
     }
+    getEmailInput(): Locator {
+        return this.signUpLocatorsRegistry.emailInput;
+    }
     getSignUpButton(): Locator {
         return this.signUpLocatorsRegistry.signUpButton;
     }
@@ -355,6 +365,9 @@ export class SignUpPage {
     }
     async highlightLastNameInput() {
         await highlightElements(this.signUpLocatorsRegistry.lastNameInput);
+    }
+    async highlightEmailInput() {
+        await highlightElements(this.signUpLocatorsRegistry.emailInput);
     }
     async highlightSignUpButton() {
         await highlightElements(this.signUpLocatorsRegistry.signUpButton);
@@ -432,10 +445,10 @@ export class SignUpPage {
     async testPasswordValidation(
         password: string,
         validMobile: string,
-        basicInfo: { firstName: string, lastName: string },
+        basicInfo: { firstName: string, lastName: string, email: string },
         options?: { clickNext?: boolean, waitTime?: number }
     ) {
-        await this.fillBasicInfo(validMobile, password, basicInfo.firstName, basicInfo.lastName);
+        await this.fillBasicInfo(validMobile, password, basicInfo.firstName, basicInfo.lastName, basicInfo.email);
         if (options?.clickNext) await this.clickNext();
         await this.highlightPasswordInput();
         await this.page.waitForTimeout(options?.waitTime || 1000);
@@ -474,8 +487,8 @@ export class SignUpPage {
         await this.page.waitForTimeout(options?.waitTime || 1000);
     }
 
-    async testVoucherCode(code: string, basicInfo: { mobile: string, pass: string, fName: string, lName: string }) {
-        await this.fillBasicInfo(basicInfo.mobile, basicInfo.pass, basicInfo.fName, basicInfo.lName);
+    async testVoucherCode(code: string, basicInfo: { mobile: string, pass: string, fName: string, lName: string, email: string }) {
+        await this.fillBasicInfo(basicInfo.mobile, basicInfo.pass, basicInfo.fName, basicInfo.lName, basicInfo.email);
         await this.highlightSignupCodeToggle();
         await this.clickSignupCodeToggle();
         await this.fillVoucherCode(code);
@@ -483,8 +496,8 @@ export class SignUpPage {
         await this.page.waitForTimeout(1000);
     }
 
-    async testReferralCode(code: string, basicInfo: { mobile: string, pass: string, fName: string, lName: string }, options?: { clearFirst?: boolean }) {
-        await this.fillBasicInfo(basicInfo.mobile, basicInfo.pass, basicInfo.fName, basicInfo.lName);
+    async testReferralCode(code: string, basicInfo: { mobile: string, pass: string, fName: string, lName: string, email: string }, options?: { clearFirst?: boolean }) {
+        await this.fillBasicInfo(basicInfo.mobile, basicInfo.pass, basicInfo.fName, basicInfo.lName, basicInfo.email);
         if (options?.clearFirst) await this.clearReferralCode();
         await this.fillReferralCode(code);
         await this.highlightReferralCodeField();
@@ -504,7 +517,7 @@ export class SignUpPage {
 
 
 // key type value options nth
-// mobileInput role textbox {"name":"Mobile Number"} 1
+// mobileInput role textbox {"name":"MobileNumber"} 1
 // passwordInput role textbox {"name":"Password"} 1
 // firstNameInput role textbox {"name":"First Name"} 0
 // lastNameInput role textbox {"name":"Surname"} 0

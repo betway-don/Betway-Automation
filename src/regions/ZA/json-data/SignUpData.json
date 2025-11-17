@@ -1,19 +1,20 @@
 {
   "basicInfo": {
-    "mobile": "999889100",
+    "mobile": "771002880",
     "password": "123456789",
     "firstName": "Test",
-    "lastName": "User"
+    "lastName": "User",
+    "email": "abc@gmail.com"
   },
   "mobileValidation": {
-    "valid": "987654321",
+    "valid": "771002880",
     "short": "12345",
     "long": "98765432109876",
     "alphabetic": "987abc321",
     "specialChar": "987-654-321"
   },
   "passwordValidation": {
-    "default": "Password12!",
+    "default": "Password12",
     "strong": "StrongPass123!",
     "withNumbers": "Password12345",
     "withSpecialChars": "Password!@#$%",

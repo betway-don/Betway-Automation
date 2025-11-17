@@ -12,11 +12,14 @@ import { BetgamesPage } from '../pages/BetGamesPage';
 import { SignUpPage } from '../pages/SignUpPage';
 import { SignupUtils } from '../utils/signupUtils';
 import { HomePage } from '../pages/HomePage';
+import { HeaderPage } from '../pages/HeaderPage';
+import {BetslipPage} from '../pages/BetslipPage';
 import { BetInfluencerModal } from '../pages/BetInfluencerModal';
 import { ContactUsPage } from '../pages/ContactUsPage';
 import { HowToPage } from '../pages/HowToPage';
 import { MyBetsPage } from '../pages/MyBetsPage';
 import { BuildABetPage } from '../pages/BuildABetPage'; // <--- 1. IMPORT NEW PAGE
+
  
 // ------------------------------------------------------------------
 // 1. LOAD TEST DATA FROM JSON
@@ -29,6 +32,7 @@ export interface FullTestData {
     password: string;
     firstName: string;
     lastName: string;
+    email: string;
   };
   mobileValidation: { [key: string]: string };
   passwordValidation: { [key: string]: string };
@@ -46,7 +50,7 @@ export interface FullTestData {
 }
  
 // Path to your JSON data file
-const testDataPath = path.resolve(__dirname, '../regions/ZA/json-data/SignUpData.json');
+const testDataPath = path.resolve(__dirname, '../json-data/SignUpData.json');
  
 // Helper check
 if (!fs.existsSync(testDataPath)) {
@@ -80,11 +84,13 @@ type PageFixtures = {
   myBetsPage: MyBetsPage;
   buildABetPage: BuildABetPage; // <--- 3. ADD NEW PAGE FIXTURE TYPE
  
+  headerPage: HeaderPage;
   // Signup-specific fixtures
   signupPage: SignUpPage;
   signupUtils: SignupUtils;
   screenshotDir: string;
-  
+    betslipPage: BetslipPage;
+
   testData: FullTestData;
 };
  
@@ -108,7 +114,17 @@ export const test = base.extend<PageFixtures>({
   betinfluencerModal: async ({ page }, use) => { /* ... */ },
   myBetsPage: async ({ page }, use) => { /* ... */ },
  
- 
+   headerPage: async ({ page }, use) => {
+    const headerPage = new HeaderPage(page);
+    await headerPage.goto();
+    await use(headerPage);
+  },
+  betslipPage: async ({ page }, use) => {
+    const betslipPage = new BetslipPage(page);
+    await betslipPage.goto();
+    await use(betslipPage);
+  },
+
   // --- Utility Fixtures ---
   screenshotDir: async ({ }, use) => {
     const projectRoot = path.resolve(__dirname, '../../..');
