@@ -1,291 +1,10 @@
-// import { headerLocators } from '../locators/headerLocators';
-// import { HomePage } from './HomePage';
 
-// const userData = require('../json-data/userData.json');
-
-// export class HeaderPage extends HomePage {
-//   page: import('@playwright/test').Page;
-
-//   mobileNumber: ReturnType<import('@playwright/test').Page['getByText']>;
-//   hamburgerMenu: ReturnType<import('@playwright/test').Page['locator']>;
-//   closePromotionPopup: ReturnType<import('@playwright/test').Page['locator']>;
-
-//   betwayTopLogo: ReturnType<import('@playwright/test').Page['locator']>;
-//   loginButtonfromHamburger: ReturnType<import('@playwright/test').Page['getByRole']>;
-//   signUpButtonfromHamburger: ReturnType<import('@playwright/test').Page['getByRole']>;
-//   closeHamburgerMenu: ReturnType<import('@playwright/test').Page['locator']>;
-//   quickLinks: ReturnType<import('@playwright/test').Page['getByText']>;
-//   betingRules: ReturnType<import('@playwright/test').Page['getByText']>;
-//   statistics: ReturnType<import('@playwright/test').Page['getByText']>;
-//   oddsFormat: ReturnType<import('@playwright/test').Page['getByText']>;
-//   countryCode: ReturnType<import('@playwright/test').Page['getByText']>;
-//   mobileNumberInput: ReturnType<import('@playwright/test').Page['locator']>;
-//   passwordInput: ReturnType<import('@playwright/test').Page['locator']>;
-//   eyeButton: ReturnType<import('@playwright/test').Page['locator']>;
-//   forgetPasswordLink: ReturnType<import('@playwright/test').Page['getByText']>;
-//   betslipButton: ReturnType<import('@playwright/test').Page['getByText']>;
-//   gotItButton: ReturnType<import('@playwright/test').Page['getByText']>;
-//   myAccount: ReturnType<import('@playwright/test').Page['getByText']>;
-
-//   depositFund: ReturnType<import('@playwright/test').Page['getByText']>;
-//   withdrawFund: ReturnType<import('@playwright/test').Page['getByText']>;
-//   closeWithdrawalAlert: ReturnType<import('@playwright/test').Page['locator']>;
-//   myBets: ReturnType<import('@playwright/test').Page['locator']>;
-//   MyCasinoBigWin: ReturnType<import('@playwright/test').Page['locator']>;
-//   bonusSummary: ReturnType<import('@playwright/test').Page['getByText']>;
-//   transactionsHistory: ReturnType<import('@playwright/test').Page['getByText']>;
-//   myCoupons: ReturnType<import('@playwright/test').Page['getByText']>;
-//   betInfluencer: ReturnType<import('@playwright/test').Page['getByText']>;
-//   promoVouchers: ReturnType<import('@playwright/test').Page['getByText']>;
-//   updateDetails: ReturnType<import('@playwright/test').Page['getByText']>;
-//   responsibleGaming: ReturnType<import('@playwright/test').Page['locator']>;
-//   documentVerification: ReturnType<import('@playwright/test').Page['getByText']>;
-//   betwayBenefits: ReturnType<import('@playwright/test').Page['locator']>;
-//   betwayRewards: ReturnType<import('@playwright/test').Page['locator']>;
-//   changePassword: ReturnType<import('@playwright/test').Page['locator']>;
-//   logOut: ReturnType<import('@playwright/test').Page['locator']>;
-
-//   closeMyAccountOptions: ReturnType<import('@playwright/test').Page['locator']>;
-//   eyeButton2: ReturnType<import('@playwright/test').Page['locator']>;
-//   accountsButton: ReturnType<import('@playwright/test').Page['locator']>;
-//   balanceContainer: ReturnType<import('@playwright/test').Page['getByRole']>;
-//   balanceLabel: ReturnType<import('@playwright/test').Page['getByText']>;
-//   balanceValue: ReturnType<import('@playwright/test').Page['locator']>;
-//   balanceCurrency: ReturnType<import('@playwright/test').Page['getByText']>;
-//   balanceDropdown: ReturnType<import('@playwright/test').Page['locator']>;
-//   freeBetRefreshBtn: ReturnType<import('@playwright/test').Page['locator']>;
-//   freebetField: ReturnType<import('@playwright/test').Page['getByText']>;
-//   freebetCurrency: ReturnType<import('@playwright/test').Page['getByText']>;
-
-//   casinoBonusField: ReturnType<import('@playwright/test').Page['getByText']>;
-//   casinoBonusAmount: ReturnType<import('@playwright/test').Page['getByText']>;
-//   casinoCurrency: ReturnType<import('@playwright/test').Page['getByText']>;
-//   casinoRefreshBtn: ReturnType<import('@playwright/test').Page['locator']>; 
-//   depositButton: ReturnType<import('@playwright/test').Page['getByRole']>;
-//   notificationBellIcon: ReturnType<import('@playwright/test').Page['locator']>;
-//   liveChatIcon: ReturnType<import('@playwright/test').Page['locator']>; 
-
-//   constructor(page: import('@playwright/test').Page) {
-//     super(page);
-//     this.page = page;
-//     this.mobileNumber = page.getByText(headerLocators.mobileInput2.options.name).nth(headerLocators.mobileInput2.nth || 0);
-//     this.hamburgerMenu = page.locator(headerLocators.hamburgerMenu.selector);
-//     this.closePromotionPopup = page.locator(headerLocators.closePromotionPopup.selector);
-
-//     this.betwayTopLogo = this.hamburgerMenu.locator('..').getByRole('link').last();
-//     this.signUpButtonfromHamburger = page.getByRole('button', headerLocators.signUpButtonfromHamburger.options).nth(headerLocators.signUpButtonfromHamburger.nth);
-//     this.loginButtonfromHamburger = page.getByRole('button', headerLocators.loginButtonfromHamburger.options).nth(headerLocators.loginButtonfromHamburger.nth);
-//     this.closeHamburgerMenu = page.locator(headerLocators.closeHamburgerMenu.selector);
-//     this.quickLinks = page.getByText(headerLocators.quickLinks.options.name);
-//     this.betingRules = page.getByText(headerLocators.bettingRules.options.name);
-//     this.statistics = page.getByText(headerLocators.statistics.options.name);
-//     this.oddsFormat = page.getByText(headerLocators.oddsFormat.options.name);
-//     this.countryCode = page.getByText(headerLocators.countryCode.options.name);
-//     this.mobileNumberInput = page.locator(headerLocators.usernameInput.selector);
-//     this.passwordInput = page.locator(headerLocators.passwordInput.selector);
-//     this.eyeButton = page.locator(`xpath=//*[local-name()="${headerLocators.eyeButton.options.tag}" and namespace-uri()="${headerLocators.eyeButton.options.namespace}"]`).nth(headerLocators.eyeButton.nth);
-//     this.forgetPasswordLink = page.getByText(headerLocators.forgetPasswordLink.options.name);
-//     this.betslipButton = page.getByText(headerLocators.betslipButton.text);
-//     this.gotItButton = page.getByText(headerLocators.gotItButton.options.name).nth(headerLocators.gotItButton.nth);
-//     this.myAccount = page.getByText(headerLocators.myAccount.options.name).nth(0);
-
-//     this.depositFund = page.getByText(headerLocators.depositFund.options.name);
-//     this.withdrawFund = page.getByText(headerLocators.withdrawFund.options.name);
-//     this.closeWithdrawalAlert = page.locator(headerLocators.closeWithdrawalAlert.selector).nth(headerLocators.closeWithdrawalAlert.nth);
-//     this.myBets = page.locator(headerLocators.myBets.selector);
-//     this.MyCasinoBigWin = page.locator(headerLocators.MyCasinoBigWun.selector);
-//     this.bonusSummary = page.getByText(headerLocators.bonusSummary.options.name);
-//     this.transactionsHistory = page.getByText(headerLocators.transactionsHistory.options.name);
-//     this.myCoupons = page.getByText(headerLocators.myCoupons.options.name);
-//     this.betInfluencer = page.getByText(headerLocators.betInfluencer.options.name);
-//     this.promoVouchers = page.getByText(headerLocators.promoVouchers.options.name);
-//     this.updateDetails = page.getByText(headerLocators.updateDetails.options.name);
-//     this.responsibleGaming = page.locator(headerLocators.responsibleGaming.selector);
-//     this.documentVerification = page.getByText(headerLocators.documentVerification.options.name);
-//     this.betwayBenefits = page.locator(headerLocators.betwayBenefits.selector);
-//     this.betwayRewards = page.locator(headerLocators.betwayRewards.selector);
-//     this.changePassword = page.locator(headerLocators.changePassword.selector);
-//     this.logOut = page.locator(headerLocators.logOut.selector);
-
-//     this.closeMyAccountOptions = page.locator(headerLocators.closeMyAccountOptions.selector).nth(headerLocators.closeMyAccountOptions.nth);
-//     this.eyeButton2 = page.getByText('All balance').locator('..').locator('..').getByRole('img').first();
-//     this.accountsButton = page.locator(headerLocators.accountsButton.selector).nth(0);
-//     this.balanceContainer = page.getByRole('banner').getByText('Balance').locator('..');
-//     this.balanceLabel = this.balanceContainer.getByText('Balance');
-
-//     this.balanceValue = page.getByRole('banner').getByText('Balance').locator('..').locator('..').getByRole('generic').first();
-//     this.balanceDropdown = page.locator('xpath=//*[@id="__nuxt"]/div/div/div[1]/header/div/div[2]/div/div[2]/div[2]');
-//     this.balanceCurrency = this.balanceContainer.getByText('R');
-
-//     this.freebetField = page.getByText(headerLocators.freebetField.text);
-//     this.freebetCurrency = page.getByText('Freebet').locator('..').getByText('R').nth(1);
-//     this.freeBetRefreshBtn = headerLocators.freeBetRefreshBtn.selector(page);
-
-//     this.casinoBonusField = page.getByText(headerLocators.casinoBonusField.options.name);
-//     this.casinoBonusAmount = page.getByText(headerLocators.casinoBonusAmount.options.name).nth(0);
-//     this.casinoCurrency = page.getByText('Casino Bonus').locator('..').getByText('R');
-//     this.casinoRefreshBtn = headerLocators.casinoRefreshBtn.selector(page);
-//     this.depositButton = page.getByRole('button', headerLocators.depositButton.options).nth(1);
-//     this.notificationBellIcon = page.getByRole('banner').getByRole('img').nth(headerLocators.notificationIcon.nth);
-//     this.liveChatIcon = page.locator(headerLocators.liveChatIcon.selector);
-//   }
-
-//   async goto() {
-//     await this.page.goto('https://new.betway.co.za/sport/soccer');
-//   }
-
-//   async clickHamburgerMenu() {
-//     await this.hamburgerMenu.click();
-//   }
-
-//   async clickquickLinks() {
-//     await this.quickLinks.click();
-//   }
-
-//   async clickBettingRules() {
-//     await this.betingRules.click();
-//   }
-
-//   async clickStatistics() {
-//     await this.statistics.click();
-//   }
-
-//   async enterMobileNumber(mobile: string) {
-//     await this.mobileNumberInput.fill(mobile);
-//   }
-
-//   async enterPassword(password: string) {
-//     await this.passwordInput.fill(password);
-//   }
-
-//   async clickForgetPasswordLink() {
-//     await this.forgetPasswordLink.click();
-//   }
-
-//   async clickBetslipButton() {
-//     await this.betslipButton.click();
-//   }
-
-//   async clickGotItButton() {
-//     await this.gotItButton.click();
-//   }
-
-//   async Login() {
-//     await this.goto();
-//     await this.mobileNumberInput.fill(`${userData.user4.mobile}`);
-//     await this.passwordInput.fill(`${userData.user4.password}`);
-//     await this.page.keyboard.press('Enter');
-//     await this.closePromotionPopup.click();
-//     await this.page.waitForLoadState('domcontentloaded')
-
-//   }
-
-//   async clickMyAccount() {
-//     await this.myAccount.click();
-//   }
-
-//   async clickLogOut() {
-//     await this.logOut.click();
-//   }
-
-//   async clickDepositFund() {
-//     await this.depositFund.click();
-//   }
-
-//   async clickWithdrawFund() {
-//     await this.withdrawFund.click();
-//   }
-
-//   async clickCloseWithdrawalAlert() {
-//     await this.closeWithdrawalAlert.click();
-//   }
-
-//   async clickMyBets() {
-//     await this.myBets.click();
-//   }
-
-//   async clickMyCasinoBigWin() {
-//     await this.MyCasinoBigWin.click();
-//   }
-
-//   async clickBonusSummary() {
-//     await this.bonusSummary.click();
-//   }
-
-//   async clickTransactionsHistory() {
-//     await this.transactionsHistory.click();
-//   }
-
-//   async clickMyCoupons() {
-//     await this.myCoupons.click();
-//   }
-
-//   async clickBetInfluencer() {
-//     await this.betInfluencer.click();
-//   }
-
-//   async clickPromoVouchers() {
-//     await this.promoVouchers.click();
-//   }
-
-//   async clickUpdateDetails() {
-//     await this.updateDetails.click();
-//   }
-//   async clickResponsibleGaming() {
-//     await this.responsibleGaming.click();
-//   }
-
-//   async clickDocumentVerification() {
-//     await this.documentVerification.click();
-//   }
-
-//   async clickBetwayBenefits() {
-//     await this.betwayBenefits.click();
-//   }
-
-//   async clickBetwayRewards() {
-//     await this.betwayRewards.click();
-//   }
-
-//   async clickChangePassword() {
-//     await this.changePassword.click();
-//   }
-
-//   async clickCloseMyAccountOptions() {
-//     await this.closeMyAccountOptions.click();
-//   }
-
-//   async clickEyeButton2() {
-//     await this.eyeButton2.click();
-//   }
-
-//   async clickAccountsButton() {
-//     await this.accountsButton.click();
-//   }
-
-//   async clickbalanceDropdown() {
-//     await this.balanceDropdown.click();
-//   }
-
-//   async clickDepositButton() {
-//     await this.depositButton.click();
-//   }
-
-//   async clickNotificationBellIcon() {
-//     await this.notificationBellIcon.click();
-//   }
-
-//   async clickLiveChatIcon() {
-//     await this.liveChatIcon.click();
-//   }
-
-// }
 import { HomePage } from './HomePage';
 import { loadLocatorsFromExcel } from "../../../global/utils/file-utils/excelReader";
 import { getLocator } from "../../../global/utils/file-utils/locatorResolver";
 import { highlightElementBorder, highlightElements } from '../../Common-Flows/HighlightElements';
 import { expect } from '@playwright/test';
-import { get } from 'http';
+
 
 const userData = require('../json-data/userData.json');
 // const LOCATOR_URL = "https://github.com/athrvzoz/LocatorFile/raw/refs/heads/main/locators.xlsx";
@@ -424,19 +143,19 @@ export class HeaderPage extends HomePage {
   // }
 
   async verifyEyeButton() {
-  // Scope to the login form area that contains both Mobile Number and Password fields
-  const formContainer = this.page.locator('form').filter({
-    hasText: '+27Forgot Username?Forgot Password?'
-  });
+    // Scope to the login form area that contains both Mobile Number and Password fields
+    const formContainer = this.page.locator('form').filter({
+      hasText: '+27Forgot Username?Forgot Password?'
+    });
 
-  // From within that form, target the eye SVG next to the password input
-  const eyeIcon = formContainer.locator("//input[@id='header-password']/preceding-sibling::svg");
+    // From within that form, target the eye SVG next to the password input
+    const eyeIcon = formContainer.locator("//input[@id='header-password']/preceding-sibling::svg");
 
-  // Wait for it and visually highlight
-  await eyeIcon.waitFor({ state: 'visible', timeout: 10000 });
-  await highlightElementBorder(eyeIcon);
-  await this.page.waitForTimeout(1000);
-}
+    // Wait for it and visually highlight
+    await eyeIcon.waitFor({ state: 'visible', timeout: 10000 });
+    await highlightElementBorder(eyeIcon);
+    await this.page.waitForTimeout(1000);
+  }
 
   async verifyForgetPasswordLink() {
     await highlightElementBorder(this.HeaderPageLocatorsRegistry.forgetPasswordLink);
@@ -739,7 +458,7 @@ export class HeaderPage extends HomePage {
     await this.page.waitForTimeout(4000);
   }
 
-   async verifyAndClickStatisticsWithoutLogin() {
+  async verifyAndClickStatisticsWithoutLogin() {
     await this.clickHamburgerMenu();
     await this.HeaderPageLocatorsRegistry.statistics.scrollIntoViewIfNeeded();
     await highlightElementBorder(this.HeaderPageLocatorsRegistry.statistics);

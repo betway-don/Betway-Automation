@@ -1,4 +1,4 @@
-// npx playwright test src/regions/ZA/tests/modules/betslip/betslip2.spec.ts --config=playwright.ZA.config.ts --headed
+// npx playwright test src/regions/ZA/tests/modules/betslip/betslip.spec.ts --config=playwright.ZA.config.ts --headed
 import { test} from '../../../fixtures/MasterFixtureFile';
 import path from 'path';
 import { ScreenshotHelper } from '../../../../Common-Flows/ScreenshotHelper';
@@ -122,7 +122,7 @@ test.describe('Betslip Module - ZA', () => {
   });
 
   test('T15-Verify "Bet Saver" presence on betslip when be saver gets active.', async ({ betslipPage, page }, testInfo) => {
-    await OddsSelectionAbove(8, 2, page);
+    await OddsSelectionAbove(7, 2, page);
     await betslipPage.verifyBetSaverTextVisible();
     await ScreenshotHelper(page, screenshotDir, 'T15-betslip-Bet-Saver-presence-multi.png', testInfo);
   });
@@ -141,32 +141,32 @@ test.describe('Betslip Module - ZA', () => {
   //     // // test('T17-Verify Cashout icon should not display if cashout is not  available for selected odds inside single and multi section', async ({ betslipPage, page }, testInfo) => {
   //     // // });
 
-  // test('T18-Verify functionality of "Use cash balance" checkbox on betslip for single and multi section', async ({ betslipPage, page }, testInfo) => {
-  //   await OddsSelection(1, page);
-  //   await betslipPage.Login();
-  //   await page.waitForTimeout(1000);
-  //   await betslipPage.verifyCashBtnSingle();
-  //   await betslipPage.clickCashBtnSingle();
-  //   await ScreenshotHelper(page, screenshotDir, 'T18-betslip-use-cash-balance-checked-Single.png', testInfo);
+  test('T18-Verify functionality of "Use cash balance" checkbox on betslip for single and multi section', async ({ betslipPage, page }, testInfo) => {
+    await OddsSelection(1, page);
+    await betslipPage.Login();
+    await page.waitForTimeout(1000);
+    await betslipPage.verifyCashBtnSingle();
+    await betslipPage.clickCashBtnSingle();
+    await ScreenshotHelper(page, screenshotDir, 'T18-betslip-use-cash-balance-checked-Single.png', testInfo);
 
-  //   await betslipPage.clickMultiTab();
-  //   await betslipPage.verifyCashBtnMulti();
-  //   await betslipPage.clickCashBtnMulti();
-  //   await ScreenshotHelper(page, screenshotDir, 'T18-betslip-use-cash-balance-checked-multi.png', testInfo);
-  // });
+    await betslipPage.clickMultiTab();
+    await betslipPage.verifyCashBtnMulti();
+    await betslipPage.clickCashBtnMulti();
+    await ScreenshotHelper(page, screenshotDir, 'T18-betslip-use-cash-balance-checked-multi.png', testInfo);
+  });
 
-  // test('T19-Verify functionality of "Use free bet" checkbox on betslip for single and multi section', async ({ betslipPage, page }, testInfo) => {
-  //   await OddsSelection(1, page);
-  //   await betslipPage.Login();
-  //   await betslipPage.verifyFreebetBtnSingle();
-  //   await betslipPage.clickFreebetBtnSingle();
-  //   await ScreenshotHelper(page, screenshotDir, 'T19-betslip-use-free-bet-checked-Single.png', testInfo); // Updated name
+  test('T19-Verify functionality of "Use free bet" checkbox on betslip for single and multi section', async ({ betslipPage, page }, testInfo) => {
+    await OddsSelection(1, page);
+    await betslipPage.Login();
+    await betslipPage.verifyFreebetBtnSingle();
+    await betslipPage.clickFreebetBtnSingle();
+    await ScreenshotHelper(page, screenshotDir, 'T19-betslip-use-free-bet-checked-Single.png', testInfo); // Updated name
 
-  //   await betslipPage.clickMultiTab();
-  //   await betslipPage.verifyFreebetBtnMulti();
-  //   await betslipPage.clickFreebetBtnMulti();
-  //   await ScreenshotHelper(page, screenshotDir, 'T19-betslip-use-free-bet-checked-multi.png', testInfo); // Updated name
-  // });
+    await betslipPage.clickMultiTab();
+    await betslipPage.verifyFreebetBtnMulti();
+    await betslipPage.clickFreebetBtnMulti();
+    await ScreenshotHelper(page, screenshotDir, 'T19-betslip-use-free-bet-checked-multi.png', testInfo); // Updated name
+  });
 
   test('T20-Single- Verify  "Total betway return" Wager(Calculation)', async ({ betslipPage, page }, testInfo) => {
     await OddsSelection(1, page);
@@ -259,20 +259,19 @@ test.describe('Betslip Module - ZA', () => {
   });
 
   test('T31-Verify functionality of "Share" button on betslip for single tab', async ({ betslipPage, page }, testInfo) => {
-    await betslipPage.Login();
     await OddsSelection(1, page);
-    await betslipPage.closePromotionPopup();
+    await betslipPage.Login();
+    // await betslipPage.closePromotionPopup();
     await betslipPage.verifyShareBtn();
     await ScreenshotHelper(page, screenshotDir, 'T31-betslip-share-button-Single.png', testInfo);
-
     await betslipPage.clickShareBtn();
     await page.waitForTimeout(4000);
     await ScreenshotHelper(page, screenshotDir, 'T31-betslip-share-after-click-Single.png', testInfo);
   });
 
   test('T32-Verify functionality of "Share" button on betslip for multi tab', async ({ betslipPage, page }, testInfo) => {
+    await OddsSelection(1, page);
     await betslipPage.Login();
-    await OddsSelection(1, page);[]
     await betslipPage.clickMultiTab();
     await betslipPage.verifyShareBtn();
     await ScreenshotHelper(page, screenshotDir, 'T32-betslip-share-button-multi.png', testInfo);

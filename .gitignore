@@ -15,4 +15,6 @@ node_modules/
 !/screenshots/**/.gitkeep
 !/screenshots/**/README.md
 allure-results/
+reports/
+screenshots/
 

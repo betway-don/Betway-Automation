@@ -124,6 +124,11 @@ export const test = base.extend<PageFixtures>({
     await betslipPage.goto();
     await use(betslipPage);
   },
+   buildABetPage: async ({ page }, use) => {
+    await page.setViewportSize({ width: 1300, height: 780 });
+    const buildABetPage = new BuildABetPage(page);
+    await use(buildABetPage);
+  },
 
   // --- Utility Fixtures ---
   screenshotDir: async ({ }, use) => {
