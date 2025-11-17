@@ -14,7 +14,7 @@ const userData = require('../../../json-data/userData.json');
 const projectRoot = path.resolve(__dirname, '../../..');
 const screenshotDir = path.join(projectRoot, 'screenshots/module/footer');
 
-test.describe.serial('Footer Module Tests', () => {
+test.describe('Footer Module Tests', () => {
     test('T1-Verify Footer page', async ({ homePage }, testInfo) => {
         await homePage.verifyFooter();
         await ScreenshotHelper(homePage.page, screenshotDir, 'T1.png', testInfo);
