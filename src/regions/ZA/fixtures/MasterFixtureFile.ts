@@ -11,6 +11,7 @@ import { SignupUtils } from '../utils/signupUtils';
 import { HomePage } from '../pages/HomePage';
 import { HeaderPage } from '../pages/HeaderPage';
 import {BetslipPage} from '../pages/BetslipPage';
+import { BuildABetPage } from '../pages/BuildABetPage';
 
 // Test data interface for signup
 export interface TestData {
@@ -55,6 +56,7 @@ type PageFixtures = {
   screenshotDir: string;
   testData: TestData;
   betslipPage: BetslipPage;
+  buildABetPage: BuildABetPage;
 
 };
 
@@ -100,6 +102,11 @@ export const test = base.extend<PageFixtures>({
     const betslipPage = new BetslipPage(page);
     await betslipPage.goto();
     await use(betslipPage);
+  },
+   buildABetPage: async ({ page }, use) => {
+    await page.setViewportSize({ width: 1300, height: 780 });
+    const buildABetPage = new BuildABetPage(page);
+    await use(buildABetPage);
   },
 
   // Signup fixtures - using shared page approach for no-refresh strategy
