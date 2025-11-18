@@ -102,19 +102,72 @@ export const test = base.extend<PageFixtures>({
  
   // --- Standard Page Fixtures ---
   // (Omitted for brevity... your existing fixtures for HomePage, LoginPage, etc. go here)
-  homePage: async ({ page }, use) => { /* ... */ },
-  loginPage: async ({ page }, use) => { /* ... */ },
-  sportsPage: async ({ page }, use) => { /* ... */ },
-  casinoPage: async ({ page }, use) => { /* ... */ },
-  virtualsPage: async ({ page }, use) => { /* ... */ },
-  promotionPage: async ({ page }, use) => { /* ... */ },
-  contactUs: async ({ page }, use) => { /* ... */ },
-  howTo: async ({ page }, use) => { /* ... */ },
-  betgamesPage: async ({ page }, use) => { /* ... */ },
-  betinfluencerModal: async ({ page }, use) => { /* ... */ },
-  myBetsPage: async ({ page }, use) => { /* ... */ },
+  homePage: async ({ page }, use) => {
+    const homePage = new HomePage(page);
+    await homePage.gotoHomePage();
+    await homePage.page.setViewportSize({ width: 1300, height: 780 });
+    await homePage.page.getByText('Got it').first().click();
+    // await homePage.page.waitForEvent('domcontentloaded');
+    await use(homePage);
+  },
+  loginPage: async ({ page }, use) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.page.setViewportSize({ width: 1300, height: 780 });
+    await loginPage.goto();
+    await loginPage.page.getByText('Got it').first().click();
+    await use(loginPage);
+  },
+  sportsPage: async ({ page }, use) => {
+    const sportsPage = new SportsPage(page);
+    await sportsPage.page.setViewportSize({ width: 1300, height: 780 });
+    await sportsPage.gotoSportsPage();
+    await sportsPage.page.getByText('Got it').first().click();
+    await use(sportsPage);
+  },
+  casinoPage: async ({ page }, use) => {
+    const casinoPage = new CasinoPage(page);
+    await casinoPage.page.setViewportSize({ width: 1300, height: 780 });
+    await casinoPage.gotoCasino();
+    await casinoPage.page.getByText('Got it').first().click();
+    await use(casinoPage);
+  },
+  virtualsPage: async ({ page }, use) => {
+    const virtualsPage = new VirtualsPage(page);
+    await virtualsPage.page.setViewportSize({ width: 1300, height: 780 });
+    await virtualsPage.gotoVirtuals();
+    await use(virtualsPage);
+  },
+  promotionPage: async ({ page }, use) => {
+    const promotionPage = new PromotionPage(page);
+    await use(promotionPage);
+  },
+  contactUs:async({page},use)=>{
+    const contactUsPage=new ContactUsPage(page);
+    await contactUsPage.page.setViewportSize({ width: 1300, height: 780 });
+    await contactUsPage.gotoContactUs();
+    await use(contactUsPage)
+  },
+  howTo: async({page},use)=>{
+    const howTo=new HowToPage(page);
+    await howTo.page.setViewportSize({ width: 1300, height: 780 });
+    await howTo.gotoHowTo();
+    await use(howTo)
+  },
+  betgamesPage: async ({ page }, use) => {
+    const betgamesPage = new BetgamesPage(page);
+    await betgamesPage.page.setViewportSize({ width: 1300, height: 780 });
+    await betgamesPage.gotoBetgames();
+    await use(betgamesPage);
+  },
+  betinfluencerModal: async ({ page }, use) => {
+    const betinfluencerModal = new BetInfluencerModal(page);
+    await betinfluencerModal.goto();
+    await betinfluencerModal.page.setViewportSize({ width: 1300, height: 780 });
+    await betinfluencerModal.page.getByText('Got it').first().click();
+    await use(betinfluencerModal);
+  },
  
-   headerPage: async ({ page }, use) => {
+  headerPage: async ({ page }, use) => {
     const headerPage = new HeaderPage(page);
     await headerPage.goto();
     await use(headerPage);
@@ -152,12 +205,5 @@ export const test = base.extend<PageFixtures>({
     await page.setViewportSize({ width: 1300, height: 780 });
     const signupUtils = new SignupUtils(page);
     await use(signupUtils);
-  },
- 
-  // --- 4. ADD NEW BUILD A BET FIXTURE ---
-  buildABetPage: async ({ page }, use) => {
-    await page.setViewportSize({ width: 1300, height: 780 });
-    const buildABetPage = new BuildABetPage(page);
-    await use(buildABetPage);
   },
 });

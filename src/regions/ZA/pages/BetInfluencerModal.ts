@@ -28,7 +28,7 @@ export class BetInfluencerModal extends SportsPage {
     constructor(page: import('@playwright/test').Page) {
         super(page);
         this.page = page;
-        const configs = loadLocatorsFromExcel(file, "BetGamesPage");
+        const configs = loadLocatorsFromExcel(file, "BetInfluencerModal");
         this.revenue =this.page.getByText('Revenue').nth(0),
         this.BetInfluencerModalLocatorRegistry = {
             ...this.SportsPagelocatorRegistry,
