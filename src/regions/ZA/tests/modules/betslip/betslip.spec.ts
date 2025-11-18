@@ -239,29 +239,28 @@ test.describe('Betslip Module - ZA', () => {
   });
 
   test('T29-Single- Insufficient funds error pop-up on clicking "Bet Now" button', async ({ betslipPage, page }, testInfo) => {
-
-    await OddsSelection(1, page);
     await betslipPage.Login();
+    await betslipPage.closePromotionPopup();
+    await OddsSelection(1, page);
     await betslipPage.enterBetAmount('100000');
-    await page.waitForTimeout(5000);
     await betslipPage.clickBetNowBtn();
     await ScreenshotHelper(page, screenshotDir, 'T29-betslip-insufficient-funds-error.png', testInfo);
   });
 
   test('T30-Multi- Insufficient funds error pop-up on clicking "Bet Now" button', async ({ betslipPage, page }, testInfo) => {
-    await OddsSelection(1, page);
     await betslipPage.Login();
+    await betslipPage.closePromotionPopup();
+    await OddsSelection(1, page);
     await betslipPage.clickMultiTab();
     await betslipPage.enterBetAmount('100000');
     await betslipPage.clickBetNowBtn();
-    await page.waitForTimeout(5000);
     await ScreenshotHelper(page, screenshotDir, 'T30-betslip-insufficient-funds-error.png', testInfo);
   });
 
   test('T31-Verify functionality of "Share" button on betslip for single tab', async ({ betslipPage, page }, testInfo) => {
     await OddsSelection(1, page);
     await betslipPage.Login();
-    // await betslipPage.closePromotionPopup();
+    await betslipPage.closePromotionPopup();
     await betslipPage.verifyShareBtn();
     await ScreenshotHelper(page, screenshotDir, 'T31-betslip-share-button-Single.png', testInfo);
     await betslipPage.clickShareBtn();
@@ -272,6 +271,7 @@ test.describe('Betslip Module - ZA', () => {
   test('T32-Verify functionality of "Share" button on betslip for multi tab', async ({ betslipPage, page }, testInfo) => {
     await OddsSelection(1, page);
     await betslipPage.Login();
+    await betslipPage.closePromotionPopup();
     await betslipPage.clickMultiTab();
     await betslipPage.verifyShareBtn();
     await ScreenshotHelper(page, screenshotDir, 'T32-betslip-share-button-multi.png', testInfo);
