@@ -154,10 +154,5 @@ export const test = base.extend<PageFixtures>({
     await use(signupUtils);
   },
  
-  // --- 4. ADD NEW BUILD A BET FIXTURE ---
-  buildABetPage: async ({ page }, use) => {
-    await page.setViewportSize({ width: 1300, height: 780 });
-    const buildABetPage = new BuildABetPage(page);
-    await use(buildABetPage);
-  },
+
 });
