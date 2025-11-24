@@ -2,28 +2,32 @@ import { Page, Locator, expect } from '@playwright/test';
 import { highlightElements } from '../../../regions/Common-Flows/HighlightElements'; // Adjust path as needed
 import { loadLocatorsFromExcel } from "../../../global/utils/file-utils/excelReader"; // Adjust path as needed
 import { getLocator } from "../../../global/utils/file-utils/locatorResolver"; // Adjust path as needed
- 
+
+
 // URL for your central locator file
 const LOCATOR_URL = "https://github.com/athrvzoz/LocatorFile/raw/refs/heads/main/locators.xlsx";
- 
+const file = "src/global/utils/file-utils/locators(2).xlsx";
+const userData = require('../json-data/userData.json');
+
 export class BuildABetPage {
     readonly page: Page;
     readonly buildABetLocatorsRegistry: Record<string, Locator>;
- 
+
     constructor(page: Page) {
         this.page = page;
- 
+
         // ---
         // 🛑 IMPORTANT: Replace this MOCKED call with your REAL call
         // ---
-        // const configs = loadLocatorsFromExcel(LOCATOR_URL, "BuildABetPage"); // <-- Your REAL call
-        const configs = this.getMockLocatorData(); // <-- MOCKED call. Replace it.
+        const configs = loadLocatorsFromExcel(file, "BuildABetPage"); // <-- Your REAL call
+        // const configs = this.getMockLocatorData(); // <-- MOCKED call. Replace it.
         // ---
- 
+
         this.buildABetLocatorsRegistry = {
             mobileInput: getLocator(this.page, configs["mobileInput"]),
             passwordInput: getLocator(this.page, configs["passwordInput"]),
             upcomingTab: getLocator(this.page, configs["upcomingTab"]),
+            closePromotionPopup: getLocator(this.page, configs["closePromotionPopup"]),
             firstMatchContainer: getLocator(this.page, configs["firstMatchContainer"]),
             buildABetTab: getLocator(this.page, configs["buildABetTab"]),
             randomMarketButton: getLocator(this.page, configs["randomMarketButton"]),
@@ -46,61 +50,70 @@ export class BuildABetPage {
             invalidCombinationMessage: getLocator(this.page, configs["invalidCombinationMessage"]),
         };
     }
- 
+
     // ------------------------------------------------------------------
     // 1. Navigation & Setup Methods
     // ------------------------------------------------------------------
-    
+
     async gotoSports() {
         await this.page.goto('/sport');
         await this.page.waitForLoadState('domcontentloaded');
     }
- 
-    async login(mobile: string, password: string) {
-        await this.buildABetLocatorsRegistry.mobileInput.fill(mobile);
-        await this.buildABetLocatorsRegistry.passwordInput.fill(password);
-        await this.buildABetLocatorsRegistry.passwordInput.press('Enter');
+
+    // async login(mobile: string, password: string) {
+    //     await this.buildABetLocatorsRegistry.mobileInput.fill(mobile);
+    //     await this.buildABetLocatorsRegistry.passwordInput.fill(password);
+    //     await this.buildABetLocatorsRegistry.passwordInput.press('Enter');
+    //     await this.page.waitForLoadState('domcontentloaded');
+    // }
+
+    async login() {
+        await this.buildABetLocatorsRegistry.mobileInput.fill(`${userData.user4.mobile}`);
+        await this.buildABetLocatorsRegistry.passwordInput.fill(`${userData.user4.password}`);
+        await this.page.keyboard.press('Enter');
+        await this.buildABetLocatorsRegistry.closePromotionPopup.waitFor({ state: 'visible',  timeout: 15000});
+        await this.buildABetLocatorsRegistry.closePromotionPopup.click();
         await this.page.waitForLoadState('domcontentloaded');
     }
- 
+
     /**
      * This is the main setup method. It handles all navigation
      * from the sports page to the Build A Bet tab for a match.
      */
     async navigateToBuildABet() {
         await this.buildABetLocatorsRegistry.upcomingTab.click();
-        
+
         // This logic finds the first match container to click
         const firstMatch = this.buildABetLocatorsRegistry.firstMatchContainer.first();
         await firstMatch.waitFor({ state: 'visible', timeout: 10000 });
         await firstMatch.click();
- 
+
         // Now that we are on the match page, click the "Build A Bet" tab
         await this.buildABetLocatorsRegistry.buildABetTab.click();
         await this.page.waitForLoadState('domcontentloaded');
     }
- 
+
     // ------------------------------------------------------------------
     // 2. Action Methods
     // ------------------------------------------------------------------
- 
+
     async clickRandomMarketButton() {
         await this.buildABetLocatorsRegistry.randomMarketButton.click();
         await this.page.waitForTimeout(7000); // Wait for action
     }
- 
-    async clickFavorite(index = 0) {
-        await this.buildABetLocatorsRegistry.favoriteButton.nth(index).click();
+
+    async clickFavorite() {
+        await this.buildABetLocatorsRegistry.favoriteButton.click();
     }
-    
-    async clickInfo(index = 0) {
-        await this.buildABetLocatorsRegistry.infoButton.nth(index).click();
+
+    async clickInfo() {
+        await this.buildABetLocatorsRegistry.infoButton.click();
     }
- 
-    async expandMarket(index = 0) {
-        await this.buildABetLocatorsRegistry.marketExpandIcon.nth(index).click();
+
+    async expandMarket() {
+        await this.buildABetLocatorsRegistry.marketExpandIcon.click();
     }
- 
+
     async clickOdd(oddName: 'Over (0.5)' | 'Under (0.5)' | 'Over (1.5)' | 'Draw') {
         switch (oddName) {
             case 'Over (0.5)':
@@ -118,76 +131,76 @@ export class BuildABetPage {
                 break;
         }
     }
- 
+
     async clickTotalOddsBar() {
         await this.buildABetLocatorsRegistry.totalOddsBar.click();
     }
-    
+
     async clickAddToBetslip() {
         await this.buildABetLocatorsRegistry.addToBetslipButton.click();
     }
- 
+
     async clickClearAll() {
         await this.buildABetLocatorsRegistry.clearAllButton.click();
     }
- 
+
     async clickRemoveOddIcon() {
         await this.buildABetLocatorsRegistry.removeOddIcon.click();
     }
- 
+
     // ------------------------------------------------------------------
     // 3. Highlight & Accessor (Get) Methods
     // ------------------------------------------------------------------
- 
+
     async highlightBuildABetTab() {
         await highlightElements(this.buildABetLocatorsRegistry.buildABetTab);
     }
- 
+
     async highlightInfoMessages() {
         await highlightElements(this.buildABetLocatorsRegistry.infoMessage1x2);
         await highlightElements(this.buildABetLocatorsRegistry.infoMessageDoubleChance);
         await highlightElements(this.buildABetLocatorsRegistry.infoMessageBothTeamsScore);
         await highlightElements(this.buildABetLocatorsRegistry.infoMessageTotalGoals);
     }
- 
+
     async highlightFavorite(index = 0) {
         await highlightElements(this.buildABetLocatorsRegistry.favoriteButton.nth(index));
     }
- 
+
     async highlightInfo(index = 0) {
         await highlightElements(this.buildABetLocatorsRegistry.infoButton.nth(index));
     }
-    
+
     async highlightMarket(index = 0) {
         await highlightElements(this.buildABetLocatorsRegistry.marketExpandIcon.nth(index));
     }
- 
+
     async highlightTotalOddsBar() {
         await highlightElements(this.buildABetLocatorsRegistry.totalOddsBar);
     }
-    
+
     async highlightAddAndClearButtons() {
         await highlightElements(this.buildABetLocatorsRegistry.addToBetslipButton);
         await highlightElements(this.buildABetLocatorsRegistry.clearAllButton);
     }
- 
+
     async highlightSelectedOddsScroller() {
         await highlightElements(this.buildABetLocatorsRegistry.selectedOddsScroller);
     }
- 
+
     async highlightRemoveOddIcon() {
         await highlightElements(this.buildABetLocatorsRegistry.removeOddIcon);
     }
- 
+
     async highlightInvalidCombinationMessage() {
         await highlightElements(this.buildABetLocatorsRegistry.invalidCombinationMessage);
     }
- 
+
     getInvalidCombinationMessage(): Locator {
         return this.buildABetLocatorsRegistry.invalidCombinationMessage;
     }
 
-       // ------------------------------------------------------------------
+    // ------------------------------------------------------------------
     // Mock Data Function (Delete this when your Excel is ready)
     // ------------------------------------------------------------------
     private getMockLocatorData(): Record<string, any> {
@@ -209,7 +222,7 @@ export class BuildABetPage {
             "oddOver0_5": { type: "text", value: "Over (0.5)", options: '{}', nth: 0 },
             "oddUnder0_5": { type: "text", value: "Under (0.5)", options: '{}', nth: 0 },
             "oddOver1_5": { type: "text", value: "Over (1.5)", options: '{}', nth: 0 },
-            "oddDraw": { type: "locator", value: "#more-market-container", options: '{"hasText": "Draw"}' , nth: 0 },
+            "oddDraw": { type: "locator", value: "#more-market-container", options: '{"hasText": "Draw"}', nth: 0 },
             "totalOddsBar": { type: "locator", value: ".bg-dark-800 div", options: '{"hasText": "/\\d+ Selections \\| Total Odds/"}', nth: 0 },
             "addToBetslipButton": { type: "role", value: "button", options: '{"name":"Add to Betslip", "exact":true}', nth: 0 },
             "clearAllButton": { type: "role", value: "button", options: '{"name":"Clear all", "exact":true}', nth: 0 },

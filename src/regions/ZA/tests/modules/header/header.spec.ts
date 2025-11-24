@@ -8,7 +8,7 @@ const screenshotDir = path.join(projectRoot, 'screenshots/module/header');
 
 test.describe('Header Module Tests', () => {
 
-//     // Without Login
+    //     // Without Login
     test('1-Verify Header Beatway Logo', async ({ headerPage }, testInfo) => {
         await headerPage.verifyBetwayLogoHeader();
         await ScreenshotHelper(headerPage.page, screenshotDir, 'T1-header-logo.png', testInfo);
@@ -44,11 +44,11 @@ test.describe('Header Module Tests', () => {
         await ScreenshotHelper(headerPage.page, screenshotDir, 'T6-statisticsClicked.png', testInfo);
     });
 
-    //     // test('7-Verify country code +27 is visible on Homepage', async ({ headerPage }, testInfo) => {
-    //     //     await highlightElementBorder(headerPage.countryCode);
-    //     //     await ScreenshotHelper(headerPage.page, screenshotDir, 'T10-countryCode.png', testInfo);
+    // test('7-Verify country code +27 is visible on Homepage', async ({ headerPage }, testInfo) => {
+    //     await headerPage.verifyCountryCode();
+    //     await ScreenshotHelper(headerPage.page, screenshotDir, 'T10-countryCode.png', testInfo);
 
-    //     // });
+    // });
 
     test('8-Verify Odds Format button with Decimal & Fractional options is visible and clickable in Hamburger Menu', async ({ headerPage }, testInfo) => {
         await headerPage.verifyOddsFormat();
@@ -136,13 +136,13 @@ test.describe('Header Module Tests', () => {
         await ScreenshotHelper(headerPage.page, screenshotDir, 'T29-oddsFormat-loggedin.png', testInfo);
     });
 
-//     //     // test('22-Verify Close button is visible and clickable in Hamburger Menu', async ({ headerPage }, testInfo) => {
-//     //     //     await headerPage.Login();
-//     //     //     await headerPage.clickHamburgerMenu();
-//     //     //     await highlightElementBorder(headerPage.closeHamburgerMenu);
-//     //     //     await ScreenshotHelper(headerPage.page, screenshotDir, 'T30-closeHamburgerMenu-loggedin.png', testInfo);
-//     //     //     await headerPage.closeHamburgerMenu.click();
-//     //     // });
+    //     //     // test('22-Verify Close button is visible and clickable in Hamburger Menu', async ({ headerPage }, testInfo) => {
+    //     //     //     await headerPage.Login();
+    //     //     //     await headerPage.clickHamburgerMenu();
+    //     //     //     await highlightElementBorder(headerPage.closeHamburgerMenu);
+    //     //     //     await ScreenshotHelper(headerPage.page, screenshotDir, 'T30-closeHamburgerMenu-loggedin.png', testInfo);
+    //     //     //     await headerPage.closeHamburgerMenu.click();
+    //     //     // });
     test('23-Verify My account drop down is visible and clickable in Hamburger Menu', async ({ headerPage }, testInfo) => {
         await headerPage.verifyAndClickMyAccount();
         await ScreenshotHelper(headerPage.page, screenshotDir, 'T31-myAccountClicked-loggedin.png', testInfo);
@@ -153,65 +153,65 @@ test.describe('Header Module Tests', () => {
         await headerPage.clickHamburgerMenu();
         await headerPage.verifyAllMyAccountOptions();
         await ScreenshotHelper(headerPage.page, screenshotDir, 'T32-1-myAccountOptions-loggedin.png', testInfo);
-//         await headerPage.clickCloseHamburgerMenu();
+        //         await headerPage.clickCloseHamburgerMenu();
 
-//         await headerPage.clickHamburgerMenu();
-//         await headerPage.testDepositFund();
-//         await ScreenshotHelper(headerPage.page, screenshotDir, 'T32-depositFundClicked-loggedin.png', testInfo);
-//         await headerPage.clickCloseMyAccountOptions();
-//         await headerPage.testWithdrawFund();
-//         await ScreenshotHelper(headerPage.page, screenshotDir, 'T32-withdrawFundClicked-loggedin.png', testInfo);
-//         await headerPage.clickCloseMyAccountOptions();
-//         await ScreenshotHelper(headerPage.page, screenshotDir, 'T32-withdrawFundClicked-loggedin.png', testInfo);
-//         await headerPage.testMyBets();
-//         await ScreenshotHelper(headerPage.page, screenshotDir, 'T32-myBetsClicked-loggedin.png', testInfo);
-//         await headerPage.clickCloseMyAccountOptions();
-//         await headerPage.testMyCasinoBigWin();
-//         await ScreenshotHelper(headerPage.page, screenshotDir, 'T32-myCasinoBigWinClicked-loggedin.png', testInfo);
-//         await headerPage.clickCloseMyAccountOptions();
-//         await headerPage.testBonusSummary();
-//         await ScreenshotHelper(headerPage.page, screenshotDir, 'T32-bonusSummaryClicked-loggedin.png', testInfo);
-//         await headerPage.clickCloseMyAccountOptions();
-//         await headerPage.testTransactionsHistory();
-//         await ScreenshotHelper(headerPage.page, screenshotDir, 'T32-transactionsHistoryClicked-loggedin.png', testInfo);
-//         await headerPage.clickCloseMyAccountOptions();
-//         await headerPage.testMyCoupons();
-//         await ScreenshotHelper(headerPage.page, screenshotDir, 'T32-myCouponsClicked-loggedin.png', testInfo);
-//         await headerPage.clickCloseMyAccountOptions();
-//         await headerPage.testBetInfluencer();
-//         await ScreenshotHelper(headerPage.page, screenshotDir, 'T32-betInfluencerClicked-loggedin.png', testInfo);
-//         await headerPage.clickCloseMyAccountOptions();
-//         await headerPage.testPromoVouchers();
-//         await ScreenshotHelper(headerPage.page, screenshotDir, 'T32-promoVouchersClicked-loggedin.png', testInfo);
-//         await headerPage.clickCloseMyAccountOptions();
-//         await headerPage.testUpdateDetails();
-//         await ScreenshotHelper(headerPage.page, screenshotDir, 'T32-updateDetailsClicked-loggedin.png', testInfo);
-//         await headerPage.clickCloseMyAccountOptions();
-//         await headerPage.testResponsibleGaming();
-//         await ScreenshotHelper(headerPage.page, screenshotDir, 'T32-responsibleGamingClicked-loggedin.png', testInfo);
-//         await headerPage.clickCloseMyAccountOptions();
-//         await headerPage.testDocumentVerification();
-//         await ScreenshotHelper(headerPage.page, screenshotDir, 'T32-documentVerificationClicked-loggedin.png', testInfo);
-//         await headerPage.clickCloseMyAccountOptions();
-//         await headerPage.testBetwayBenefits();
-//         await ScreenshotHelper(headerPage.page, screenshotDir, 'T32-betwayBenefitsClicked-loggedin.png', testInfo);
-//         await headerPage.clickCloseMyAccountOptions();
-//         await headerPage.testBetwayRewards();
-//         await ScreenshotHelper(headerPage.page, screenshotDir, 'T32-betwayRewardsClicked-loggedin.png', testInfo);
-//         await headerPage.clickCloseMyAccountOptions();
-//         await headerPage.testChangePassword();
-//         await ScreenshotHelper(headerPage.page, screenshotDir, 'T32-changePasswordClicked-loggedin.png', testInfo);
-//         await headerPage.clickCloseMyAccountOptions();
-//         await headerPage.testLogout();
-//         await ScreenshotHelper(headerPage.page, screenshotDir, 'T32-logOutClicked-loggedin.png', testInfo);
+        //         await headerPage.clickHamburgerMenu();
+        //         await headerPage.testDepositFund();
+        //         await ScreenshotHelper(headerPage.page, screenshotDir, 'T32-depositFundClicked-loggedin.png', testInfo);
+        //         await headerPage.clickCloseMyAccountOptions();
+        //         await headerPage.testWithdrawFund();
+        //         await ScreenshotHelper(headerPage.page, screenshotDir, 'T32-withdrawFundClicked-loggedin.png', testInfo);
+        //         await headerPage.clickCloseMyAccountOptions();
+        //         await ScreenshotHelper(headerPage.page, screenshotDir, 'T32-withdrawFundClicked-loggedin.png', testInfo);
+        //         await headerPage.testMyBets();
+        //         await ScreenshotHelper(headerPage.page, screenshotDir, 'T32-myBetsClicked-loggedin.png', testInfo);
+        //         await headerPage.clickCloseMyAccountOptions();
+        //         await headerPage.testMyCasinoBigWin();
+        //         await ScreenshotHelper(headerPage.page, screenshotDir, 'T32-myCasinoBigWinClicked-loggedin.png', testInfo);
+        //         await headerPage.clickCloseMyAccountOptions();
+        //         await headerPage.testBonusSummary();
+        //         await ScreenshotHelper(headerPage.page, screenshotDir, 'T32-bonusSummaryClicked-loggedin.png', testInfo);
+        //         await headerPage.clickCloseMyAccountOptions();
+        //         await headerPage.testTransactionsHistory();
+        //         await ScreenshotHelper(headerPage.page, screenshotDir, 'T32-transactionsHistoryClicked-loggedin.png', testInfo);
+        //         await headerPage.clickCloseMyAccountOptions();
+        //         await headerPage.testMyCoupons();
+        //         await ScreenshotHelper(headerPage.page, screenshotDir, 'T32-myCouponsClicked-loggedin.png', testInfo);
+        //         await headerPage.clickCloseMyAccountOptions();
+        //         await headerPage.testBetInfluencer();
+        //         await ScreenshotHelper(headerPage.page, screenshotDir, 'T32-betInfluencerClicked-loggedin.png', testInfo);
+        //         await headerPage.clickCloseMyAccountOptions();
+        //         await headerPage.testPromoVouchers();
+        //         await ScreenshotHelper(headerPage.page, screenshotDir, 'T32-promoVouchersClicked-loggedin.png', testInfo);
+        //         await headerPage.clickCloseMyAccountOptions();
+        //         await headerPage.testUpdateDetails();
+        //         await ScreenshotHelper(headerPage.page, screenshotDir, 'T32-updateDetailsClicked-loggedin.png', testInfo);
+        //         await headerPage.clickCloseMyAccountOptions();
+        //         await headerPage.testResponsibleGaming();
+        //         await ScreenshotHelper(headerPage.page, screenshotDir, 'T32-responsibleGamingClicked-loggedin.png', testInfo);
+        //         await headerPage.clickCloseMyAccountOptions();
+        //         await headerPage.testDocumentVerification();
+        //         await ScreenshotHelper(headerPage.page, screenshotDir, 'T32-documentVerificationClicked-loggedin.png', testInfo);
+        //         await headerPage.clickCloseMyAccountOptions();
+        //         await headerPage.testBetwayBenefits();
+        //         await ScreenshotHelper(headerPage.page, screenshotDir, 'T32-betwayBenefitsClicked-loggedin.png', testInfo);
+        //         await headerPage.clickCloseMyAccountOptions();
+        //         await headerPage.testBetwayRewards();
+        //         await ScreenshotHelper(headerPage.page, screenshotDir, 'T32-betwayRewardsClicked-loggedin.png', testInfo);
+        //         await headerPage.clickCloseMyAccountOptions();
+        //         await headerPage.testChangePassword();
+        //         await ScreenshotHelper(headerPage.page, screenshotDir, 'T32-changePasswordClicked-loggedin.png', testInfo);
+        //         await headerPage.clickCloseMyAccountOptions();
+        //         await headerPage.testLogout();
+        //         await ScreenshotHelper(headerPage.page, screenshotDir, 'T32-logOutClicked-loggedin.png', testInfo);
     });
 
-//     test('25-Verify eye button in Hamburger menu', async ({ headerPage }, testInfo) => {
-//         await headerPage.Login();
-//         await headerPage.clickHamburgerMenu();
-//         await headerPage.verifyHamburgerEyeButton();
-//         await ScreenshotHelper(headerPage.page, screenshotDir, 'T33-eyeButton2Clicked-loggedin.png', testInfo);
-//     });
+    //     test('25-Verify eye button in Hamburger menu', async ({ headerPage }, testInfo) => {
+    //         await headerPage.Login();
+    //         await headerPage.clickHamburgerMenu();
+    //         await headerPage.verifyHamburgerEyeButton();
+    //         await ScreenshotHelper(headerPage.page, screenshotDir, 'T33-eyeButton2Clicked-loggedin.png', testInfo);
+    //     });
 
     test('26-Verify that Accounts button is visible and clickable on the home page of Betway application', async ({ headerPage }, testInfo) => {
         await headerPage.Login();

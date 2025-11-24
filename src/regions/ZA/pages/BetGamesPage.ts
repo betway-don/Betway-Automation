@@ -2,10 +2,9 @@ import { LoginPage } from "./LoginPage";
 import { casinoPageLocators } from '../locators/casinoPageLocators';
 import { SportsPage } from "./SportsPage";
 import { betgamesPageLocators } from "../locators/betgamesPageLocator";
-import { loadLocatorsFromExcel } from "../../../global/utils/file-utils/excelReader";
-import { getLocator } from "../../../global/utils/file-utils/locatorResolver";
+import { loadLocatorsFromExcel } from "../tests/modules/footer/excelReader";
+import { getLocator } from "../tests/modules/footer/locatorResolver";
 const file = "src/global/utils/file-utils/locators.xlsx";
-const LOCATOR_URL="https://github.com/athrvzoz/LocatorFile/raw/refs/heads/main/locators.xlsx"
 
 
 export class BetgamesPage extends SportsPage {
@@ -15,7 +14,7 @@ export class BetgamesPage extends SportsPage {
     constructor(page: import('@playwright/test').Page) {
         super(page);
         this.page = page;
-        const configs = loadLocatorsFromExcel(LOCATOR_URL, "BetGamesPage");
+        const configs = loadLocatorsFromExcel(file, "BetGamesPage");
         this.BetGamesPagelocatorsRegistry = {
             ...this.SportsPagelocatorRegistry,
             searchBox: getLocator(page, configs["searchBox"]),

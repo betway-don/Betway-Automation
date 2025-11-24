@@ -5,9 +5,11 @@ node_modules/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
-/allure-results/
-/src/regions/ZA/screenshots
-/src/regions/ZA/reports
+
+# Playwright
+/playwright/.auth/
+
+# Test Screenshots 
 /screenshots/**/*
 !/screenshots/**/
 !/screenshots/**/.gitkeep
@@ -15,4 +17,7 @@ node_modules/
 allure-results/
 reports/
 screenshots/
-/playwright/.auth/
+
+src/regions/ZA/screenshots/module/
+
+

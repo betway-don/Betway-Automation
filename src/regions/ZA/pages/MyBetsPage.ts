@@ -5,6 +5,7 @@ import { getLocator } from "../../../global/utils/file-utils/locatorResolver"; /
  
 // URL for your central locator file
 const LOCATOR_URL = "https://github.com/athrvzoz/LocatorFile/raw/refs/heads/main/locators.xlsx";
+const file = "src/global/utils/file-utils/locators(2).xlsx";
  
 export class MyBetsPage {
     readonly page: Page;
@@ -16,11 +17,12 @@ export class MyBetsPage {
         // ---
         // 🛑 IMPORTANT: Replace this MOCKED call with your REAL call
         // ---
-        // const configs = loadLocatorsFromExcel(LOCATOR_URL, "MyBetsPage"); // <-- Your REAL call
-        const configs = this.getMockLocatorData(); // <-- MOCKED call. Replace it.
+        const configs = loadLocatorsFromExcel(file, "MyBetPage"); // <-- Your REAL call
+        // const configs = this.getMockLocatorData(); // <-- MOCKED call. Replace it.
         // ---
  
         this.myBetsLocatorsRegistry = {
+            closePromotionPopup: getLocator(this.page, configs["closePromotionPopup"]),
             mobileInput: getLocator(this.page, configs["mobileInput"]),
             passwordInput: getLocator(this.page, configs["passwordInput"]),
             myBetsButton: getLocator(this.page, configs["myBetsButton"]),
@@ -57,7 +59,7 @@ export class MyBetsPage {
     // ------------------------------------------------------------------
  
     async gotoSports() {
-        await this.page.goto('/sport');
+        await this.page.goto('https://new.betway.co.za/sport/soccer');
         await this.page.waitForLoadState('domcontentloaded');
     }
  
@@ -65,6 +67,8 @@ export class MyBetsPage {
         await this.myBetsLocatorsRegistry.mobileInput.fill(mobile);
         await this.myBetsLocatorsRegistry.passwordInput.fill(password);
         await this.myBetsLocatorsRegistry.passwordInput.press('Enter');
+        // await this.page.waitForTimeout(3000);
+        await this.closePromotionPopup();
         await this.page.waitForLoadState('domcontentloaded');
     }
  
@@ -73,7 +77,7 @@ export class MyBetsPage {
     // ------------------------------------------------------------------
  
     async clickMyBets() {
-        await this.myBetsLocatorsRegistry.myBetsButton.first().click();
+        await this.myBetsLocatorsRegistry.myBetsButton.click();
     }
  
     async clickOpenBetsTab() {
@@ -175,6 +179,7 @@ export class MyBetsPage {
         await this.clickDetailView(index);
         await this.myBetsLocatorsRegistry.cashoutButton.nth(index).click();
         await this.page.waitForTimeout(800);
+        await this.myBetsLocatorsRegistry.cashoutConfirmButton.click();
  
         if (action === 'confirm') {
             await this.myBetsLocatorsRegistry.cashoutConfirmButton.click();
@@ -233,6 +238,10 @@ export class MyBetsPage {
  
     getCashoutSuccessMessage(): Locator {
         return this.myBetsLocatorsRegistry.cashoutSuccessMessage;
+    }
+
+    async closePromotionPopup(){
+        await this.myBetsLocatorsRegistry.closePromotionPopup.click();
     }
  
  

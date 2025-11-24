@@ -35,9 +35,8 @@ import * as fs from "fs";
 import { execSync } from "child_process";
 
 export type LocatorConfig = {
-  page:string,
   key: string;
-  type: "css" | "role" | "text" | "xpath"|"label";
+  type: "css" | "role" | "text" | "xpath";
   value: string;
   options?: Record<string, any>;
   nth?: number;
@@ -120,7 +119,6 @@ export function loadLocatorsFromExcel(filePath: string, sheetName: string): Reco
       }
 
       locators[row.key] = {
-        page:row.page,
         key: row.key,
         type: row.type,
         value: row.value,

@@ -1,11 +1,11 @@
 import { HomePage } from "./HomePage";
 import { contactUsPageLocators } from "../locators/contactusPageLocators";
-// import { loadLocatorsFromExcel } from "../../../global/utils/file-utils/excelReader";
-// import { getLocator } from "../../../global/utils/file-utils/locatorResolver";
-import { highlightElementBorder } from "../../Common-Flows/HighlightElements";
-import { expect } from "@playwright/test";
 import { loadLocatorsFromExcel } from "../../../global/utils/file-utils/excelReader";
 import { getLocator } from "../../../global/utils/file-utils/locatorResolver";
+import { highlightElementBorder } from "../../Common-Flows/HighlightElements";
+import { expect } from "@playwright/test";
+// import { loadLocatorsFromExcel } from "../../../global/utils/file-utils/excelReader";
+// import { getLocator } from "../../../global/utils/file-utils/locatorResolver";
 const file = "src/global/utils/file-utils/locators.xlsx";
 
 export class ContactUsPage extends HomePage {
@@ -29,6 +29,12 @@ export class ContactUsPage extends HomePage {
             formSubmitButton : getLocator(this.page, configs["formSubmitButton"]),
         }
 
+        // this.contactUsForm = page.getByText(contactUsPageLocators.contactUsForm?.selector || 'form#contact-us-form');
+        // this.chatToLiveSupport = page.getByText(contactUsPageLocators.chatToLiveSupport.options.name).nth(contactUsPageLocators.chatToLiveSupport.nth || 0);
+        // this.email = page.getByText(contactUsPageLocators.email.options.name);
+        // this.X = page.getByText(contactUsPageLocators.X.options.name);
+        // this.facebook = page.getByText(contactUsPageLocators.facebook.options.name);
+        // this.call = page.getByText(contactUsPageLocators.call.options.name);
     }
     
     // Verification Methods

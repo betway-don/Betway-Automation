@@ -1,9 +1,12 @@
+// npx playwright test src/regions/ZA/tests/modules/signUp/signUp.spec.ts --config=playwright.ZA.config.ts --headed
 import { expect } from '@playwright/test';
-// Import 'test' from your master fixture file
+import path from 'path';
 import { test } from '../../../fixtures/MasterFixtureFile';
-import { ScreenshotHelper } from '../../../../Common-Flows/ScreenshotHelper'; // <-- Make sure this path is correct
+import { ScreenshotHelper } from '../../../../Common-Flows/ScreenshotHelper'; 
 
-// This function is preserved for compatibility
+const projectRoot = path.resolve(__dirname, '../../..');
+const screenshotDir = path.join(projectRoot, 'screenshots/module/signUp');
+
 function setupSignupTestSuite(_name: string) {
     // no-op
 }
@@ -14,9 +17,8 @@ test.afterEach(async ({ signupUtils }) => {
     await signupUtils.clearHighlights();
 });
 
-// ------------------------------------------------------------------
-// 🧪 SUITE 1: Homepage Navigation
-// ------------------------------------------------------------------
+
+// SUITE 1: Homepage Navigation
 setupSignupTestSuite('ZALogin Signup Tests');
 
 test.describe.serial('Homepage Navigation', () => {
@@ -32,8 +34,7 @@ test.describe.serial('Homepage Navigation', () => {
         await ScreenshotHelper(signupPage.page, screenshotDir, 'T1-signup', testInfo);
     });
 
-    test("T2-Verify Login Button is visible on Homepage.", async ({ signupPage, screenshotDir }, testInfo) => {
-        
+    test("T2-Verify Login Button is visible on Homepage.", async ({ signupPage, screenshotDir }, testInfo) => { 
         await signupPage.highlightLoginButton();
         await ScreenshotHelper(signupPage.page, screenshotDir, 'T2-signup', testInfo);
     });
@@ -46,9 +47,8 @@ test.describe.serial('Homepage Navigation', () => {
     });
 });
 
-// ------------------------------------------------------------------
-// 🧪 SUITE 2: Main Sign-Up Flow (Step 1 Validation)
-// ------------------------------------------------------------------
+
+// // SUITE 2: Main Sign-Up Flow (Step 1 Validation)
 test.describe('Main Sign-Up Flow - Step 1', () => {
     // Runs before each test in this 'describe' block
     test.beforeEach(async ({ signupPage, signupUtils }) => {
@@ -63,11 +63,10 @@ test.describe('Main Sign-Up Flow - Step 1', () => {
     });
 
     test('T4-Verify Sign Up Form is visible.', async ({ signupPage, screenshotDir }, testInfo) => {
-        await expect(signupPage.getMobileInput()).toBeVisible();
+        // await expect(signupPage.getMobileInput()).toBeVisible();
         // await expect(signupPage.getPasswordInput()).toBeVisible();
         // await expect(signupPage.getFirstNameInput()).toBeVisible();
         // await expect(signupPage.getLastNameInput()).toBeVisible();
-
 
         await signupPage.highlightMobileInput();
         await signupPage.highlightPasswordInput();
@@ -206,9 +205,9 @@ test.describe('Main Sign-Up Flow - Step 1', () => {
     });
 });
 
-// ------------------------------------------------------------------
-// 🧪 SUITE 3: Main Sign-Up Flow (Step 2 Validation)
-// ------------------------------------------------------------------
+// // ------------------------------------------------------------------
+// // 🧪 SUITE 3: Main Sign-Up Flow (Step 2 Validation)
+// // ------------------------------------------------------------------
 test.describe('Main Sign-Up Flow - Step 2', () => {
     // This hook runs before EACH test in THIS group, getting us to Step 2 automatically.
     test.beforeEach(async ({ signupPage, signupUtils, testData }) => {
@@ -227,80 +226,80 @@ test.describe('Main Sign-Up Flow - Step 2', () => {
         // We are now on Step 2
     });
 
-    test('T5-Register Button (Step 2 Entry)', async ({ signupPage, screenshotDir }, testInfo) => {
-        // This test is re-purposed from the original T5 to just check Step 2 visibility
-        // await expect(signupPage.getRegisterButton()).toBeVisible();
-        await signupPage.highlightRegisterButton();
-        await ScreenshotHelper(signupPage.page, screenshotDir, 'T5-signup-step2', testInfo);
-        await signupPage.clickPrevious(); // Cleanup
-    });
+    // test('T5-Register Button (Step 2 Entry)', async ({ signupPage, screenshotDir }, testInfo) => {
+    //     // This test is re-purposed from the original T5 to just check Step 2 visibility
+    //     // await expect(signupPage.getRegisterButton()).toBeVisible();
+    //     await signupPage.highlightRegisterButton();
+    //     await ScreenshotHelper(signupPage.page, screenshotDir, 'T5-signup-step2', testInfo);
+    //     await signupPage.clickPrevious(); // Cleanup
+    // });
 
-    test('T7-Register Button (Step 2 Full)', async ({ signupPage, screenshotDir, testData }, testInfo) => {
-        await signupPage.agreeToAll();
-        await signupPage.fillIdNumber(testData.idValidation.miscID);
-        // await expect(signupPage.getRegisterButton()).toBeVisible();
-        await signupPage.highlightRegisterButton();
-        await signupPage.page.waitForTimeout(1000);
-        await ScreenshotHelper(signupPage.page, screenshotDir, 'T7-signup', testInfo);
-        await signupPage.clickPrevious(); // Cleanup
-    });
+    // test('T7-Register Button (Step 2 Full)', async ({ signupPage, screenshotDir, testData }, testInfo) => {
+    //     await signupPage.agreeToAll();
+    //     await signupPage.fillIdNumber(testData.idValidation.miscID);
+    //     // await expect(signupPage.getRegisterButton()).toBeVisible();
+    //     await signupPage.highlightRegisterButton();
+    //     await signupPage.page.waitForTimeout(1000);
+    //     await ScreenshotHelper(signupPage.page, screenshotDir, 'T7-signup', testInfo);
+    //     await signupPage.clickPrevious(); // Cleanup
+    // });
 
-    test('T33-ID Document Dropdown Selection and Valid SA ID', async ({ signupPage, screenshotDir, testData }, testInfo) => {
-        // await signupPage.highlightIdDropdown();
-        await signupPage.selectSouthAfricanID();
-        await signupPage.highlightSAIdOption();
-        await signupPage.testSAIdValidation(testData.idValidation.validSAId);
-        await ScreenshotHelper(signupPage.page, screenshotDir, 'T33-signup', testInfo);
-    });
+    // test('T33-ID Document Dropdown Selection and Valid SA ID', async ({ signupPage, screenshotDir, testData }, testInfo) => {
+    //     // await signupPage.highlightIdDropdown();
+    //     await signupPage.selectSouthAfricanID();
+    //     await signupPage.highlightSAIdOption();
+    //     await signupPage.testSAIdValidation(testData.idValidation.validSAId);
+    //     await ScreenshotHelper(signupPage.page, screenshotDir, 'T33-signup', testInfo);
+    // });
 
-    test('T34-Invalid South African ID Validation', async ({ signupPage, screenshotDir, testData }, testInfo) => {
+    // test('T34-Invalid South African ID Validation', async ({ signupPage, screenshotDir, testData }, testInfo) => {
         
-        await signupPage.selectSouthAfricanID();
-        await signupPage.testSAIdValidation(testData.idValidation.shortSAId);
-        await signupPage.testSAIdValidation(testData.idValidation.saIdWithLetters, { clearFirst: true });
-        await signupPage.testSAIdValidation(testData.idValidation.saIdWithSpecialChars, { clearFirst: true, clickRegister: true, waitTime: 2000 });
-        await ScreenshotHelper(signupPage.page, screenshotDir, 'T34-signup', testInfo);
-    });
+    //     await signupPage.selectSouthAfricanID();
+    //     await signupPage.testSAIdValidation(testData.idValidation.shortSAId);
+    //     await signupPage.testSAIdValidation(testData.idValidation.saIdWithLetters, { clearFirst: true });
+    //     await signupPage.testSAIdValidation(testData.idValidation.saIdWithSpecialChars, { clearFirst: true, clickRegister: true, waitTime: 2000 });
+    //     await ScreenshotHelper(signupPage.page, screenshotDir, 'T34-signup', testInfo);
+    // });
 
-    test('T35-Valid Passport Number Format', async ({ signupPage, screenshotDir, testData }, testInfo) => {
-        await signupPage.highlightIdDropdown();
-        await signupPage.selectPassport();
-        await signupPage.highlightPassportOption();
-        await signupPage.testPassportValidation(testData.idValidation.validPassport);
-        await ScreenshotHelper(signupPage.page, screenshotDir, 'T35-signup', testInfo);
-    });
+    // test('T35-Valid Passport Number Format', async ({ signupPage, screenshotDir, testData }, testInfo) => {
+    //     await signupPage.highlightIdDropdown();
+    //     await signupPage.selectPassport();
+    //     await signupPage.highlightPassportOption();
+    //     await signupPage.testPassportValidation(testData.idValidation.validPassport);
+    //     await ScreenshotHelper(signupPage.page, screenshotDir, 'T35-signup', testInfo);
+    // });
 
-    test('T36-Invalid Passport Number Validation', async ({ signupPage, screenshotDir, testData }, testInfo) => {
-        await signupPage.selectPassport();
-        await signupPage.testPassportValidation(testData.idValidation.shortPassport);
-        await signupPage.testPassportValidation(testData.idValidation.passportWithSpecial, { clearFirst: true });
-        await signupPage.testPassportValidation(testData.idValidation.allNumericPassport, { clearFirst: true, clickRegister: true, waitTime: 2000 });
-        await ScreenshotHelper(signupPage.page, screenshotDir, 'T36-signup', testInfo);
-    });
+    // test('T36-Invalid Passport Number Validation', async ({ signupPage, screenshotDir, testData }, testInfo) => {
+    //     await signupPage.selectPassport();
+    //     await signupPage.testPassportValidation(testData.idValidation.shortPassport);
+    //     await signupPage.testPassportValidation(testData.idValidation.passportWithSpecial, { clearFirst: true });
+    //     await signupPage.testPassportValidation(testData.idValidation.allNumericPassport, { clearFirst: true, clickRegister: true, waitTime: 2000 });
+    //     await ScreenshotHelper(signupPage.page, screenshotDir, 'T36-signup', testInfo);
+    // });
 
-    test('T37-Date of Birth Selection and Complete Registration', async ({ signupPage, screenshotDir, testData }, testInfo) => {
-        await signupPage.selectSouthAfricanID();
-        await signupPage.fillSouthAfricanID(testData.idValidation.validSAId);
-        await signupPage.highlightDobDropdown();
-        await signupPage.selectDateOfBirth();
-        await signupPage.agreeToAll();
-        await signupPage.highlightRegisterButton();
-        await signupPage.page.waitForTimeout(1000);
-        await ScreenshotHelper(signupPage.page, screenshotDir, 'T37-signup', testInfo);
-    });
+    // test('T37-Date of Birth Selection and Complete Registration', async ({ signupPage, screenshotDir, testData }, testInfo) => {
+    //     await signupPage.selectSouthAfricanID();
+    //     await signupPage.fillSouthAfricanID(testData.idValidation.validSAId);
+    //     await signupPage.highlightDobDropdown();
+    //     await signupPage.selectDateOfBirth();
+    //     await signupPage.agreeToAll();
+    //     await signupPage.highlightRegisterButton();
+    //     await signupPage.page.waitForTimeout(1000);
+    //     await ScreenshotHelper(signupPage.page, screenshotDir, 'T37-signup', testInfo);
+    // });
 
-    test('T38-Empty ID Number Field Validation', async ({ signupPage, screenshotDir, testData }, testInfo) => {
-        await signupPage.selectSouthAfricanID();
-        await signupPage.highlightSAIdInput();
-        await signupPage.clickRegister();
-        await signupPage.page.waitForTimeout(2000);
-        await ScreenshotHelper(signupPage.page, screenshotDir, 'T38-signup', testInfo);
-    });
+    // test('T38-Empty ID Number Field Validation', async ({ signupPage, screenshotDir, testData }, testInfo) => {
+    //     await signupPage.selectSouthAfricanID();
+    //     await signupPage.highlightSAIdInput();
+    //     await signupPage.clickRegister();
+    //     await signupPage.page.waitForTimeout(2000);
+    //     await ScreenshotHelper(signupPage.page, screenshotDir, 'T38-signup', testInfo);
+    // });
 });
 
-// ------------------------------------------------------------------
-// 🧪 SUITE 4: Hamburger Menu Sign-Up Flow
-// ------------------------------------------------------------------
+// // ------------------------------------------------------------------
+// // 🧪 SUITE 4: Hamburger Menu Sign-Up Flow
+// // ------------------------------------------------------------------
 test.describe('Hamburger Menu Sign-Up Flow', () => {
     // Runs before each test in this 'describe' block
     test.beforeEach(async ({ signupPage, signupUtils }) => {

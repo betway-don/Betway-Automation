@@ -3,6 +3,7 @@ const apidata = require('../apis/Sign-upPage/api.json')[0];
 
 const userData = require('../json-data/userData.json');
 import { expect } from '@playwright/test';
+import { loginLocators } from '../locators/loginPageLocators';
 import { time } from 'console';
 
 
@@ -91,7 +92,7 @@ export class LoginPage extends HomePage{
     }
 
     async goto() {
-        await this.page.goto("/");
+        await this.page.goto(`${config}`);
     }
 
     async gotoAviatorPage() {

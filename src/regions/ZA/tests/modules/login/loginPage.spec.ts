@@ -14,35 +14,35 @@ const screenshotDir = path.join(projectRoot, 'screenshots/module/login');
 
 test.describe.serial('Login Page Tests', () => {
 
-  // test("T1-Verify Login Button is visible on Homepage.", async ({ loginPage }, testInfo) => {
-  //   await loginPage.verifyHeaderLoginButton();
-  //   await ScreenshotHelper(loginPage.page, screenshotDir, 'T1-loginPage', testInfo);
-  // });
+  test("T1-Verify Login Button is visible on Homepage.", async ({ loginPage }, testInfo) => {
+    await loginPage.verifyHeaderLoginButton();
+    await ScreenshotHelper(loginPage.page, screenshotDir, 'T1-loginPage', testInfo);
+  });
 
-  // test('T2 - Verify that user should able to click on "Login" button', async ({ loginPage }, testInfo) => {
-  //   await loginPage.clickLogin();
-  //   await ScreenshotHelper(loginPage.page, screenshotDir, 'T2-loginPage', testInfo);
-  // });
-
-
-  // test('T3 - Verify that user should able to see the "Login" button in Hamburger menu', async ({ loginPage }, testInfo) => {
-  //   await loginPage.clickHamburgerMenu();
-  //   await loginPage.verifyHamburgerLoginButton();
-  //   await ScreenshotHelper(loginPage.page, screenshotDir, 'T3-loginPage', testInfo);
-  // });
+  test('T2 - Verify that user should able to click on "Login" button', async ({ loginPage }, testInfo) => {
+    await loginPage.clickLogin();
+    await ScreenshotHelper(loginPage.page, screenshotDir, 'T2-loginPage', testInfo);
+  });
 
 
-  // test('T4 - Verify that user should able to click on "Login" button in Hamburger menu', async ({ loginPage }, testInfo) => {
-  //   await loginPage.clickLoginButtonFromHamburger();
-  //   await ScreenshotHelper(loginPage.page, screenshotDir, 'T4-loginPage', testInfo);
-  // });
+  test('T3 - Verify that user should able to see the "Login" button in Hamburger menu', async ({ loginPage }, testInfo) => {
+    await loginPage.clickHamburgerMenu();
+    await loginPage.verifyHamburgerLoginButton();
+    await ScreenshotHelper(loginPage.page, screenshotDir, 'T3-loginPage', testInfo);
+  });
 
 
-  // test('T5 - Verify that user should able to see the "Login" button on signup popup window', async ({ loginPage }, testInfo) => {
-  //   await loginPage.clickLoginButtonFromHamburger();
-  //   await loginPage.verifyLoginButtonFromPopupThroughHamburger();
-  //   await ScreenshotHelper(loginPage.page, screenshotDir, 'T5-loginPage', testInfo);
-  // });
+  test('T4 - Verify that user should able to click on "Login" button in Hamburger menu', async ({ loginPage }, testInfo) => {
+    await loginPage.clickLoginButtonFromHamburger();
+    await ScreenshotHelper(loginPage.page, screenshotDir, 'T4-loginPage', testInfo);
+  });
+
+
+  test('T5 - Verify that user should able to see the "Login" button on signup popup window', async ({ loginPage }, testInfo) => {
+    await loginPage.clickLoginButtonFromHamburger();
+    await loginPage.verifyLoginButtonFromPopupThroughHamburger();
+    await ScreenshotHelper(loginPage.page, screenshotDir, 'T5-loginPage', testInfo);
+  });
 
 
   // test('T6 - Verify that user should able to click on "Login" button on signup popup window', async ({ loginPage }, testInfo) => {
@@ -81,8 +81,6 @@ test.describe.serial('Login Page Tests', () => {
   //   await ScreenshotHelper(loginPage.page, screenshotDir, 'T11-loginPage', testInfo);
   // });
 
-
-  // ------------------------ReWrite below test case
   // test('T12  - Verify that user is able to login from login button available on signup popup window through hamburger menu', async ({ loginPage }, testInfo) => {
   //   await loginPage.LoginFromSignupPopupHamburgerMenu();
   //   await ScreenshotHelper(loginPage.page, screenshotDir, 'T12-loginPage', testInfo);
@@ -129,7 +127,6 @@ test.describe.serial('Login Page Tests', () => {
   //   await ScreenshotHelper(loginPage.page, screenshotDir, 'T20-loginPage', testInfo);
   // });
 
-  // Implement Try catchblock ---------------------
   // test('T21 - Verify that user is not able to login if password field has more than 20 characters', async ({ loginPage }, testInfo) => {
   //   await loginPage.LoginFromSignupPopupHamburgerMenuArgs(fakerdata.user8.mobile, fakerdata.user8.password);
   //   await ScreenshotHelper(loginPage.page, screenshotDir, 'T21-loginPage', testInfo);
@@ -176,11 +173,11 @@ test.describe.serial('Login Page Tests', () => {
   // });
 
   // test('T39- Verify that user is able to see the "Login" window when clicked on "Play" button on game banner while on "casino" page', async ({ casinoPage }, testInfo) => {
-  //   await casinoPage.playGame('FlyX Party');
+  //   await casinoPage.playGame('The Chicken game');
   //   await ScreenshotHelper(casinoPage.page, screenshotDir, 'T39-loginPage', testInfo);
   // });
   // test('T40- Verify that user is able  to click "Login"  from popup window when clicked on "Play" button on game banner while on "casino" page', async ({ casinoPage }, testInfo) => {
-  //   await casinoPage.playGame('FlyX Party');
+  //   await casinoPage.playGame('The Chicken game');
   //   await casinoPage.LoginFromPopUp();
   //   await ScreenshotHelper(casinoPage.page, screenshotDir, 'T40-loginPage', testInfo);
   // });
@@ -237,74 +234,74 @@ test.describe.serial('Login Page Tests', () => {
   //   await ScreenshotHelper(loginPage.page, screenshotDir, 'T47-', testInfo)
   // });
 
-  test('T48 - Verify that user is able to see the "Login" window when clicked on "Play" button on game banner while on "betgames" page', async ({ betgamesPage }, testInfo) => {
-    await betgamesPage.playGame('Bad Baboons');
-    await ScreenshotHelper(betgamesPage.page, screenshotDir, 'T48-loginPage', testInfo);
-  });
-  test('T49 - Verify that user is able to see the "Login" window from signup popup window when clicked on "Play" button on game banner while on "betgames" page', async ({ betgamesPage }, testInfo) => {
-    await betgamesPage.playGame('Bad Baboons');
-    await betgamesPage.gotoSignUpfromLoginPopUp();
-    await betgamesPage.gotoLoginFromSignUp();
-    await ScreenshotHelper(betgamesPage.page, screenshotDir, 'T49-loginPage', testInfo);
-  });
+  // test('T48 - Verify that user is able to see the "Login" window when clicked on "Play" button on game banner while on "betgames" page', async ({ betgamesPage }, testInfo) => {
+  //   await betgamesPage.playGame('Bad Baboons');
+  //   await ScreenshotHelper(betgamesPage.page, screenshotDir, 'T48-loginPage', testInfo);
+  // });
+  // test('T49 - Verify that user is able to see the "Login" window from signup popup window when clicked on "Play" button on game banner while on "betgames" page', async ({ betgamesPage }, testInfo) => {
+  //   await betgamesPage.playGame('Bad Baboons');
+  //   await betgamesPage.gotoSignUpfromLoginPopUp();
+  //   await betgamesPage.gotoLoginFromSignUp();
+  //   await ScreenshotHelper(betgamesPage.page, screenshotDir, 'T49-loginPage', testInfo);
+  // });
 
-  test('T50 - Verify that user is able  to click "Login"  from popup window when clicked on "Play" button on game banner while on "betgames" page', async ({ betgamesPage }, testInfo) => {
-    await betgamesPage.playGame('Bad Baboons');
-    await betgamesPage.LoginFromPopUp();
-    await ScreenshotHelper(betgamesPage.page, screenshotDir, 'T50-loginPage', testInfo);
-  });
+  // test('T50 - Verify that user is able  to click "Login"  from popup window when clicked on "Play" button on game banner while on "betgames" page', async ({ betgamesPage }, testInfo) => {
+  //   await betgamesPage.playGame('Bad Baboons');
+  //   await betgamesPage.LoginFromPopUp();
+  //   await ScreenshotHelper(betgamesPage.page, screenshotDir, 'T50-loginPage', testInfo);
+  // });
 
-  test('T51- Verify that user is able to see the "Login" popup window', async ({ sportsPage }, testInfo) => {
-    await OddsSelection(5,sportsPage.page)
-    await sportsPage.page.locator('#betslip-container').getByRole('button',{name:"Login"}).click();
-    await sportsPage.LoginFromPopUp();
-    await ScreenshotHelper(sportsPage.page, screenshotDir, 'T51-loginPage', testInfo);
-  });
+  // test('T51- Verify that user is able to see the "Login" popup window', async ({ sportsPage }, testInfo) => {
+  //   await OddsSelection(5,sportsPage.page)
+  //   await sportsPage.page.locator('#betslip-container').getByRole('button',{name:"Login"}).click();
+  //   await sportsPage.LoginFromPopUp();
+  //   await ScreenshotHelper(sportsPage.page, screenshotDir, 'T51-loginPage', testInfo);
+  // });
 
-  test('T54/58/62 - Verify that user is able to see the "Login" window when clicked on "Favorite icon" button on game banner while on "Aviator" page', async ({ casinoPage }, testInfo) => {
-    await casinoPage.FavouriteGame();
-    await ScreenshotHelper(casinoPage.page, screenshotDir, 'T54-loginPage', testInfo);
-  });
+  // test('T54/58/62 - Verify that user is able to see the "Login" window when clicked on "Favorite icon" button on game banner while on "Aviator" page', async ({ casinoPage }, testInfo) => {
+  //   await casinoPage.FavouriteGame();
+  //   await ScreenshotHelper(casinoPage.page, screenshotDir, 'T54-loginPage', testInfo);
+  // });
 
-  test('T55/59/63 - Verify that user is able to see the "Login" window from signup popup window when clicked on "Favorite icon" button on game banner while on "Aviator" page', async ({ casinoPage }, testInfo) => {
-    await casinoPage.FavouriteGame();
-    await casinoPage.gotoSignUpfromLoginPopUp();
-    await casinoPage.gotoLoginFromSignUp();
-    await casinoPage.verifyLoginWindow();
-    await ScreenshotHelper(casinoPage.page, screenshotDir, 'T55-loginPage', testInfo);
-  });
+  // test('T55/59/63 - Verify that user is able to see the "Login" window from signup popup window when clicked on "Favorite icon" button on game banner while on "Aviator" page', async ({ casinoPage }, testInfo) => {
+  //   await casinoPage.FavouriteGame();
+  //   await casinoPage.gotoSignUpfromLoginPopUp();
+  //   await casinoPage.gotoLoginFromSignUp();
+  //   await casinoPage.verifyLoginWindow();
+  //   await ScreenshotHelper(casinoPage.page, screenshotDir, 'T55-loginPage', testInfo);
+  // });
 
-  test('T56/60/64 - Verify that user is able  to click "Login"  from popup window when clicked on "Favorite icon" button on game banner while on "Aviator" page ', async ({ casinoPage }, testInfo) => {
-    await casinoPage.FavouriteGame();
-    await casinoPage.LoginFromPopUp();
-    await ScreenshotHelper(casinoPage.page, screenshotDir, 'T56-loginPage', testInfo);
-  });
+  // test('T56/60/64 - Verify that user is able  to click "Login"  from popup window when clicked on "Favorite icon" button on game banner while on "Aviator" page ', async ({ casinoPage }, testInfo) => {
+  //   await casinoPage.FavouriteGame();
+  //   await casinoPage.LoginFromPopUp();
+  //   await ScreenshotHelper(casinoPage.page, screenshotDir, 'T56-loginPage', testInfo);
+  // });
 
-  test('T57/61/65 - Verify that user is able  to click "Login"  from sign up popup window when clicked on "Favorite icon" button on game banner while on "Aviator" page ', async ({ casinoPage }, testInfo) => {
-    await casinoPage.FavouriteGame();
-    await casinoPage.gotoSignUpfromLoginPopUp();
-    await casinoPage.gotoLoginFromSignUp();
-    await casinoPage.verifyLoginButtonFromPopupWithoutHamburger();
-    await ScreenshotHelper(casinoPage.page, screenshotDir, 'T57-loginPage', testInfo);
-  });
+  // test('T57/61/65 - Verify that user is able  to click "Login"  from sign up popup window when clicked on "Favorite icon" button on game banner while on "Aviator" page ', async ({ casinoPage }, testInfo) => {
+  //   await casinoPage.FavouriteGame();
+  //   await casinoPage.gotoSignUpfromLoginPopUp();
+  //   await casinoPage.gotoLoginFromSignUp();
+  //   await casinoPage.verifyLoginButtonFromPopupWithoutHamburger();
+  //   await ScreenshotHelper(casinoPage.page, screenshotDir, 'T57-loginPage', testInfo);
+  // });
 
-  test('T66- Verify that user is able to see the "Login" window when clicked on "Favorite icon" button on game banner while on "Virtuals" page', async ({ virtualsPage }, testInfo) => {
-    await virtualsPage.FavouriteGame();
-    await ScreenshotHelper(virtualsPage.page, screenshotDir, 'T66-loginPage', testInfo);
-  });
-  test('T67 - Verify that user is able to see the "Login" window from signup popup window when clicked on "Favorite icon" button on game banner while on "Virtuals" page', async ({ virtualsPage }, testInfo) => {
-    await virtualsPage.FavouriteGame();
-    await virtualsPage.gotoSignUpfromLoginPopUp();
-    await virtualsPage.gotoLoginFromSignUp();
-    await virtualsPage.verifyLoginWindow();
-    await ScreenshotHelper(virtualsPage.page, screenshotDir, 'T67-loginPage', testInfo);
-  });
+  // test('T66- Verify that user is able to see the "Login" window when clicked on "Favorite icon" button on game banner while on "Virtuals" page', async ({ virtualsPage }, testInfo) => {
+  //   await virtualsPage.FavouriteGame();
+  //   await ScreenshotHelper(virtualsPage.page, screenshotDir, 'T66-loginPage', testInfo);
+  // });
+  // test('T67 - Verify that user is able to see the "Login" window from signup popup window when clicked on "Favorite icon" button on game banner while on "Virtuals" page', async ({ virtualsPage }, testInfo) => {
+  //   await virtualsPage.FavouriteGame();
+  //   await virtualsPage.gotoSignUpfromLoginPopUp();
+  //   await virtualsPage.gotoLoginFromSignUp();
+  //   await virtualsPage.verifyLoginWindow();
+  //   await ScreenshotHelper(virtualsPage.page, screenshotDir, 'T67-loginPage', testInfo);
+  // });
 
-  test('T68 - Verify that user is able  to "Login"  from popup window when clicked on "Favorite icon" button on game banner while on "Virtuals" page', async ({ virtualsPage }, testInfo) => {
-    await virtualsPage.FavouriteGame();
-    await virtualsPage.gotoSignUpfromLoginPopUp();
-    await virtualsPage.gotoLoginFromSignUp();
-    await virtualsPage.verifyLoginButtonFromPopupWithoutHamburger();
-    await ScreenshotHelper(virtualsPage.page, screenshotDir, 'T57-loginPage', testInfo);
-  });
+  // test('T68 - Verify that user is able  to "Login"  from popup window when clicked on "Favorite icon" button on game banner while on "Virtuals" page', async ({ virtualsPage }, testInfo) => {
+  //   await virtualsPage.FavouriteGame();
+  //   await virtualsPage.gotoSignUpfromLoginPopUp();
+  //   await virtualsPage.gotoLoginFromSignUp();
+  //   await virtualsPage.verifyLoginButtonFromPopupWithoutHamburger();
+  //   await ScreenshotHelper(virtualsPage.page, screenshotDir, 'T57-loginPage', testInfo);
+  // });
 });

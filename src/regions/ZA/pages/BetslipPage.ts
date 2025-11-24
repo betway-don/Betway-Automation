@@ -5,7 +5,7 @@ import { highlightElementBorder, highlightElements } from '../../Common-Flows/Hi
 
 const userData = require('../json-data/userData.json');
 // const LOCATOR_URL = "https://github.com/athrvzoz/LocatorFile/raw/refs/heads/main/locators.xlsx";
-const Locator_Url = "src/global/utils/file-utils/locators(1).xlsx";
+const Locator_Url = "src/global/utils/file-utils/locators(2).xlsx";
 
 // Assume HomePage is imported correctly
 import { HomePage } from './HomePage';
@@ -81,6 +81,8 @@ export class BetslipPage extends HomePage {
   // Navigation Methods
   async goto() {
     await this.page.goto('https://new.betway.co.za/sport/soccer');
+    // await this.BetslipPageLocatorsRegistry.closePromotionPopup.waitFor({ state: 'visible',});
+    // await this.BetslipPageLocatorsRegistry.closePromotionPopup.click();
   }
 
   // Login Methods

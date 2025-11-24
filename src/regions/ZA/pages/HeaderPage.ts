@@ -8,7 +8,7 @@ import { expect } from '@playwright/test';
 
 const userData = require('../json-data/userData.json');
 // const LOCATOR_URL = "https://github.com/athrvzoz/LocatorFile/raw/refs/heads/main/locators.xlsx";
-const Locator_Url = "src/global/utils/file-utils/locators(1).xlsx"
+const Locator_Url = "src/global/utils/file-utils/locators(2).xlsx"
 
 export class HeaderPage extends HomePage {
   readonly HeaderPageLocatorsRegistry: Record<string, import('@playwright/test').Locator>;
@@ -84,6 +84,18 @@ export class HeaderPage extends HomePage {
   // Navigation Methods
   async goto() {
     await this.page.goto('https://new.betway.co.za/sport/soccer');
+    //   await this.HeaderPageLocatorsRegistry.closePromotionPopup.waitFor({ state: 'visible',timeout:15000});
+    // await this.HeaderPageLocatorsRegistry.closePromotionPopup.click();
+  }
+
+    async Login() {
+    // await this.goto();
+    await this.HeaderPageLocatorsRegistry.mobileNumberInput.fill(`${userData.user4.mobile}`);
+    await this.HeaderPageLocatorsRegistry.passwordInput.fill(`${userData.user4.password}`);
+    await this.page.keyboard.press('Enter');
+    await this.HeaderPageLocatorsRegistry.closePromotionPopup.waitFor({ state: 'visible',});
+    await this.HeaderPageLocatorsRegistry.closePromotionPopup.click();
+    await this.page.waitForLoadState('domcontentloaded');
   }
 
   // Verification Methods
@@ -128,7 +140,7 @@ export class HeaderPage extends HomePage {
   }
 
   async verifyMobileNumberField() {
-    await this.HeaderPageLocatorsRegistry.mobileNumber.waitFor({ state: 'visible', timeout: 15000 });
+    await this.HeaderPageLocatorsRegistry.mobileNumber.waitFor({ state: 'visible', timeout: 20000 });
     await highlightElementBorder(this.HeaderPageLocatorsRegistry.mobileNumberInput);
   }
 
@@ -137,6 +149,10 @@ export class HeaderPage extends HomePage {
     await highlightElementBorder(this.HeaderPageLocatorsRegistry.passwordInput);
   }
 
+  // async verifyCountryCode() {
+  //   await this.HeaderPageLocatorsRegistry.countryCode.waitFor({ state: 'visible', timeout: 10000 });
+  //   await highlightElementBorder(this.HeaderPageLocatorsRegistry.countryCode);
+  // }
   // async verifyEyeButton() {
   //   await highlightElementBorder(this.HeaderPageLocatorsRegistry.eyeButton);
   //   await this.page.waitForTimeout(3000);
@@ -306,14 +322,7 @@ export class HeaderPage extends HomePage {
     await this.HeaderPageLocatorsRegistry.forgetPasswordLink.click();
   }
 
-  async Login() {
-    await this.goto();
-    await this.HeaderPageLocatorsRegistry.mobileNumberInput.fill(`${userData.user4.mobile}`);
-    await this.HeaderPageLocatorsRegistry.passwordInput.fill(`${userData.user4.password}`);
-    await this.page.keyboard.press('Enter');
-    // await this.HeaderPageLocatorsRegistry.closePromotionPopup.click();
-    await this.page.waitForLoadState('domcontentloaded');
-  }
+
 
   // Betslip Methods
   async clickBetslipButton() {

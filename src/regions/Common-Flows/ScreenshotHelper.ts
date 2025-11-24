@@ -6,8 +6,5 @@ export async function ScreenshotHelper(page: import('@playwright/test').Page, sc
         path: screenshotPath ,
         contentType: 'image/png'
     });
-    await page.waitForTimeout(2000);
+    // await page.waitForTimeout(2000);
 }
-// 1.npx playwright test src/regions/ZA/tests/modules/footer/footer.spec.ts --config=playwright.ZA.config.ts --headed    
-// 2.allure generate allure-results --clean -o src/regions/ZA/reports/allure-report
-// 3.allure open src/regions/ZA/reports/allure-report   

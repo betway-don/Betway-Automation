@@ -1,16 +1,15 @@
 import { LoginPage } from "./LoginPage";
 import { casinoPageLocators } from '../locators/casinoPageLocators';
 import userData from '../json-data/userData.json'; // Adjust the path as needed
-// import { loadLocatorsFromExcel } from "../tests/modules/footer/excelReader";
-// import { getLocator } from "../tests/modules/footer/locatorResolver";
+import { loadLocatorsFromExcel } from "../tests/modules/footer/excelReader";
+import { getLocator } from "../tests/modules/footer/locatorResolver";
 import { highlightElements } from "../../Common-Flows/HighlightElements";
-import { loadLocatorsFromExcel } from "../../../global/utils/file-utils/excelReader";
-import { getLocator } from "../../../global/utils/file-utils/locatorResolver";
+// import { loadLocatorsFromExcel } from "../../../global/utils/file-utils/excelReader";
+// import { getLocator } from "../../../global/utils/file-utils/locatorResolver";
 const file = "src/global/utils/file-utils/locators.xlsx";
-const LOCATOR_URL="https://github.com/athrvzoz/LocatorFile/raw/refs/heads/main/locators.xlsx"
 
 export class CasinoPage extends LoginPage {
-    readonly casinoPagelocatorsRegistry: Record<string, import('@playwright/test').Locator>;
+    casinoPagelocatorsRegistry: Record<string, import('@playwright/test').Locator>;
     // searchBox: ReturnType<import('@playwright/test').Page['getByRole']>;
     // playButton: ReturnType<import('@playwright/test').Page['getByRole']>;
     // aviatorLink: ReturnType<import('@playwright/test').Page['getByRole']>;
@@ -22,7 +21,7 @@ export class CasinoPage extends LoginPage {
     constructor(page: import('@playwright/test').Page) {
         super(page);
         this.page = page;
-        const configs = loadLocatorsFromExcel(LOCATOR_URL, "CasinoPage");
+        const configs = loadLocatorsFromExcel(file, "CasinoPage");
         this.casinoPagelocatorsRegistry = {
             ...this.LoginPagelocatorsRegistry,
             searchBox : getLocator(page, configs["searchBox"]),

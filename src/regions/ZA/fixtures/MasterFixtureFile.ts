@@ -1,5 +1,8 @@
 import { test as base, expect, Page, BrowserContext } from '@playwright/test';
 import path from 'path';
+import * as fs from 'fs';
+ 
+// --- Page Object Imports ---
 import { LoginPage } from '../pages/LoginPage';
 import { SportsPage } from '../pages/SportsPage';
 import { CasinoPage } from '../pages/CasinoPage';
@@ -9,42 +12,70 @@ import { BetgamesPage } from '../pages/BetGamesPage';
 import { SignUpPage } from '../pages/SignUpPage';
 import { SignupUtils } from '../utils/signupUtils';
 import { HomePage } from '../pages/HomePage';
+import { HeaderPage } from '../pages/HeaderPage';
+import {BetslipPage} from '../pages/BetslipPage';
 import { BetInfluencerModal } from '../pages/BetInfluencerModal';
 import { ContactUsPage } from '../pages/ContactUsPage';
 import { HowToPage } from '../pages/HowToPage';
-import { HeaderPage } from '../pages/HeaderPage';
-import {BetslipPage} from '../pages/BetslipPage';
 import { MyBetsPage } from '../pages/MyBetsPage';
 import { BuildABetPage } from '../pages/BuildABetPage'; 
 
-// Test data interface for signup
-export interface TestData {
-  mobile: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  saId: string;
-  passportNumber: string;
-  referralCode: string;
-  voucherCode: string;
+import { BookABetPage } from '../pages/BookABetPage';
+import { BetSaverPage } from '../pages/BetSaverPage'; 
+import { TransactionHistoryPage } from '../pages/TransactionHistoryPage';
+
+
+ 
+ 
+// ------------------------------------------------------------------
+// 1. LOAD TEST DATA FROM JSON
+// ------------------------------------------------------------------
+ 
+// Define the shape of the data file
+export interface FullTestData {
+  basicInfo: {
+    mobile: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+  };
+  mobileValidation: { [key: string]: string };
+  passwordValidation: { [key: string]: string };
+  nameValidation: { [key: string]: string };
+  idValidation: { [key: string]: string };
+  codeValidation: { [key: string]: string };
+  myBetsCredentials: {
+    mobile: string;
+    password: string;
+  };
+  buildABetCredentials: { // <--- 2. ADD NEW DATA INTERFACE
+    mobile: string;
+    password: string;
+  };
 }
-
-// Worker-scoped variables to maintain single context/page approach for signup tests
-let sharedSignupContext: BrowserContext;
-let sharedSignupPage: Page;
-
-// Default test data - matches original test values
-const defaultTestData: TestData = {
-  mobile: '999881234',
-  password: '123456789',
-  firstName: 'Test',
-  lastName: 'User',
-  saId: '9001010001084',
-  passportNumber: 'B12345678',
-  referralCode: 'VALID123',
-  voucherCode: 'AbCdEf'
-};
-
+ 
+// Path to your JSON data file
+const testDataPath = path.resolve(__dirname, '../json-data/SignUpData.json');
+ 
+// Helper check
+if (!fs.existsSync(testDataPath)) {
+    console.error(`\n[MasterFixtureFile Error]`);
+    console.error(`Could not find the JSON data file at the specified path.`);
+    console.error(`Path tried: ${testDataPath}`);
+    process.exit(1);
+}
+ 
+const testDataFile = fs.readFileSync(testDataPath, 'utf-8');
+const allTestData: FullTestData = JSON.parse(testDataFile);
+ 
+// DEPRECATED: For backward compatibility
+export const TestDataVariations = allTestData;
+ 
+// ------------------------------------------------------------------
+// 2. DEFINE FIXTURE TYPES
+// ------------------------------------------------------------------
+ 
 type PageFixtures = {
   homePage: HomePage;
   loginPage: LoginPage;
@@ -54,27 +85,33 @@ type PageFixtures = {
   promotionPage: PromotionPage;
   betgamesPage: BetgamesPage;
   betinfluencerModal: BetInfluencerModal;
-  contactUs:ContactUsPage;
-  howTo:HowToPage
+  contactUs: ContactUsPage;
+  howTo: HowToPage;
   myBetsPage: MyBetsPage;
-  buildABetPage: BuildABetPage;
+  buildABetPage: BuildABetPage; // <--- 3. ADD NEW PAGE FIXTURE TYPE
+ 
   headerPage: HeaderPage;
-  betslipPage: BetslipPage;
   // Signup-specific fixtures
   signupPage: SignUpPage;
   signupUtils: SignupUtils;
   screenshotDir: string;
-  testData: TestData;
-
+  betslipPage: BetslipPage;
+ 
+  testData: FullTestData;
 };
-
+ 
+// ------------------------------------------------------------------
+// 3. EXTEND PLAYWRIGHT'S 'test' OBJECT
+// ------------------------------------------------------------------
+ 
 export const test = base.extend<PageFixtures>({
+ 
+  // --- Standard Page Fixtures ---
   homePage: async ({ page }, use) => {
     const homePage = new HomePage(page);
     await homePage.gotoHomePage();
     await homePage.page.setViewportSize({ width: 1300, height: 780 });
     await homePage.page.getByText('Got it').first().click();
-    // await homePage.page.waitForEvent('domcontentloaded');
     await use(homePage);
   },
   loginPage: async ({ page }, use) => {
@@ -133,53 +170,7 @@ export const test = base.extend<PageFixtures>({
     await betinfluencerModal.page.getByText('Got it').first().click();
     await use(betinfluencerModal);
   },
-
-  // Signup fixtures - using shared page approach for no-refresh strategy
-  screenshotDir: async ({ }, use) => {
-    const projectRoot = path.resolve(__dirname, '../../..');
-    const screenshotDir = path.join(projectRoot, 'screenshots/module/sign-up');
-    await use(screenshotDir);
-  },
-
-  testData: async ({ }, use) => {
-    await use(defaultTestData);
-  },
-
-  signupPage: async ({ browser }, use) => {
-    // Initialize shared context and page if not already done
-    if (!sharedSignupContext) {
-      sharedSignupContext = await browser.newContext();
-    }
-    if (!sharedSignupPage) {
-      sharedSignupPage = await sharedSignupContext.newPage();
-
-      // Initialize the page and wait for load state - matches original beforeAll
-      const signupPage = new SignUpPage(sharedSignupPage);
-      await signupPage.goto();
-      await sharedSignupPage.waitForLoadState('domcontentloaded');
-    }
-
-    const signupPage = new SignUpPage(sharedSignupPage);
-    await use(signupPage);
-  },
-
-  signupUtils: async ({ browser }, use) => {
-    // Use the same shared page
-    if (!sharedSignupContext) {
-      sharedSignupContext = await browser.newContext();
-    }
-    if (!sharedSignupPage) {
-      sharedSignupPage = await sharedSignupContext.newPage();
-
-      // Initialize the page and wait for load state - matches original beforeAll
-      const signupPage = new SignUpPage(sharedSignupPage);
-      await signupPage.goto();
-      await sharedSignupPage.waitForLoadState('domcontentloaded');
-    }
-
-    const signupUtils = new SignupUtils(sharedSignupPage);
-    await use(signupUtils);
-  },
+ 
   headerPage: async ({ page }, use) => {
     const headerPage = new HeaderPage(page);
     await headerPage.goto();
@@ -187,15 +178,161 @@ export const test = base.extend<PageFixtures>({
   },
   betslipPage: async ({ page }, use) => {
     const betslipPage = new BetslipPage(page);
+    await betslipPage.page.setViewportSize({ width: 1300, height: 780 });
     await betslipPage.goto();
     await use(betslipPage);
   },
-  buildABetPage: async ({ page }, use) => {
+   buildABetPage: async ({ page }, use) => {
     await page.setViewportSize({ width: 1300, height: 780 });
     const buildABetPage = new BuildABetPage(page);
     await use(buildABetPage);
   },
-  
+ 
+  screenshotDir: async ({ }, use) => {
+    const projectRoot = path.resolve(__dirname, '../../..');
+    const screenshotDir = path.join(projectRoot, 'screenshots/module/sign-up');
+    await use(screenshotDir);
+  },
+ 
+  testData: async ({ }, use) => {
+    await use(allTestData);
+  },
+ 
+  signupPage: async ({ page }, use) => {
+    await page.setViewportSize({ width: 1300, height: 780 });
+    const signupPage = new SignUpPage(page);
+    await use(signupPage);
+  },
+ 
+  signupUtils: async ({ page }, use) => {
+    await page.setViewportSize({ width: 1300, height: 780 });
+    const signupUtils = new SignupUtils(page);
+    await use(signupUtils);
+  },
+
+  myBetsPage: async ({ page }, use) => { 
+    await page.setViewportSize({ width: 1300, height: 780 });
+    const myBetsPage = new MyBetsPage(page);
+    await myBetsPage.gotoSports();
+    await use(myBetsPage);
+   },
 });
 
-// Export expect for convenience
+
+// Worker-scoped variables to maintain single context/page approach for signup tests
+// let sharedSignupContext: BrowserContext;
+// let sharedSignupPage: Page;
+
+// // Worker-scoped variables for BookABet
+// let sharedBookABetContext: BrowserContext;
+// let sharedBookABetPage: Page;
+
+// // Worker-scoped variables for BetSaver
+// let sharedBetSaverContext: BrowserContext;
+// let sharedBetSaverPage: Page;
+
+// // worker-scoped variables for TransactionHistory
+// let sharedTransactionHistoryContext: BrowserContext;
+// let sharedTransactionHistoryPage: Page;
+ 
+// export const bookAbetTest = base.extend<{
+//   bookABetPage: BookABetPage;
+//   locators: bookABetLocators;
+//   screenshotDir: string;
+// }>({
+//   screenshotDir: async ({ }, use) => {
+//     const projectRoot = path.resolve(__dirname, '../../..');
+//     const screenshotDir = path.join(projectRoot, 'screenshots/module/bookabet');
+//     await use(screenshotDir);
+//   },
+
+//   bookABetPage: async ({ browser }, use) => {
+//     if (!sharedBookABetContext) {
+//       sharedBookABetContext = await browser.newContext();
+//     }
+//     if (!sharedBookABetPage) {
+//       sharedBookABetPage = await sharedBookABetContext.newPage();
+//       const bookABetPage = new BookABetPage(sharedBookABetPage);
+//       await bookABetPage.goto();
+//       await sharedBookABetPage.waitForLoadState('domcontentloaded');
+//     }
+//     const bookABetPage = new BookABetPage(sharedBookABetPage);
+//     await use(bookABetPage);
+//   },
+
+//   locators: async ({ }, use) => {
+//     const locators = new bookABetLocators(sharedBookABetPage);
+//     await use(locators);
+//   }
+// });
+
+// export const transactionHistoryTest = base.extend<{
+//   transactionHistoryPage: TransactionHistoryPage;
+//   locators: transactionHistoryLocators;
+//   screenshotDir: string;
+// }>({
+//   screenshotDir: async ({ }, use) => {
+//     const projectRoot = path.resolve(__dirname, '../../..');
+//     const screenshotDir = path.join(projectRoot, 'screenshots/module/transactionhistory');
+//     await use(screenshotDir);
+//   },
+
+//   transactionHistoryPage: async ({ browser }, use) => {
+//     if (!sharedTransactionHistoryContext) {
+//       sharedTransactionHistoryContext = await browser.newContext();
+//     }
+
+//     if (!sharedTransactionHistoryPage) {
+//       sharedTransactionHistoryPage = await sharedTransactionHistoryContext.newPage();
+//       const transactionHistoryPage = new TransactionHistoryPage(sharedTransactionHistoryPage);
+//       await transactionHistoryPage.goto();
+//       await transactionHistoryPage.Login('999845637', '87654321'); // 🔑 adjust creds if needed
+//       await sharedTransactionHistoryPage.waitForLoadState('domcontentloaded');
+//     }
+
+//     const transactionHistoryPage = new TransactionHistoryPage(sharedTransactionHistoryPage);
+//     await sharedTransactionHistoryPage.waitForTimeout(500);
+
+//     await use(transactionHistoryPage);
+//   },
+
+//   locators: async ({ }, use) => {
+//     const locators = new transactionHistoryLocators(sharedTransactionHistoryPage);
+//     await use(locators);
+//   }
+// });
+// export const betSaverTest = base.extend<{
+//   betSaverPage: BetSaverPage;
+//   locators: betSaverLocators;
+//   screenshotDir: string;
+// }>({
+//   screenshotDir: async ({ }, use) => {
+//     const projectRoot = path.resolve(__dirname, '../../..');
+//     const screenshotDir = path.join(projectRoot, 'screenshots/module/betsaver');
+//     await use(screenshotDir);
+//   },
+
+//   betSaverPage: async ({ browser }, use) => {
+//   if (!sharedBetSaverContext) {
+//     sharedBetSaverContext = await browser.newContext();
+//   }
+
+//   if (!sharedBetSaverPage) {
+//     sharedBetSaverPage = await sharedBetSaverContext.newPage();
+//     const betSaverPage = new BetSaverPage(sharedBetSaverPage);
+//     await betSaverPage.goto();
+//     await betSaverPage.Login('999845637', '87654321');
+//     await sharedBetSaverPage.waitForLoadState('domcontentloaded');
+//   }
+
+//   const betSaverPage = new BetSaverPage(sharedBetSaverPage);
+//   await sharedBetSaverPage.waitForTimeout(500);
+
+//   await use(betSaverPage);
+// },
+// locators: async ({ }, use) => {
+//     const locators = new betSaverLocators(sharedBetSaverPage);
+//     await use(locators);
+//   }
+  
+// });
