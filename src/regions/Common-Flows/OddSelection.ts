@@ -2,7 +2,7 @@
 export async function OddsSelection(numberOflegs: number, page: import('@playwright/test').Page) {
 
 
-    await page.reload();
+    await page.reload({ waitUntil: 'domcontentloaded' });
     const apiUrl = "https://new.betway.co.za/sportsapi/br/v1/BetBook/Highlights/?countryCode=ZA&sportId=soccer";
     const response = await page.waitForResponse((resp: { url: () => string; status: () => number; }) => resp.url().startsWith(apiUrl) && resp.status() === 200);
     const data = await response.json();
@@ -12,14 +12,14 @@ export async function OddsSelection(numberOflegs: number, page: import('@playwri
         const knownOutcomeId = `${eventId}11`;
         const priceObj = data.prices?.find((p: any) => p.outcomeId === knownOutcomeId);
         if (!priceObj) continue;
-        const oddValue = await page.locator(`//div[@id="${eventId}"]`).getByText(`${priceObj.priceDecimal}`, { exact: false }).first();
+        const oddValue = await page.locator(`//div[@id="${eventId}"]`).locator('div[price]').getByText(`${priceObj.priceDecimal}`, { exact: false }).first();
         await oddValue.click();
         await page.waitForTimeout(1000); // Optional: wait between clicks
     }
 }
 
 export async function placeBetWithIndex(legNum: number, page: import('@playwright/test').Page) {
-    await page.reload();
+    await page.reload({ waitUntil: 'domcontentloaded' });
     const apiUrl = "https://new.betway.co.za/sportsapi/br/v1/BetBook/Highlights/?countryCode=ZA&sportId=soccer";
     const response = await page.waitForResponse((resp: { url: () => string; status: () => number; }) => resp.url().startsWith(apiUrl) && resp.status() === 200);
     const data = await response.json();
@@ -29,7 +29,7 @@ export async function placeBetWithIndex(legNum: number, page: import('@playwrigh
         const knownOutcomeId = `${eventId}11`;
         const priceObj = data.prices?.find((p: any) => p.outcomeId === knownOutcomeId);
         if (!priceObj) continue;
-        const oddValue = await page.locator(`//div[@id="${eventId}"]`).getByText(`${priceObj.priceDecimal}`, { exact: false }).first();
+        const oddValue = await page.locator(`//div[@id="${eventId}"]`).locator('div[price]').getByText(`${priceObj.priceDecimal}`, { exact: false }).first();
         await oddValue.click();
         await page.waitForTimeout(1000);
         break; // Optional: wait between clicks
@@ -37,7 +37,7 @@ export async function placeBetWithIndex(legNum: number, page: import('@playwrigh
 }
 
 export async function EsportsOddsSelection(numberOflegs: number, page: import('@playwright/test').Page) {
-    await page.reload();
+    await page.reload({ waitUntil: 'domcontentloaded' });
     const apiUrl = "https://new.betway.co.za/sportsapi/br/v1/BetBook/Highlights/?countryCode=ZA&sportId=esports-league-of-legends&Skip=0&Take=20&cultureCode=en-US&isEsport=true&boostedOnly=false&marketTypes=%5BMatch%20Winner%5D";
     const response = await page.waitForResponse((resp: { url: () => string; status: () => number; }) => resp.url().startsWith(apiUrl) && resp.status() === 200);
     const data = await response.json();
@@ -47,7 +47,7 @@ export async function EsportsOddsSelection(numberOflegs: number, page: import('@
         const knownOutcomeId = `${eventId}1864`;
         const priceObj = data.prices?.find((p: any) => p.outcomeId === knownOutcomeId);
         if (!priceObj) continue;
-        const oddValue = await page.locator(`//div[@id="${eventId}"]`).getByText(`${priceObj.priceDecimal}`, { exact: false }).first();
+        const oddValue = await page.locator(`//div[@id="${eventId}"]`).locator('div[price]').getByText(`${priceObj.priceDecimal}`, { exact: false }).first();
         await oddValue.click();
         await page.waitForTimeout(1000); // Optional: wait between clicks
     }
@@ -65,7 +65,7 @@ export async function DrawNoBetOddsSelection(numberOflegs: number, page: import(
         const knownOutcomeId = `${eventId}114`;
         const priceObj = data.prices?.find((p: any) => p.outcomeId === knownOutcomeId);
         if (!priceObj) continue;
-        const oddValue = await page.locator(`//div[@id="${eventId}"]`).getByText(`${priceObj.priceDecimal}`, { exact: false }).first();
+        const oddValue = await page.locator(`//div[@id="${eventId}"]`).locator('div[price]').getByText(`${priceObj.priceDecimal}`, { exact: false }).first();
         await oddValue.click();
         await page.waitForTimeout(1000); // Optional: wait between clicks
     }
@@ -73,7 +73,7 @@ export async function DrawNoBetOddsSelection(numberOflegs: number, page: import(
 }
 
 export async function LiveOddsSelection(numberOfLegs: number, page: import('@playwright/test').Page) {
-    await page.reload();
+    await page.reload({ waitUntil: 'domcontentloaded' });
     await page.getByRole('img', { name: 'Table Tennis' }).click();
     const apiUrl = "https://new.betway.co.za/sportsapi/br/v1/BetBook/LiveInPlay/?countryCode=ZA&sportId=table-tennis"
     const response = await page.waitForResponse((resp: { url: () => string; status: () => number; }) => resp.url().startsWith(apiUrl) && resp.status() === 200);
@@ -84,7 +84,7 @@ export async function LiveOddsSelection(numberOfLegs: number, page: import('@pla
         const knownOutcomeId = `${eventId}1864`;
         const priceObj = data.prices?.find((p: any) => p.outcomeId === knownOutcomeId);
         if (!priceObj) continue;
-        const oddValue = await page.locator(`//div[@id="${eventId}"]`).getByText(`${priceObj.priceDecimal}`, { exact: false });
+        const oddValue = await page.locator(`//div[@id="${eventId}"]`).locator('div[price]').getByText(`${priceObj.priceDecimal}`, { exact: false });
         console.log(oddValue)
         await oddValue.click();
         await page.waitForTimeout(1000); // Optional: wait between clicks
@@ -93,7 +93,7 @@ export async function LiveOddsSelection(numberOfLegs: number, page: import('@pla
 }
 
 export async function OddsSelectionAbove(numberOflegs: number, minOdd: number, page: import('@playwright/test').Page) {
-    await page.reload();
+    await page.reload({ waitUntil: 'domcontentloaded' });
     await page.locator('#sports-tabs div').filter({ hasText: 'Upcoming' }).click();
     const apiUrl = "https://new.betway.co.za/sportsapi/br/v1/BetBook/Upcoming/?countryCode=ZA&sportId=soccer";
     const response = await page.waitForResponse(
@@ -108,7 +108,7 @@ export async function OddsSelectionAbove(numberOflegs: number, minOdd: number, p
         const knownOutcomeId = `${eventId}11`;
         const priceObj = data.prices?.find((p: any) => p.outcomeId === knownOutcomeId && parseFloat(p.priceDecimal) > minOdd);
         if (!priceObj) continue;
-        const oddLocator = page.locator(`//div[@id="${eventId}"]`).getByText(`${priceObj.priceDecimal}`, { exact: false }).first();
+        const oddLocator = page.locator(`//div[@id="${eventId}"]`).locator('div[price]').getByText(`${priceObj.priceDecimal}`, { exact: false }).first();
         await oddLocator.waitFor({ state: 'visible', timeout: 10000 });
         await oddLocator.scrollIntoViewIfNeeded();
         await oddLocator.click();

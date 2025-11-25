@@ -1,12 +1,11 @@
 // npx playwright test src/regions/ZA/tests/modules/myBet/myBet.spec.ts --config=playwright.ZA.config.ts --headed
-import { test } from '../../../fixtures/MasterFixtureFile';
 import { expect } from '@playwright/test';
+import { test } from '../../../fixtures/MasterFixtureFile';
 import path from 'path';
-import { ScreenshotHelper } from '../../../../../regions/Common-Flows/ScreenshotHelper';
-import { OddsSelection } from '../../../../../regions/Common-Flows/OddSelection';
+import { ScreenshotHelper } from '../../../../Common-Flows/ScreenshotHelper';
 
-const projectRoot = path.resolve(__dirname, '../../../..');
-const screenshotDir = path.join(projectRoot, 'screenshots/module/my-bets');
+const projectRoot = path.resolve(__dirname, '../../..');
+const screenshotDir = path.join(projectRoot, 'screenshots/module/myBets');
 
 test.describe('My Bets Page Functionality', () => {
     // Logs in before any test in this suite

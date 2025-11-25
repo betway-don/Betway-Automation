@@ -80,7 +80,7 @@ test.describe('Betslip Module - ZA', () => {
   });
 
   test('T11-Single section- Verify Content of the of the betslip by selecting odd', async ({ betslipPage, page }, testInfo) => {
-    await OddsSelectionAbove(1, 4.5, page);
+    await OddsSelectionAbove(1, 1, page);
     await betslipPage.verifySingleTab();
     await ScreenshotHelper(page, screenshotDir, 'T11-betslip-single-tab.png', testInfo);
   });
@@ -139,6 +139,7 @@ test.describe('Betslip Module - ZA', () => {
   test('T18-Verify functionality of "Use cash balance" checkbox on betslip for single section', async ({ betslipPage, page }, testInfo) => {
     await OddsSelection(1, page);
     await betslipPage.Login();
+    await betslipPage.closePromotionPopup();
     await page.waitForTimeout(1000);
     await betslipPage.verifyCashBtnSingle();
     await betslipPage.clickCashBtnSingle();
@@ -147,6 +148,9 @@ test.describe('Betslip Module - ZA', () => {
 
   test('T36-Verify functionality of "Use cash balance" checkbox on betslip for multi section', async ({ betslipPage, page }, testInfo) => {
     await OddsSelection(1, page);
+    await betslipPage.Login();
+    await betslipPage.closePromotionPopup();
+    await page.waitForTimeout(1000);
     await betslipPage.clickMultiTab();
     await betslipPage.verifyCashBtnMulti();
     await betslipPage.clickCashBtnMulti();
@@ -156,6 +160,7 @@ test.describe('Betslip Module - ZA', () => {
   test('T19-Verify functionality of "Use free bet" checkbox on betslip for single section', async ({ betslipPage, page }, testInfo) => {
     await OddsSelection(1, page);
     await betslipPage.Login();
+    await betslipPage.closePromotionPopup();
     await betslipPage.verifyFreebetBtnSingle();
     await betslipPage.clickFreebetBtnSingle();
     await ScreenshotHelper(page, screenshotDir, 'T19-betslip-use-free-bet-checked-Single.png', testInfo);
@@ -163,12 +168,13 @@ test.describe('Betslip Module - ZA', () => {
 
   test('T37-Verify functionality of "Use free bet" checkbox on betslip for multi section', async ({ betslipPage, page }, testInfo) => {
     await OddsSelection(1, page);
+    await betslipPage.Login();
+    await betslipPage.closePromotionPopup();
     await betslipPage.clickMultiTab();
     await betslipPage.verifyFreebetBtnMulti();
     await betslipPage.clickFreebetBtnMulti();
     await ScreenshotHelper(page, screenshotDir, 'T37-betslip-use-free-bet-checked-multi.png', testInfo); // Updated name
   });
-
 
   test('T20-Single- Verify  "Total betway return" Wager(Calculation)', async ({ betslipPage, page }, testInfo) => {
     await OddsSelectionAbove(1, 1, page);
@@ -196,7 +202,7 @@ test.describe('Betslip Module - ZA', () => {
   });
 
   test('T24-Multi- Verify "Win boost" amount calculation on betslip.', async ({ betslipPage, page }, testInfo) => {
-    await OddsSelectionAbove(2, 1.21, page);
+    await OddsSelectionAbove(2, 2, page);
     await betslipPage.verifyWinBoostCalculation();
     await ScreenshotHelper(page, screenshotDir, 'T24-betslip-Win-boost-amount-calculation-multi.png', testInfo);
   });
@@ -227,6 +233,7 @@ test.describe('Betslip Module - ZA', () => {
     await page.waitForTimeout(2000);
     await ScreenshotHelper(page, screenshotDir, 'T27-betslip-Win-boost-pop-up-window-multi.png', testInfo);
   });
+
   test('T28-Verify functionality of "Login" button on betslip for single tab', async ({ betslipPage, page }, testInfo) => {
     await OddsSelectionAbove(1, 1, page);
     await betslipPage.verifyLoginBtnBetslip();
@@ -255,7 +262,7 @@ test.describe('Betslip Module - ZA', () => {
   test('T30-Multi- Insufficient funds error pop-up on clicking "Bet Now" button', async ({ betslipPage, page }, testInfo) => {
     await OddsSelectionAbove(2, 1, page);
     await betslipPage.Login();
-    // await betslipPage.closePromotionPopup();
+    await betslipPage.closePromotionPopup();
     await betslipPage.enterBetAmount('100000');
     await betslipPage.clickBetNowBtn();
     await ScreenshotHelper(page, screenshotDir, 'T30-betslip-insufficient-funds-error.png', testInfo);

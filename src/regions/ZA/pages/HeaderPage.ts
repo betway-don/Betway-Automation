@@ -83,18 +83,19 @@ export class HeaderPage extends HomePage {
 
   // Navigation Methods
   async goto() {
-    await this.page.goto('https://new.betway.co.za/sport/soccer');
+    await this.page.goto('https://new.betway.co.za/sport/soccer', { waitUntil: 'domcontentloaded' });
     //   await this.HeaderPageLocatorsRegistry.closePromotionPopup.waitFor({ state: 'visible',timeout:15000});
     // await this.HeaderPageLocatorsRegistry.closePromotionPopup.click();
   }
 
-    async Login() {
+  async Login() {
     // await this.goto();
     await this.HeaderPageLocatorsRegistry.mobileNumberInput.fill(`${userData.user4.mobile}`);
     await this.HeaderPageLocatorsRegistry.passwordInput.fill(`${userData.user4.password}`);
     await this.page.keyboard.press('Enter');
-    await this.HeaderPageLocatorsRegistry.closePromotionPopup.waitFor({ state: 'visible',});
+    await this.HeaderPageLocatorsRegistry.closePromotionPopup.waitFor({ state: 'visible', timeout: 15000 });
     await this.HeaderPageLocatorsRegistry.closePromotionPopup.click();
+    // await this.closePromotionPopup();
     await this.page.waitForLoadState('domcontentloaded');
   }
 
@@ -626,5 +627,17 @@ export class HeaderPage extends HomePage {
     await highlightElementBorder(this.HeaderPageLocatorsRegistry.liveChatIcon);
     await this.clickLiveChatIcon();
     await this.page.waitForTimeout(5000);
+  }
+
+  async closePromotionPopup() {
+    try {
+      const popup = this.HeaderPageLocatorsRegistry.closePromotionPopup;
+      if (await popup.isVisible({ timeout: 15000 })) {
+        await popup.click();
+        await this.page.waitForTimeout(500);
+      }
+    } catch (error) {
+      console.log("Promotion popup not found or already closed.");
+    }
   }
 }
