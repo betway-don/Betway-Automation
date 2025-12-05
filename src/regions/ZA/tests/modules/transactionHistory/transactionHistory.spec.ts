@@ -1,150 +1,97 @@
-// import { expect } from '@playwright/test';
-// import { transactionHistoryTest, ScreenshotHelper } from '../../../fixtures/MasterFixtureFile';
-// import { TransactionHistoryPage } from '../../../pages/TransactionHistoryPage';
-// import { transactionHistoryLocators } from '../../../locators/transactionHistoryLocators';
-// import { highlightElements, clearHighlights } from '../../../../Common-Flows/HighlightElements';
+import { test } from '../../../fixtures/MasterFixtureFile';
+import path from 'path';
 
-// transactionHistoryTest.describe('Transaction History Module Tests', () => {
+const projectRoot = path.resolve(__dirname, '../../..');
+const screenshotDir = path.join(projectRoot, 'screenshots/module/transactionHistory');
 
-//     // T1: Verify contents of Transaction History page
-//     transactionHistoryTest('T1-Hamburger Menu >> Verify Transaction History page contents',
-//         async ({ transactionHistoryPage, screenshotDir }, testInfo) => {
-//             await transactionHistoryPage.navigateToTransactionHistory();
-//             await transactionHistoryPage.page.waitForTimeout(1000);
+test.describe('Transaction History Module Tests', () => {
 
-//             await highlightElements(transactionHistoryPage.locators.accountMain);
-//             await ScreenshotHelper.takeScreenshot(transactionHistoryPage.page, screenshotDir, 'T1-TransactionHistory', testInfo);
-//             await clearHighlights(transactionHistoryPage.locators.accountMain);
-//             await transactionHistoryPage.page.waitForTimeout(500);
-//             await transactionHistoryPage.closePopup();
-//         });
+    // T1: Verify contents of Transaction History page
+    test('T1-Hamburger Menu >> Verify Transaction History page contents', async ({ transactionHistoryPage }, testInfo) => {
+        await transactionHistoryPage.navigateToTransactionHistory();
+        await transactionHistoryPage.captureScreenshot('accountMain', screenshotDir, 'T1-TransactionHistory', testInfo);
+        await transactionHistoryPage.closePopupIfVisible();
+    });
 
-//     // T2–T5: Verify All, Deposits, Withdrawals, Sports tabs
-//     transactionHistoryTest('T2-T5: Verify all tabs click and take screenshots', async ({ transactionHistoryPage, locators, screenshotDir }, testInfo) => {
-//         await transactionHistoryPage.navigateToTransactionHistory();
-//         const tabs = [
-//             { locator: locators.allBtn, name: 'T2-All' },
-//             { locator: locators.depositBtn, name: 'T3-Deposits' },
-//             { locator: locators.withdrawalBtn, name: 'T4-Withdrawals' },
-//             { locator: locators.sportsBtn, name: 'T5-Sports' },
-//         ];
+    // T2-T8: Verify all tabs
+    test('T2-T8: Verify all tabs click and take screenshots', async ({ transactionHistoryPage }, testInfo) => {
+        await transactionHistoryPage.navigateToTransactionHistory();
 
-//         for (const tab of tabs) {
-//             await tab.locator.click();
-//             await transactionHistoryPage.page.waitForTimeout(1000);
-//             await highlightElements(tab.locator);
-//             await ScreenshotHelper.takeScreenshot(transactionHistoryPage.page, screenshotDir, `TransactionHistory_${tab.name}`, testInfo);
-//             await clearHighlights(tab.locator);
-//         }
-//         await transactionHistoryPage.page.waitForTimeout(500);
-//         await transactionHistoryPage.closePopup();
-//     });
+        const tabs = [
+            { name: 'allBtn', locatorName: 'allBtn', screenshot: 'T2-All' },
+            { name: 'depositBtn', locatorName: 'depositBtn', screenshot: 'T3-Deposits' },
+            { name: 'withdrawalBtn', locatorName: 'withdrawalBtn', screenshot: 'T4-Withdrawals' },
+            { name: 'sportsBtn', locatorName: 'sportsBtn', screenshot: 'T5-Sports' },
+            { name: 'casinoBtn', locatorName: 'casinoBtn', screenshot: 'T6-Casino' },
+            { name: 'betgamesBtn', locatorName: 'betgamesBtn', screenshot: 'T7-Betgames' },
+            { name: 'virtualsBtn', locatorName: 'virtualsBtn', screenshot: 'T8-Virtuals' },
+            { name: 'jackpotsBtn', locatorName: 'jackpotsBtn', screenshot: 'T10-Jackpots' },
+        ];
 
-//     // T11: Calendar
-//     transactionHistoryTest('T11-Verify calendar opens', async ({ transactionHistoryPage, locators, screenshotDir }, testInfo) => {
-//         await transactionHistoryPage.navigateToTransactionHistory();
-//         await locators.datePicker.click();
-//         await transactionHistoryPage.page.waitForTimeout(1000);
-//         await highlightElements(locators.dateDialog);
-//         await ScreenshotHelper.takeScreenshot(transactionHistoryPage.page, screenshotDir, 'T11-TransactionHistory_Calendar', testInfo);
-//         await clearHighlights(locators.dateDialog);
-//         await transactionHistoryPage.page.waitForTimeout(500);
-//         await transactionHistoryPage.closePopup();
-//     });
+        for (const tab of tabs) {
+            await transactionHistoryPage.clickTransactionTab(tab.name);
+            await transactionHistoryPage.captureScreenshot(tab.locatorName, screenshotDir, `TransactionHistory_${tab.screenshot}`, testInfo);
+        }
 
-//     // T12: Search
-//     transactionHistoryTest('T12-Search transaction by ID', async ({ transactionHistoryPage, locators, screenshotDir }, testInfo) => {
-//         await transactionHistoryPage.navigateToTransactionHistory();
+        await transactionHistoryPage.closePopupIfVisible();
+    });
 
-//         // Get the transaction ID text from the button
-//         const transactionId = (await locators.transactionIDButton.textContent())?.trim();
+    // T11: Calendar
+    test('T11-Verify calendar opens', async ({ transactionHistoryPage }, testInfo) => {
+        await transactionHistoryPage.navigateToTransactionHistory();
+        await transactionHistoryPage.clickDatePicker();
+        await transactionHistoryPage.captureScreenshot('dateDialog', screenshotDir, 'T11-TransactionHistory_Calendar', testInfo);
+        await transactionHistoryPage.closePopupIfVisible();
+    });
 
-//         if (transactionId) {
-//             // Type into number input
-//             await locators.transactionIdInput.fill("12345678");
+    // T12: Search transaction by ID
+    test('T12-Search transaction by ID', async ({ transactionHistoryPage }, testInfo) => {
+        await transactionHistoryPage.navigateToTransactionHistory();
 
-//             // Press Enter
-//             await transactionHistoryPage.page.keyboard.press('Enter');
+        // No ID is passed here! The ID is managed internally by the Page Object.
+        await transactionHistoryPage.searchTransactionByID();
 
-//             // Wait for results to load
-//             await transactionHistoryPage.page.waitForTimeout(1000);
+        await transactionHistoryPage.captureScreenshot('transactionIdInput', screenshotDir, 'T12-TransactionHistory_Search', testInfo);
+        await transactionHistoryPage.closePopupIfVisible();
+    });
 
-//             // Take screenshot
-//             await ScreenshotHelper.takeScreenshot(transactionHistoryPage.page, screenshotDir, 'T12-TransactionHistory_Search', testInfo);
+    // T13: Export
+    test('T13-Export transactions', async ({ transactionHistoryPage }, testInfo) => {
+        await transactionHistoryPage.navigateToTransactionHistory();
+        await transactionHistoryPage.clickExportButton();
+        await transactionHistoryPage.captureScreenshot('exportBtn', screenshotDir, 'T13-TransactionHistory_Export', testInfo);
+        await transactionHistoryPage.closePopupIfVisible();
+    });
 
-//             await transactionHistoryPage.page.waitForTimeout(500);
+    // T14-T19: Transaction Detail view & Betslip
+    test('T14-T19: Transaction Detail view and Betslip info', async ({ transactionHistoryPage }, testInfo) => {
+        await transactionHistoryPage.navigateToTransactionHistory();
 
-//             // Close any popup
-//             await transactionHistoryPage.closePopup();
-//         } else {
-//             throw new Error("Transaction ID could not be retrieved.");
-//         }
-//     });
+        // T14: Detail View
+        await transactionHistoryPage.openTransactionDetailView();
+        await transactionHistoryPage.captureScreenshot('transactionDetailView', screenshotDir, 'T14-TransactionHistory_DetailView', testInfo);
 
+        // T15: Back from Detail View
+        await transactionHistoryPage.clickDetailViewBackButton();
+        await transactionHistoryPage.captureScreenshot('detailViewBackButton', screenshotDir, 'T15-TransactionHistory_Back', testInfo);
 
-//     // T13: Export
-//     transactionHistoryTest('T13-Export transactions', async ({ transactionHistoryPage, locators, screenshotDir }, testInfo) => {
-//         await transactionHistoryPage.navigateToTransactionHistory();
-//         await locators.exportBtn.click();
-//         await transactionHistoryPage.page.waitForTimeout(1000);
-//         await highlightElements(locators.exportBtn);
-//         await ScreenshotHelper.takeScreenshot(transactionHistoryPage.page, screenshotDir, 'T13-TransactionHistory_Export', testInfo);
-//         await clearHighlights(locators.exportBtn);
-//         await transactionHistoryPage.page.waitForTimeout(500);
-//         await transactionHistoryPage.closePopup();
-//     });
+        // T17: Betslip Contents
+        await transactionHistoryPage.openFirstTransactionBetslip();
+        await transactionHistoryPage.captureScreenshot('transactionIDButton', screenshotDir, 'T17-TransactionHistory_BetslipContents', testInfo);
 
-//     // T14-T15: Transaction Detail view & Back
-//     transactionHistoryTest('T14-T15-Transaction Detail view and Back', async ({ transactionHistoryPage, locators, screenshotDir }, testInfo) => {
-//         await transactionHistoryPage.navigateToTransactionHistory();
-//         await locators.transactionDetailView.click();
-//         await transactionHistoryPage.page.waitForTimeout(1000);
-//         await ScreenshotHelper.takeScreenshot(transactionHistoryPage.page, screenshotDir, 'T14-TransactionHistory_DetailView', testInfo);
+        // T19: Back from Betslip
+        await transactionHistoryPage.clickBetslipBackButton();
+        await transactionHistoryPage.captureScreenshot('betslipBackButton', screenshotDir, 'T19-TransactionHistory_BetslipClosed', testInfo);
 
-//         await locators.detailViewBackButton.click();
-//         await transactionHistoryPage.page.waitForTimeout(1000);
-//         await ScreenshotHelper.takeScreenshot(transactionHistoryPage.page, screenshotDir, 'T15-TransactionHistory_Back', testInfo);
-//         await transactionHistoryPage.page.waitForTimeout(500);
-//         await transactionHistoryPage.closePopup();
+        await transactionHistoryPage.closePopupIfVisible();
+    });
 
-//     });
+    // T20: Bet Now to Transaction History
+    test('T20 - Verify Bet Now to Transaction History', async ({ transactionHistoryPage }, testInfo) => {
+        await transactionHistoryPage.placeBet();
+        await transactionHistoryPage.navigateToTransactionHistory();
+        await transactionHistoryPage.page.waitForTimeout(1000);
+        await transactionHistoryPage.captureScreenshot('accountMain', screenshotDir, 'T20_BetNow_TransactionHistory', testInfo);
+    });
 
-//     // T16: Pagination
-//     transactionHistoryTest('T16-Pagination', async ({ transactionHistoryPage, locators, screenshotDir }, testInfo) => {
-//         await transactionHistoryPage.navigateToTransactionHistory();
-//         await locators.nextPageButton.click();
-//         await transactionHistoryPage.page.waitForTimeout(1000);
-//         await ScreenshotHelper.takeScreenshot(transactionHistoryPage.page, screenshotDir, 'T16-TransactionHistory_NextPage', testInfo);
-
-//         await locators.prevPageButton.click();
-//         await transactionHistoryPage.page.waitForTimeout(1000);
-//         await ScreenshotHelper.takeScreenshot(transactionHistoryPage.page, screenshotDir, 'T16-TransactionHistory_PrevPage', testInfo);
-//         await transactionHistoryPage.page.waitForTimeout(500);
-//         await transactionHistoryPage.closePopup();
-//     });
-
-//     // T17-T19: Betslip info
-//     transactionHistoryTest('T17-T19-Betslip info', async ({ transactionHistoryPage, locators, screenshotDir }, testInfo) => {
-//         await transactionHistoryPage.navigateToTransactionHistory();
-//         await locators.transactionIDButton.click();
-//         await transactionHistoryPage.page.waitForTimeout(1000);
-//         await ScreenshotHelper.takeScreenshot(transactionHistoryPage.page, screenshotDir, 'T17,18-TransactionHistory_BetslipContents', testInfo);
-
-//         await locators.betslipBackButton.click();
-//         await transactionHistoryPage.page.waitForTimeout(1000);
-//         await ScreenshotHelper.takeScreenshot(transactionHistoryPage.page, screenshotDir, 'T19-TransactionHistory_BetslipClosed', testInfo);
-//         await transactionHistoryPage.page.waitForTimeout(500);
-//         await transactionHistoryPage.closePopup();
-//     });
-//     transactionHistoryTest('T20 - Verify Bet Now to Transaction History', async ({ transactionHistoryPage, screenshotDir }, testInfo) => {
-
-//         //Place a bet
-//         await transactionHistoryPage.placeBet(transactionHistoryPage.page);
-//         // Navigate to Transaction History
-//         await transactionHistoryPage.navigateToTransactionHistory();
-//         // Wait a bit for page to load
-//         await transactionHistoryPage.page.waitForTimeout(1000);
-//         // Take screenshot of Transaction History page
-//         await ScreenshotHelper.takeScreenshot(transactionHistoryPage.page, screenshotDir, 'T20_BetNow_TransactionHistory', testInfo);
-//     });
-// });
+});

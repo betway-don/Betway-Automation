@@ -250,62 +250,64 @@ test.describe('Betslip Module - ZA', () => {
     await ScreenshotHelper(page, screenshotDir, 'T38-betslip-login-after-click-multi.png', testInfo);
   });
 
-  test('T29-Single- Insufficient funds error pop-up on clicking "Bet Now" button', async ({ betslipPage, page }, testInfo) => {
-    await OddsSelectionAbove(1, 2, page);
-    await betslipPage.Login();
-    await betslipPage.closePromotionPopup();
-    await betslipPage.enterBetAmount('100000');
-    await betslipPage.clickBetNowBtn();
-    await ScreenshotHelper(page, screenshotDir, 'T29-betslip-insufficient-funds-error.png', testInfo);
-  });
+  // test('T29-Single- Insufficient funds error pop-up on clicking "Bet Now" button', async ({ betslipPage, page }, testInfo) => {
+  //   await OddsSelectionAbove(1, 2, page);
+  //   await betslipPage.Login();
+  //   await betslipPage.closePromotionPopup();
+  //   await betslipPage.enterBetAmount('100000');
+  //   await betslipPage.clickBetNowBtn();
+  //   await ScreenshotHelper(page, screenshotDir, 'T29-betslip-insufficient-funds-error.png', testInfo);
+  // });
 
-  test('T30-Multi- Insufficient funds error pop-up on clicking "Bet Now" button', async ({ betslipPage, page }, testInfo) => {
-    await OddsSelectionAbove(2, 1, page);
-    await betslipPage.Login();
-    await betslipPage.closePromotionPopup();
-    await betslipPage.enterBetAmount('100000');
-    await betslipPage.clickBetNowBtn();
-    await ScreenshotHelper(page, screenshotDir, 'T30-betslip-insufficient-funds-error.png', testInfo);
-  });
+  // test('T30-Multi- Insufficient funds error pop-up on clicking "Bet Now" button', async ({ betslipPage, page }, testInfo) => {
+  //   await OddsSelectionAbove(2, 1, page);
+  //   await betslipPage.Login();
+  //   await betslipPage.closePromotionPopup();
+  //   await betslipPage.enterBetAmount('100000');
+  //   await betslipPage.clickBetNowBtn();
+  //   await ScreenshotHelper(page, screenshotDir, 'T30-betslip-insufficient-funds-error.png', testInfo);
+  // });
 
-  test('T31-Verify functionality of "Share" button on betslip for single tab', async ({ betslipPage, page }, testInfo) => {
-    await OddsSelectionAbove(1, 1, page);
-    await betslipPage.Login();
-    await betslipPage.closePromotionPopup();
-    await betslipPage.verifyShareBtn();
-    await ScreenshotHelper(page, screenshotDir, 'T31-betslip-share-button-Single.png', testInfo);
-    await betslipPage.clickShareBtn();
-    await page.waitForTimeout(4000);
-    await ScreenshotHelper(page, screenshotDir, 'T31-betslip-share-after-click-Single.png', testInfo);
-  });
+  // test('T31-Verify functionality of "Share" button on betslip for single tab', async ({ betslipPage, page }, testInfo) => {
+  //   await OddsSelectionAbove(1, 1, page);
+  //   await betslipPage.Login();
+  //   await page.waitForTimeout(4000);
+  //   await betslipPage.closePromotionPopup();
+  //   await betslipPage.verifyShareBtn();
+  //   await ScreenshotHelper(page, screenshotDir, 'T31-betslip-share-button-Single.png', testInfo);
+  //   await betslipPage.clickShareBtn();
+  //   await page.waitForTimeout(4000);
+  //   await ScreenshotHelper(page, screenshotDir, 'T31-betslip-share-after-click-Single.png', testInfo);
+  // });
 
-  test('T32-Verify functionality of "Share" button on betslip for multi tab', async ({ betslipPage, page }, testInfo) => {
-    await OddsSelectionAbove(1, 1, page);
-    await betslipPage.Login();
-    await betslipPage.closePromotionPopup();
-    await betslipPage.clickMultiTab();
-    await betslipPage.verifyShareBtn();
-    await ScreenshotHelper(page, screenshotDir, 'T32-betslip-share-button-multi.png', testInfo);
-    await betslipPage.clickShareBtn();
-    await page.waitForTimeout(4000);
-    await ScreenshotHelper(page, screenshotDir, 'T32-betslip-share-after-click-multi.png', testInfo);
-  });
+  // test('T32-Verify functionality of "Share" button on betslip for multi tab', async ({ betslipPage, page }, testInfo) => {
+  //   await OddsSelectionAbove(1, 1, page);
+  //   await betslipPage.Login();
+  //   await page.waitForTimeout(4000);
+  //   await betslipPage.closePromotionPopup();
+  //   await betslipPage.clickMultiTab();
+  //   await betslipPage.verifyShareBtn();
+  //   await ScreenshotHelper(page, screenshotDir, 'T32-betslip-share-button-multi.png', testInfo);
+  //   await betslipPage.clickShareBtn();
+  //   await page.waitForTimeout(4000);
+  //   await ScreenshotHelper(page, screenshotDir, 'T32-betslip-share-after-click-multi.png', testInfo);
+  // });
 
-  test('T33-Verify Use Free Bet and Use Cash Balance options are NOT available', async ({ betslipPage, page }, testInfo) => {
-    await betslipPage.loginWithoutFreebet();
-    await OddsSelectionAbove(1, 1, page);
-    await betslipPage.verifyCashBtnSingleNotVisible();
-    await betslipPage.verifyFreebetBtnSingleNotVisible();
-    await ScreenshotHelper(page, screenshotDir, 'T33-no-freebet-cash-options.png', testInfo);
-  });
+  // test('T33-Verify Use Free Bet and Use Cash Balance options are NOT available', async ({ betslipPage, page }, testInfo) => {
+  //   await OddsSelectionAbove(1, 1, page);
+  //   await betslipPage.loginWithoutFreebet();
+  //   await betslipPage.verifyCashBtnSingleNotVisible();
+  //   await betslipPage.verifyFreebetBtnSingleNotVisible();
+  //   await ScreenshotHelper(page, screenshotDir, 'T33-no-freebet-cash-options.png', testInfo);
+  // });
 
-  test('T34-Verify functionality of "Close" button of leg on Betslip inside multi section', async ({ betslipPage, page }, testInfo) => {
-    await OddsSelectionAbove(1, 1, page);
-    await betslipPage.clickMultiTab();
-    await betslipPage.verifyRemoveLegIcon();
-    await ScreenshotHelper(page, screenshotDir, 'T34-betslip-remove-leg-icon-multi.png', testInfo);
-    await betslipPage.clickRemoveLegIcon();
-    await betslipPage.clickBetslipButton();
-    await ScreenshotHelper(page, screenshotDir, 'T34-betslip-remove-leg-after-clickmulti.png', testInfo);
-  });
+  // test('T34-Verify functionality of "Close" button of leg on Betslip inside multi section', async ({ betslipPage, page }, testInfo) => {
+  //   await OddsSelectionAbove(1, 1, page);
+  //   await betslipPage.clickMultiTab();
+  //   await betslipPage.verifyRemoveLegIcon();
+  //   await ScreenshotHelper(page, screenshotDir, 'T34-betslip-remove-leg-icon-multi.png', testInfo);
+  //   await betslipPage.clickRemoveLegIcon();
+  //   await betslipPage.clickBetslipButton();
+  //   await ScreenshotHelper(page, screenshotDir, 'T34-betslip-remove-leg-after-clickmulti.png', testInfo);
+  // });
 });

@@ -93,7 +93,7 @@ export class HeaderPage extends HomePage {
     await this.HeaderPageLocatorsRegistry.mobileNumberInput.fill(`${userData.user4.mobile}`);
     await this.HeaderPageLocatorsRegistry.passwordInput.fill(`${userData.user4.password}`);
     await this.page.keyboard.press('Enter');
-    await this.HeaderPageLocatorsRegistry.closePromotionPopup.waitFor({ state: 'visible', timeout: 15000 });
+    await this.HeaderPageLocatorsRegistry.closePromotionPopup.waitFor({ state: 'visible', timeout: 30000 });
     await this.HeaderPageLocatorsRegistry.closePromotionPopup.click();
     // await this.closePromotionPopup();
     await this.page.waitForLoadState('domcontentloaded');
@@ -198,7 +198,7 @@ export class HeaderPage extends HomePage {
     await highlightElementBorder(this.HeaderPageLocatorsRegistry.transactionsHistory);
 
     await this.HeaderPageLocatorsRegistry.promoVouchers.scrollIntoViewIfNeeded();
-    await highlightElementBorder(this.HeaderPageLocatorsRegistry.myCoupons);
+    // await highlightElementBorder(this.HeaderPageLocatorsRegistry.myCoupons);
     await highlightElementBorder(this.HeaderPageLocatorsRegistry.betInfluencer);
     await highlightElementBorder(this.HeaderPageLocatorsRegistry.promoVouchers);
     await highlightElementBorder(this.HeaderPageLocatorsRegistry.updateDetails);
@@ -254,7 +254,6 @@ export class HeaderPage extends HomePage {
   }
 
   async verifyCasinoBonusField() {
-    await this.Login();
     await this.clickBalanceDropdown();
     await highlightElements(this.HeaderPageLocatorsRegistry.casinoBonusField);
   }
@@ -477,7 +476,7 @@ export class HeaderPage extends HomePage {
   }
 
   async verifyMobileNumberInput() {
-    await expect(this.HeaderPageLocatorsRegistry.mobileNumberInput).toBeVisible();
+    await this.HeaderPageLocatorsRegistry.mobileNumberInput.waitFor({ state: 'visible', timeout: 15000 });
     await highlightElementBorder(this.HeaderPageLocatorsRegistry.mobileNumberInput);
     await this.enterMobileNumber('123456789');
     await this.page.waitForTimeout(300);

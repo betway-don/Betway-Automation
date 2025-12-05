@@ -3,12 +3,12 @@ import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
   testDir: './src/regions/ZA/tests',
   fullyParallel: true,
-  timeout: 200000,  
+  timeout: 200000,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 4 : 4,
   reporter: [
-    ['html', { outputFolder: 'src/regions/ZA/reports/html-report',open: 'never' }],
+    ['html', { outputFolder: 'playwright-report', open: 'never' }], ['list']
     // ['allure-playwright', { outputFolder: 'src/regions/ZA/reports/allure-results' }]
   ],
   use: {
@@ -20,7 +20,7 @@ export default defineConfig({
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
   },
- 
+
   projects: [
     {
       name: 'ZA Region',
@@ -35,4 +35,4 @@ export default defineConfig({
     },
   ],
 });
- 
+

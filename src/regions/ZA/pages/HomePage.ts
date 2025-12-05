@@ -1,15 +1,10 @@
-const userData = require('../json-data/userData.json');
 import { expect, Page } from '@playwright/test';
-import { homepageLocators } from '../locators/homepageLocators';
-import { time } from 'console';
 import { loadLocatorsFromExcel } from "../../../global/utils/file-utils/excelReader";
 import { getLocator } from "../../../global/utils/file-utils/locatorResolver";
-import { get } from 'http';
 import { highlightElementBorder, highlightElements } from '../../Common-Flows/HighlightElements';
 
 
 const LOCATOR_URL="https://github.com/athrvzoz/LocatorFile/raw/refs/heads/main/locators.xlsx"
-const region = process.env.REGION || 'ZA';
 
 export class HomePage {
 

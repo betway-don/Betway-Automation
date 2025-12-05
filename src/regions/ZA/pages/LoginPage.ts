@@ -3,9 +3,6 @@ const apidata = require('../apis/Sign-upPage/api.json')[0];
 
 const userData = require('../json-data/userData.json');
 import { expect } from '@playwright/test';
-import { loginLocators } from '../locators/loginPageLocators';
-import { time } from 'console';
-
 
 const config = process.env.BASE_URL || 'https://betway.co.za/';
 import { loadLocatorsFromExcel } from "../../../global/utils/file-utils/excelReader";
@@ -134,8 +131,6 @@ export class LoginPage extends HomePage{
         await this.LoginPagelocatorsRegistry.signUpButtonfromHamburger.click();
     }
 
-
-
     // Login Functions
     async Login() {
         await this.goto();
@@ -194,5 +189,4 @@ export class LoginPage extends HomePage{
         await this.page.waitForLoadState('domcontentloaded');
         await this.verifyWelcomeUser(userData.user1.name);
     }
-
 }

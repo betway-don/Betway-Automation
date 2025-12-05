@@ -2,7 +2,7 @@
   "user1": {
     "mobile": "123456788",
     "password": "12345",
-    "email":"test@test.com"
+    "email": "test@test.com"
   },
   "user2": {
     "mobile": "999889793",
@@ -12,8 +12,12 @@
     "mobile": "834447889 ",
     "password": "12345"
   },
-  "usergh":{
-    "mobile": "123456788",
+  "user4": {
+    "mobile": "999654321",
+    "password": "12345"
+  },
+  "user5": {
+    "mobile": "999654321",
     "password": "12345"
   }
 }

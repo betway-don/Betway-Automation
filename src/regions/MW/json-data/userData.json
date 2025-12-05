@@ -1,15 +1,25 @@
 {
   "user1": {
-    "name":"Lall aIE",
-    "mobile": "999845637",
-    "password": "87654321"
+    "name": "MW User 1",
+    "mobile": "000000000",
+    "password": "password123"
   },
   "user2": {
-    "mobile": "999889793",
-    "password": "123456789"
+    "mobile": "000000001",
+    "password": "password123"
   },
   "user3": {
-    "mobile": "834447889 ",
-    "password": "12345"
+    "mobile": "000000002",
+    "password": "password123"
+  },
+
+  "user4": {
+    "mobile": "000000003",
+    "password": "password123"
+  },
+
+  "user5": {
+    "mobile": "000000004",
+    "password": "password123"
   }
 }

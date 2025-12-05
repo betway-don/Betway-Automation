@@ -7,20 +7,18 @@ const userData = require('../json-data/userData.json');
 // const LOCATOR_URL = "https://github.com/athrvzoz/LocatorFile/raw/refs/heads/main/locators.xlsx";
 const Locator_Url = "src/global/utils/file-utils/locators(2).xlsx";
 
-// Assume HomePage is imported correctly
-import { HomePage } from './HomePage';
-
-export class BetslipPage extends HomePage {
+export class BetslipPage {
   readonly BetslipPageLocatorsRegistry: Record<string, import('@playwright/test').Locator>;
   page: import('@playwright/test').Page;
 
   constructor(page: import('@playwright/test').Page) {
-    super(page);
+    // super(page);
     this.page = page;
 
     const configs = loadLocatorsFromExcel(Locator_Url, "BetslipPage");
 
     this.BetslipPageLocatorsRegistry = {
+      // ...this.SportPageLocatorsRegistry,
       mobileNumberInput: getLocator(this.page, configs["usernameInput"]),
       passwordInput: getLocator(this.page, configs["passwordInput"]),
       closePromotionPopup: getLocator(this.page, configs["closePromotionPopup"]),
@@ -103,6 +101,17 @@ export class BetslipPage extends HomePage {
     await this.page.waitForLoadState('domcontentloaded');
   }
 
+  async closePromotionPopup() {
+    try {
+      const popup = this.BetslipPageLocatorsRegistry.closePromotionPopup;
+      if (await popup.isVisible({ timeout: 30000 })) {
+        await popup.click();
+        await this.page.waitForTimeout(500);
+      }
+    } catch (error) {
+      console.log("Promotion popup not found or already closed.");
+    }
+  }
   // Verification Methods
   async verifyBetslipButton() {
     await this.BetslipPageLocatorsRegistry.betslipButton.waitFor({ state: 'visible', timeout: 15000 });
@@ -583,15 +592,5 @@ export class BetslipPage extends HomePage {
     await this.page.waitForTimeout(1000);
   }
 
-  async closePromotionPopup() {
-    try {
-      const popup = this.BetslipPageLocatorsRegistry.closePromotionPopup;
-      if (await popup.isVisible({ timeout: 15000 })) {
-        await popup.click();
-        await this.page.waitForTimeout(500);
-      }
-    } catch (error) {
-      console.log("Promotion popup not found or already closed.");
-    }
-  }
+
 }

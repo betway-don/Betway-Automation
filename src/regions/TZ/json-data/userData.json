@@ -1,0 +1,23 @@
+{
+    "user1": {
+        "name": "TZ User 1",
+        "mobile": "000000000",
+        "password": "password123"
+    },
+    "user2": {
+        "mobile": "000000001",
+        "password": "password123"
+    },
+    "user3": {
+        "mobile": "000000002",
+        "password": "password123"
+    },
+    "user4": {
+        "mobile": "888999666",
+        "password": "12345"
+    },
+    "user5": {
+        "mobile": "888999777",
+        "password": "12345"
+    }
+}
