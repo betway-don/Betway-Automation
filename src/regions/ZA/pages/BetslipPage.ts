@@ -2,23 +2,24 @@ import { expect, Page, Locator } from '@playwright/test';
 import { loadLocatorsFromExcel } from "../../../global/utils/file-utils/excelReader";
 import { getLocator } from "../../../global/utils/file-utils/locatorResolver";
 import { highlightElementBorder, highlightElements } from '../../Common-Flows/HighlightElements';
+import { SportsPage } from "./SportsPage";
 
 const userData = require('../json-data/userData.json');
 // const LOCATOR_URL = "https://github.com/athrvzoz/LocatorFile/raw/refs/heads/main/locators.xlsx";
 const Locator_Url = "src/global/utils/file-utils/locators(2).xlsx";
 
-export class BetslipPage {
+export class BetslipPage extends SportsPage {
   readonly BetslipPageLocatorsRegistry: Record<string, import('@playwright/test').Locator>;
   page: import('@playwright/test').Page;
 
   constructor(page: import('@playwright/test').Page) {
-    // super(page);
+    super(page);
     this.page = page;
 
     const configs = loadLocatorsFromExcel(Locator_Url, "BetslipPage");
 
     this.BetslipPageLocatorsRegistry = {
-      // ...this.SportPageLocatorsRegistry,
+      ...this.SportsPagelocatorRegistry,
       mobileNumberInput: getLocator(this.page, configs["usernameInput"]),
       passwordInput: getLocator(this.page, configs["passwordInput"]),
       closePromotionPopup: getLocator(this.page, configs["closePromotionPopup"]),

@@ -3,6 +3,9 @@ const apidata = require('../apis/Sign-upPage/api.json')[0];
 
 const userData = require('../json-data/userData.json');
 import { expect } from '@playwright/test';
+import { loginLocators } from '../locators/loginPageLocators';
+import { time } from 'console';
+
 
 const config = process.env.BASE_URL || 'https://betway.co.za/';
 import { loadLocatorsFromExcel } from "../../../global/utils/file-utils/excelReader";
@@ -89,7 +92,12 @@ export class LoginPage extends HomePage{
     }
 
     async goto() {
-        await this.page.goto(`${config}`);
+        await this.page.goto('/');
+        await this.page.waitForLoadState('domcontentloaded');
+        if(await this.page.locator('#modal-close-btn').nth(1).isVisible()){
+            await this.page.locator('#modal-close-btn').nth(1).waitFor({ state: 'visible', });
+            await this.page.locator('#modal-close-btn').nth(1).click();
+        }
     }
 
     async gotoAviatorPage() {
@@ -130,6 +138,8 @@ export class LoginPage extends HomePage{
         await this.clickHamburgerMenu();
         await this.LoginPagelocatorsRegistry.signUpButtonfromHamburger.click();
     }
+
+
 
     // Login Functions
     async Login() {
@@ -189,4 +199,5 @@ export class LoginPage extends HomePage{
         await this.page.waitForLoadState('domcontentloaded');
         await this.verifyWelcomeUser(userData.user1.name);
     }
+
 }

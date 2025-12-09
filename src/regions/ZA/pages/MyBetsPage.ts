@@ -1,11 +1,11 @@
 import { Page, Locator, expect } from '@playwright/test';
 import { highlightElements } from '../../Common-Flows/HighlightElements';
-import { loadLocatorsFromExcel } from "../../../global/utils/file-utils/excelReader"; // Adjust path as needed
-import { getLocator } from "../../../global/utils/file-utils/locatorResolver"; // Adjust path as needed
+import { loadLocatorsFromExcel } from "../../../global/utils/file-utils/excelReader"; 
+import { getLocator } from "../../../global/utils/file-utils/locatorResolver"; 
  
 // URL for your central locator file
-const LOCATOR_URL = "https://github.com/athrvzoz/LocatorFile/raw/refs/heads/main/locators.xlsx";
-const file = "src/global/utils/file-utils/locators(2).xlsx";
+const LOCATOR_URL = "src/global/utils/file-utils/locators(2).xlsx";
+const userData = require('../json-data/userData.json');
  
 export class MyBetsPage {
     readonly page: Page;
@@ -13,14 +13,8 @@ export class MyBetsPage {
  
     constructor(page: Page) {
         this.page = page;
- 
-        // ---
-        // 🛑 IMPORTANT: Replace this MOCKED call with your REAL call
-        // ---
-        const configs = loadLocatorsFromExcel(file, "MyBetPage"); // <-- Your REAL call
-        // const configs = this.getMockLocatorData(); // <-- MOCKED call. Replace it.
-        // ---
- 
+  
+        const configs = loadLocatorsFromExcel(LOCATOR_URL, "MyBetPage"); 
         this.myBetsLocatorsRegistry = {
             closePromotionPopup: getLocator(this.page, configs["closePromotionPopup"]),
             mobileInput: getLocator(this.page, configs["mobileInput"]),
@@ -63,14 +57,15 @@ export class MyBetsPage {
         await this.page.waitForLoadState('domcontentloaded');
     }
  
-    async login(mobile: string, password: string) {
-        await this.myBetsLocatorsRegistry.mobileInput.fill(mobile);
-        await this.myBetsLocatorsRegistry.passwordInput.fill(password);
-        await this.myBetsLocatorsRegistry.passwordInput.press('Enter');
-        // await this.page.waitForTimeout(3000);
-        await this.closePromotionPopup();
-        await this.page.waitForLoadState('domcontentloaded');
-    }
+   async login() {
+    await this.myBetsLocatorsRegistry.mobileInput.fill(`${userData.user4.mobile}`);
+    await this.myBetsLocatorsRegistry.passwordInput.fill(`${userData.user4.password}`);
+    await this.page.keyboard.press('Enter');
+    await this.myBetsLocatorsRegistry.closePromotionPopup.waitFor({ state: 'visible', timeout: 30000 });
+    await this.myBetsLocatorsRegistry.closePromotionPopup.click();
+    // await this.closePromotionPopup();
+    await this.page.waitForLoadState('domcontentloaded');
+  }
  
     // ------------------------------------------------------------------
     // 2. Main Actions

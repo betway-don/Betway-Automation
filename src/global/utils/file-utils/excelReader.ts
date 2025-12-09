@@ -1,33 +1,3 @@
-// // utils/excelReader.ts
-// import * as XLSX from "xlsx";
-// // https://zensar-my.sharepoint.com/:x:/r/personal/atharva_deshmukh_zensar_com/Documents/locators1.xlsx?d=wd43b26e41466414ca6673bc2b2a139e3&csf=1&web=1&e=VFMjgD
-// export type LocatorConfig = {
-//   key: string;
-//   type: "css" | "role" | "text" | "xpath";
-//   value: string;
-//   options?: Record<string, any>;
-//   nth?: number;
-// };
-
-// export function loadLocatorsFromExcel(filePath: string, sheetName: string): Record<string, LocatorConfig> {
-//   const workbook = XLSX.readFile(filePath);
-//   const sheet = workbook.Sheets[sheetName];
-//   const rows: LocatorConfig[] = XLSX.utils.sheet_to_json(sheet);
-
-//   const locators: Record<string, LocatorConfig> = {};
-
-//   rows.forEach((row) => {
-//     locators[row.key] = {
-//       key: row.key,
-//       type: row.type,
-//       value: row.value,
-//       options: row.options ? JSON.parse(row.options) : {},
-//       nth: row.nth !== undefined ? Number(row.nth) : undefined,
-//     };
-//   });
-
-//   return locators;
-// }
 import * as XLSX from "xlsx";
 import * as os from "os";
 import * as path from "path";
@@ -37,7 +7,7 @@ import { execSync } from "child_process";
 export type LocatorConfig = {
   page:string,
   key: string;
-  type: "css" | "role" | "text" | "xpath"|"label";
+  type: "css" | "role" | "text" | "xpath" | "label" | "placeholder";
   value: string;
   options?: Record<string, any>;
   nth?: number;

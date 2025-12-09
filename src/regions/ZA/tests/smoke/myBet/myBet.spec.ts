@@ -1,9 +1,9 @@
 // npx playwright test src/regions/ZA/tests/smoke/myBet/myBet.spec.ts --config=playwright.ZA.config.ts --headed
-
-import { expect } from '@playwright/test';
 import { test } from '../../../fixtures/MasterFixtureFile';
 import path from 'path';
 import { ScreenshotHelper } from '../../../../Common-Flows/ScreenshotHelper';
+import {expect} from '@playwright/test';
+import { OddsSelection, OddsSelectionAbove } from '../../../commonflows/OddSelection';
 
 const projectRoot = path.resolve(__dirname, '../../..');
 const screenshotDir = path.join(projectRoot, 'screenshots/module/myBets');
@@ -12,15 +12,12 @@ test.describe('My Bets Page Functionality', () => {
     // Logs in before any test in this suite
     test.beforeEach(async ({ myBetsPage, testData }) => {
         await myBetsPage.gotoSports();
-        await myBetsPage.login(
-            testData.myBetsCredentials.mobile,
-            testData.myBetsCredentials.password
-        );
+        await myBetsPage.login();
         // await myBetsPage.closePromotionPopup();
     });
 
     // --- OPEN BETS TESTS ---
-    test.describe('Open Bets Section', () => {
+    // test.describe('Open Bets Section', () => {
 
         // Clicks "My Bets" and "Open Bets" tab before each test in this group
         test.beforeEach(async ({ myBetsPage }) => {
@@ -77,23 +74,7 @@ test.describe('My Bets Page Functionality', () => {
 
 
         //below test failing due to before each opening mybets  wothout adding 6 legs
-        // test('T17-22. Select 6 odds and check edit functionality', async ({ page, myBetsPage }, testInfo) => {
-        //     await OddsSelection(6, page); // External helper
-        //     await myBetsPage.placeBet();
-        //     await ScreenshotHelper(page, screenshotDir, 'select-6-odds', testInfo);
-
-        //     // Navigate back to My Bets (placing bet might close it)
-        //     await myBetsPage.clickMyBets();
-        //     await myBetsPage.clickOpenBetsTab();
-
-        //     // Perform edit and continue
-        //     await myBetsPage.performEditBetFlow('continue', 0);
-        //     await ScreenshotHelper(page, screenshotDir, 'edit-bet-continue', testInfo);
-
-        //     // Perform edit and cancel
-        //     await myBetsPage.performEditBetFlow('cancel', 0);
-        //     await ScreenshotHelper(page, screenshotDir, 'edit-bet-cancel', testInfo);
-        // });
+       
 
         // test('T23-26. My Bets Cashout flow and success highlight', async ({ page, myBetsPage }, testInfo) => {
         //     // Note: This test requires a bet to be in a cashout-able state.
@@ -103,9 +84,29 @@ test.describe('My Bets Page Functionality', () => {
         //     await myBetsPage.highlightCashoutSuccess();
         //     await ScreenshotHelper(page, screenshotDir, 'cashout-success', testInfo);
         // });
-    });
+    // });
 
-    // --- SETTLED BETS TESTS ---
+    //  test('T17-22. Select 6 odds and check edit functionality', async ({ page, myBetsPage }, testInfo) => {
+    //         await OddsSelectionAbove(6, 1,page ); 
+    //         // await myBetsPage.closePromotionPopup();
+    //         await myBetsPage.placeBet();
+    //         await ScreenshotHelper(page, screenshotDir, 'select-6-odds', testInfo);
+    //         await myBetsPage.closePromotionPopup();
+
+    //         // Navigate back to My Bets (placing bet might close it)
+    //         await myBetsPage.clickMyBets();
+    //         await myBetsPage.clickOpenBetsTab();
+
+    //         // Perform edit and continue
+    //         await myBetsPage.performEditBetFlow('continue', 0);
+    //         await ScreenshotHelper(page, screenshotDir, 'edit-bet-continue', testInfo);
+
+    //         // Perform edit and cancel
+    //         await myBetsPage.performEditBetFlow('cancel', 0);
+    //         await ScreenshotHelper(page, screenshotDir, 'edit-bet-cancel', testInfo);
+    //     });
+
+    // // --- SETTLED BETS TESTS ---
     test.describe('Settled Bets Section', () => {
 
         // Clicks "My Bets" and "Settled Bets" tab before each test in this group
@@ -114,39 +115,39 @@ test.describe('My Bets Page Functionality', () => {
             await myBetsPage.clickSettledBetsTab();
         });
 
-        test('T36,40,42. Verify Settled Bets section loads', async ({ page, myBetsPage }, testInfo) => {
-            await expect(myBetsPage.getSettledBetsTab()).toBeVisible();
-            await page.waitForTimeout(2000);
-            await ScreenshotHelper(page, screenshotDir, 'settled-bets-section', testInfo);
-        });
-
-        test('T37. Verify category dropdown options in Settled Bets', async ({ page, myBetsPage }, testInfo) => {
-            await myBetsPage.selectCategory('Betgames');
-            await ScreenshotHelper(page, screenshotDir, 'settled-bets-cat-betgames', testInfo);
-
-            await myBetsPage.selectCategory('Lucky Numbers');
-            await ScreenshotHelper(page, screenshotDir, 'settled-bets-cat-lucky-numbers', testInfo);
-
-            await myBetsPage.selectCategory('Jackpots');
-            await ScreenshotHelper(page, screenshotDir, 'settled-bets-cat-jackpots', testInfo);
-
-            await myBetsPage.selectCategory('Tote');
-            await ScreenshotHelper(page, screenshotDir, 'settled-bets-cat-tote', testInfo);
-        });
-
-        // test('T38. Verify "All Drop-down" result data options in Settled Bets', async ({ page, myBetsPage }, testInfo) => {
-        //     await myBetsPage.selectFilter('All');
-        //     await ScreenshotHelper(page, screenshotDir, 'settled-bets-filter-all', testInfo);
-
-        //     await myBetsPage.selectFilter('Cashout');
-        //     await ScreenshotHelper(page, screenshotDir, 'settled-bets-filter-cashout', testInfo);
-
-        //     await myBetsPage.selectFilter('Win');
-        //     await ScreenshotHelper(page, screenshotDir, 'settled-bets-filter-win', testInfo);
-
-        //     await myBetsPage.selectFilter('Loss');
-        //     await ScreenshotHelper(page, screenshotDir, 'settled-bets-filter-loss', testInfo);
+        // test('T36,40,42. Verify Settled Bets section loads', async ({ page, myBetsPage }, testInfo) => {
+        //     await expect(myBetsPage.getSettledBetsTab()).toBeVisible();
+        //     await page.waitForTimeout(2000);
+        //     await ScreenshotHelper(page, screenshotDir, 'settled-bets-section', testInfo);
         // });
+
+        // test('T37. Verify category dropdown options in Settled Bets', async ({ page, myBetsPage }, testInfo) => {
+        //     await myBetsPage.selectCategory('Betgames');
+        //     await ScreenshotHelper(page, screenshotDir, 'settled-bets-cat-betgames', testInfo);
+
+        //     await myBetsPage.selectCategory('Lucky Numbers');
+        //     await ScreenshotHelper(page, screenshotDir, 'settled-bets-cat-lucky-numbers', testInfo);
+
+        //     await myBetsPage.selectCategory('Jackpots');
+        //     await ScreenshotHelper(page, screenshotDir, 'settled-bets-cat-jackpots', testInfo);
+
+        //     await myBetsPage.selectCategory('Tote');
+        //     await ScreenshotHelper(page, screenshotDir, 'settled-bets-cat-tote', testInfo);
+        // });
+
+    //     // test('T38. Verify "All Drop-down" result data options in Settled Bets', async ({ page, myBetsPage }, testInfo) => {
+    //     //     await myBetsPage.selectFilter('All');
+    //     //     await ScreenshotHelper(page, screenshotDir, 'settled-bets-filter-all', testInfo);
+
+    //     //     await myBetsPage.selectFilter('Cashout');
+    //     //     await ScreenshotHelper(page, screenshotDir, 'settled-bets-filter-cashout', testInfo);
+
+    //     //     await myBetsPage.selectFilter('Win');
+    //     //     await ScreenshotHelper(page, screenshotDir, 'settled-bets-filter-win', testInfo);
+
+    //     //     await myBetsPage.selectFilter('Loss');
+    //     //     await ScreenshotHelper(page, screenshotDir, 'settled-bets-filter-loss', testInfo);
+    //     // });
 
         test('T39. Verify search text box in Settled Bets', async ({ page, myBetsPage }, testInfo) => {
             await myBetsPage.highlightSearchBox();

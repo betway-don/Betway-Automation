@@ -8,11 +8,11 @@ const projectRoot = path.resolve(__dirname, '../../..');
 const screenshotDir = path.join(projectRoot, 'screenshots/module/login');
 
 test.describe.serial('Login Page Tests', () => {
-    // test('T5 - Verify that user should able to see the "Login" button on signup popup window', async ({ loginPage }, testInfo) => {
-    //     await loginPage.clickLoginButtonFromHamburger();
-    //     await loginPage.verifyLoginButtonFromPopupThroughHamburger();
-    //     await ScreenshotHelper(loginPage.page, screenshotDir, 'T5-loginPage', testInfo);
-    // });
+    test('T5 - Verify that user should able to see the "Login" button on signup popup window', async ({ loginPage }, testInfo) => {
+        await loginPage.clickLoginButtonFromHamburger();
+        await loginPage.verifyLoginButtonFromPopupThroughHamburger();
+        await ScreenshotHelper(loginPage.page, screenshotDir, 'T5-loginPage', testInfo);
+    });
 
     test('T9 - Verify user is able to login', async ({ loginPage }, testInfo) => {
         await loginPage.Login();
@@ -24,8 +24,8 @@ test.describe.serial('Login Page Tests', () => {
         await ScreenshotHelper(loginPage.page, screenshotDir, 'T10-loginPage', testInfo);
     });
 
-    // test('T11 - Verify user is able to login from signup popup', async ({ loginPage }, testInfo) => {
-    //     await loginPage.LoginThroughPopUp();
-    //     await ScreenshotHelper(loginPage.page, screenshotDir, 'T11-loginPage', testInfo);
-    // });
+    test('T11 - Verify user is able to login from signup popup', async ({ loginPage }, testInfo) => {
+        await loginPage.LoginThroughPopUp();
+        await ScreenshotHelper(loginPage.page, screenshotDir, 'T11-loginPage', testInfo);
+    });
 });

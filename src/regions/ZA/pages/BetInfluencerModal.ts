@@ -20,6 +20,7 @@ export class BetInfluencerModal extends BetslipPage {
     BetInfluencerModalLocatorRegistry: Record<string, import('@playwright/test').Locator>;
     revenue: any;
 
+
     constructor(page: import('@playwright/test').Page) {
         super(page);
         this.page = page;
@@ -129,28 +130,28 @@ export class BetInfluencerModal extends BetslipPage {
     }
 
 
-    // async User1PlaceBets(legsCount: number) {
-    //     await this.gotoSportsPage();
-    //     await this.LoginArgs(`${userData.user1.mobile}`, `${userData.user1.password}`);
-    //     await OddsSelection(legsCount, this.page);
-    //     await this.clickBetNowBtn();
-    //     const bookingCode = await this.SportsPagelocatorRegistry.bookingCodeMessage.locator('..').innerText();
-    //     console.log(bookingCode);
-    //     await this.page.locator('#modal-close-btn').first().click();
-    //     await this.LogOut();
-    //     return bookingCode;
-    // }
+    async User1PlaceBets(legsCount: number) {
+        await this.gotoSportsPage();
+        await this.LoginArgs(`${userData.user1.mobile}`, `${userData.user1.password}`);
+        await OddsSelection(legsCount, this.page);
+        await this.clickBetNowBtn();
+        const bookingCode = await this.SportsPagelocatorRegistry.bookingCodeMessage.locator('..').innerText();
+        console.log(bookingCode);
+        await this.page.locator('#modal-close-btn').first().click();
+        await this.LogOut();
+        return bookingCode;
+    }
 
-    // async User2PlaceBetsFromBookingCode(bookingCode: any) {
-    //     await this.LoginArgs(`${userData.user4.mobile}`, `${userData.user4.password}`)
-    //     await this.BetInfluencerModalLocatorRegistry.welcomeUser.waitFor({ state: 'visible' })
-    //     await this.BetInfluencerModalLocatorRegistry.betslipButton.click();
-    //     const SharedBookingCode = await GetBookingCode(bookingCode)
-    //     await this.BetInfluencerModalLocatorRegistry.enterBookingCodeTextbox.fill(`${SharedBookingCode}`)
-    //     await this.page.keyboard.press('Enter');
-    //     await this.clickBetNowBtn();
-    //     await this.BetInfluencerModalLocatorRegistry.betConfirmation.locator('..').getByRole('img').first().click();
-    //     await this.LogOut();
-    //     return SharedBookingCode;
-    // }
+    async User2PlaceBetsFromBookingCode(bookingCode: any) {
+        await this.LoginArgs(`${userData.user4.mobile}`, `${userData.user4.password}`)
+        await this.BetInfluencerModalLocatorRegistry.welcomeUser.waitFor({ state: 'visible' })
+        await this.BetInfluencerModalLocatorRegistry.betslipButton.click();
+        const SharedBookingCode = await GetBookingCode(bookingCode)
+        await this.BetInfluencerModalLocatorRegistry.enterBookingCodeTextbox.fill(`${SharedBookingCode}`)
+        await this.page.keyboard.press('Enter');
+        await this.clickBetNowBtn();
+        await this.BetInfluencerModalLocatorRegistry.betConfirmation.locator('..').getByRole('img').first().click();
+        await this.LogOut();
+        return SharedBookingCode;
+    }
 }

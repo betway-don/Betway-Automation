@@ -5,7 +5,7 @@ import { ScreenshotHelper } from '../../../../Common-Flows/ScreenshotHelper';
 import { OddsSelection, OddsSelectionAbove } from '../../../../Common-Flows/OddSelection';
 
 const projectRoot = path.resolve(__dirname, '../../..');
-const screenshotDir = path.join(projectRoot, 'screenshots/module/betslip');
+const screenshotDir = path.join(projectRoot, 'screenshots/smoke/betslip');
 
 test.describe('Betslip Module - ZA', () => {
 

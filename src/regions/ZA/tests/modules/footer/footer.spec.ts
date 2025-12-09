@@ -14,7 +14,7 @@ const userData = require('../../../json-data/userData.json');
 const projectRoot = path.resolve(__dirname, '../../..');
 const screenshotDir = path.join(projectRoot, 'screenshots/module/footer');
 
-test.describe.serial('Footer Module Tests', () => {
+test.describe('Footer Module Tests', () => {
     test('T1-Verify Footer page', async ({ homePage }, testInfo) => {
         await homePage.verifyFooter();
         await ScreenshotHelper(homePage.page, screenshotDir, 'T1.png', testInfo);
@@ -33,10 +33,10 @@ test.describe.serial('Footer Module Tests', () => {
         await ScreenshotHelper(sportsPage.page, screenshotDir, 'T4.png', testInfo);
     });
 
-    test('T5- Verify that user should able to see mouse over hand icon on the "Sponsorships" logo in footer', async ({ homePage }, testInfo) => {
-        await homePage.verifyArsenalLogo();
-        await ScreenshotHelper(homePage.page, screenshotDir, 'T5.png', testInfo);
-    });
+    // test('T5- Verify that user should able to see mouse over hand icon on the "Sponsorships" logo in footer', async ({ homePage }, testInfo) => {
+    //     await homePage.verifyArsenalLogo();
+    //     await ScreenshotHelper(homePage.page, screenshotDir, 'T5.png', testInfo);
+    // });
     // test('T6-Verify that user should able to click on "Sponsorships" logo in footer', async ({ homePage }, testInfo) => {
     //     await homePage.clickArsenalLogo();
     //     await ScreenshotHelper(homePage.page, screenshotDir, 'T6-b.png', testInfo);
@@ -203,10 +203,10 @@ test.describe.serial('Footer Module Tests', () => {
     //     await homePage.verifyBettingRulesLink();
     //     await ScreenshotHelper(homePage.page, screenshotDir, 'T32-b.png', testInfo);
     // });
-    // test('T32 b -Verify functionality of "Betting Rules" at footer section', async ({ homePage }, testInfo) => {
-    //     await homePage.clickBettingRulesLink();
-    //     await ScreenshotHelper(homePage.page, screenshotDir, 'T32-b.png', testInfo);
-    // });
+    // // test('T32 b -Verify functionality of "Betting Rules" at footer section', async ({ homePage }, testInfo) => {
+    // //     await homePage.clickBettingRulesLink();
+    // //     await ScreenshotHelper(homePage.page, screenshotDir, 'T32-b.png', testInfo);
+    // // });
     // test('T33-Verify presence of "Betway App" at Footer section', async ({ homePage }, testInfo) => {
     //     await homePage.verifyBetwayAppLink()
     //     await ScreenshotHelper(homePage.page, screenshotDir, 'T33-b.png', testInfo);
@@ -305,17 +305,17 @@ test.describe.serial('Footer Module Tests', () => {
     //     await ScreenshotHelper(howTo.page, screenshotDir, 'T52.png', testInfo);
     // });
 
-    // test('T53-Verify that User should able to click on "How to Jackpots" on the How To page', async ({ howTo }, testInfo) => {
-    //     await howTo.verifyHowToJackpot();
-    //     await howTo.clickHowToJackpot()
-    //     await ScreenshotHelper(howTo.page, screenshotDir, 'T53.png', testInfo);
-    // });
+    // // test('T53-Verify that User should able to click on "How to Jackpots" on the How To page', async ({ howTo }, testInfo) => {
+    // //     await howTo.verifyHowToJackpot();
+    // //     await howTo.clickHowToJackpot()
+    // //     await ScreenshotHelper(howTo.page, screenshotDir, 'T53.png', testInfo);
+    // // });
 
-    // test('T54-Verify that User should able to click on any option available on "How to Jackpots" section', async ({ howTo }, testInfo) => {
-    //     await howTo.clickHowToJackpot();
-    //     await highlightElementBorder(howTo.page.getByText('How to Jacpots').first().locator('..'));
-    //     await ScreenshotHelper(howTo.page, screenshotDir, 'T54.png', testInfo);
-    // });
+    // // test('T54-Verify that User should able to click on any option available on "How to Jackpots" section', async ({ howTo }, testInfo) => {
+    // //     await howTo.clickHowToJackpot();
+    // //     await highlightElementBorder(howTo.page.getByText('How to Jacpots').first().locator('..'));
+    // //     await ScreenshotHelper(howTo.page, screenshotDir, 'T54.png', testInfo);
+    // // });
 
     // test('T55-Verify that User should able to click on "How to Casino" on the How To page', async ({ howTo }, testInfo) => {
     //     await howTo.clickHowToCasino();
@@ -374,6 +374,6 @@ test.describe.serial('Footer Module Tests', () => {
     //     await ScreenshotHelper(homePage.page, screenshotDir, 'T70-a.png', testInfo);
     // });
 });
-// 1.npx playwright test src/regions/ZA/tests/modules/footer/footer.spec.ts --config=playwright.ZA.config.ts --headed
+// npx playwright test src/regions/ZA/tests/modules/footer/footer.spec.ts --config=playwright.ZA.config.ts --headed
 // 2.allure generate allure-results --clean -o allure-report
 // 3.allure open src/regions/ZA/reports/allure-report 

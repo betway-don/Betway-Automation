@@ -57,7 +57,7 @@ export class SportsPage extends LoginPage {
     }
 
     async gotoAviator() {
-        await this.page.getByRole('link', { name: 'Aviator' }).click();
+        await this.page.getByRole('link', { name: 'Aviator' }).first().click();
     }
 
     async AviatorLoginPopUp() {
@@ -93,4 +93,6 @@ export class SportsPage extends LoginPage {
         await this.SportsPagelocatorRegistry.modalCloseButton.click();
         return bookingCode;
     }
+
+    
 }

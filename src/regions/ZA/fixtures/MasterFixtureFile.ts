@@ -222,7 +222,7 @@ export const test = base.extend<PageFixtures>({
     await page.setViewportSize({ width: 1300, height: 780 });
     const betSaverPage = new BetSaverPage(page);
     await betSaverPage.goto();
-    await betSaverPage.Login("0246862222", "Test@1234");// Change the credentials as needed
+    await betSaverPage.Login();
     await use(betSaverPage);
   },
 

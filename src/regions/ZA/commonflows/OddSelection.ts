@@ -94,6 +94,7 @@ export async function LiveOddsSelection(numberOfLegs: number, page: import('@pla
 
 export async function OddsSelectionAbove(numberOflegs: number, minOdd: number, page: import('@playwright/test').Page) {
     await page.reload({ waitUntil: 'domcontentloaded' });
+    // await page.locator('#modal-close-btn').click();
     await page.locator('#sports-tabs div').filter({ hasText: 'Upcoming' }).click();
     const apiUrl = "https://new.betway.co.za/sportsapi/br/v1/BetBook/Upcoming/?countryCode=ZA&sportId=soccer";
     const response = await page.waitForResponse(

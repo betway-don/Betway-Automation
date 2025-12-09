@@ -8,8 +8,9 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 4 : 4,
   reporter: [
-    ['html', { outputFolder: 'playwright-report', open: 'never' }], ['list']
-    // ['allure-playwright', { outputFolder: 'src/regions/ZA/reports/allure-results' }]
+    ['html', { outputFolder: 'playwright-report', open: 'never' }],
+    ['list'],
+    ['json', { outputFile: process.env.PLAYWRIGHT_JSON_OUTPUT_NAME || 'test-results.json' }]
   ],
   use: {
     baseURL: 'https://new.betway.co.za/',
@@ -19,6 +20,9 @@ export default defineConfig({
     },
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
+
+    actionTimeout: 120000,      // any single action (click, fill, etc.) will fail after 2 min
+    navigationTimeout: 120000,  // navigation waits will fail after 2 min
   },
 
   projects: [

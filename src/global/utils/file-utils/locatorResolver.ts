@@ -25,6 +25,9 @@ export function getLocator(page: Page, config: LocatorConfig): Locator {
     case "label":
       locator = page.getByLabel(config.value, config.options || {});
       break;
+    case "placeholder":
+      locator = page.getByPlaceholder(config.value, config.options || {});
+      break;
     default:
       throw new Error(`Unsupported locator type: ${config.type}`);
   }
