@@ -10,7 +10,7 @@ import { VirtualsPage } from '../pages/VirtualsPage';
 import { PromotionPage } from '../pages/PromotionPage';
 import { BetgamesPage } from '../pages/BetGamesPage';
 import { SignUpPage } from '../pages/SignUpPage';
-import { SignupUtils } from '../utils/signupUtils';
+import { SignupUtils } from '../commonflows/signupUtils';
 import { HomePage } from '../pages/HomePage';
 import { HeaderPage } from '../pages/HeaderPage';
 import { BetslipPage } from '../pages/BetslipPage';

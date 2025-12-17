@@ -2,25 +2,25 @@ import { expect, Page, Locator } from '@playwright/test';
 import { loadLocatorsFromExcel } from "../../../global/utils/file-utils/excelReader";
 import { getLocator } from "../../../global/utils/file-utils/locatorResolver";
 import { highlightElementBorder, highlightElements } from '../../Common-Flows/HighlightElements';
+import { SportsPage } from "./SportsPage";
+import { OddsSelectionAbove } from '../commonflows/OddSelection';
 
 const userData = require('../json-data/userData.json');
 // const LOCATOR_URL = "https://github.com/athrvzoz/LocatorFile/raw/refs/heads/main/locators.xlsx";
 const Locator_Url = "src/global/utils/file-utils/locators(2).xlsx";
 
-// Assume HomePage is imported correctly
-// import { HomePage } from './HomePage';
-
-export class BetslipPage {
+export class BetslipPage extends SportsPage {
   readonly BetslipPageLocatorsRegistry: Record<string, import('@playwright/test').Locator>;
   page: import('@playwright/test').Page;
 
   constructor(page: import('@playwright/test').Page) {
-
+    super(page);
     this.page = page;
 
     const configs = loadLocatorsFromExcel(Locator_Url, "BetslipPage");
 
     this.BetslipPageLocatorsRegistry = {
+      ...this.SportsPagelocatorRegistry,
       mobileNumberInput: getLocator(this.page, configs["usernameInput"]),
       passwordInput: getLocator(this.page, configs["passwordInput"]),
       closePromotionPopup: getLocator(this.page, configs["closePromotionPopup"]),
@@ -80,7 +80,7 @@ export class BetslipPage {
 
   // Navigation Methods
   async goto() {
-    await this.page.goto('https://en.betway.co.tz/sport/soccer', { waitUntil: 'domcontentloaded' });
+    await this.page.goto('https://new.betway.co.za/sport/soccer', { waitUntil: 'domcontentloaded' });
     // await this.BetslipPageLocatorsRegistry.closePromotionPopup.waitFor({ state: 'visible',});
     // await this.BetslipPageLocatorsRegistry.closePromotionPopup.click();
   }
@@ -106,7 +106,7 @@ export class BetslipPage {
   async closePromotionPopup() {
     try {
       const popup = this.BetslipPageLocatorsRegistry.closePromotionPopup;
-      if (await popup.isVisible({ timeout: 30000 })) {
+      if (await popup.isVisible({ timeout: 50000 })) {
         await popup.click();
         await this.page.waitForTimeout(500);
       }
@@ -488,6 +488,7 @@ export class BetslipPage {
   }
 
   async verifyWinBoostCalculation() {
+    await this.enterBetAmount('1');
     await this.verifyWinBoostValue();
   }
 
