@@ -22,6 +22,8 @@ import { BuildABetPage } from '../pages/BuildABetPage';
 import { BookABetPage } from '../pages/BookABetPage';
 import { BetSaverPage } from '../pages/BetSaverPage';
 import { TransactionHistoryPage } from '../pages/TransactionHistoryPage';
+import { HamburgerMenuPage } from '../pages/HamburgerMenuPage';
+import { FeedsPage } from '../pages/FeedsPage';
 
 // Define the shape of the data file
 export interface FullTestData {
@@ -82,6 +84,8 @@ type PageFixtures = {
   transactionHistoryPage: TransactionHistoryPage;
   headerPage: HeaderPage;
   betslipPage: BetslipPage;
+  hamburgerMenuPage: HamburgerMenuPage;
+  feedsPage: FeedsPage;
   // Signup-specific fixtures
   signupPage: SignUpPage;
   signupUtils: SignupUtils;
@@ -179,6 +183,7 @@ export const test = base.extend<PageFixtures>({
   buildABetPage: async ({ page }, use) => {
     await page.setViewportSize({ width: 1300, height: 780 });
     const buildABetPage = new BuildABetPage(page);
+    await buildABetPage.goto();
     await use(buildABetPage);
   },
 
@@ -233,4 +238,19 @@ export const test = base.extend<PageFixtures>({
     await transactionHistoryPage.Login();
     await use(transactionHistoryPage);
   },
+
+  hamburgerMenuPage: async ({ page }, use) => {
+    await page.setViewportSize({ width: 1300, height: 780 });
+    const hamburgerMenuPage = new HamburgerMenuPage(page);
+    await hamburgerMenuPage.goto();
+    await use(hamburgerMenuPage);
+  },
+
+  feedsPage: async ({ page }, use) => {
+    await page.setViewportSize({ width: 1300, height: 780 });
+    const feedsPage = new FeedsPage(page);
+    await feedsPage.goto();
+    await feedsPage.Login();
+    await use(feedsPage);
+  }
 });

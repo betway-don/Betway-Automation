@@ -2,25 +2,25 @@ import { expect, Page, Locator } from '@playwright/test';
 import { loadLocatorsFromExcel } from "../../../global/utils/file-utils/excelReader";
 import { getLocator } from "../../../global/utils/file-utils/locatorResolver";
 import { highlightElementBorder, highlightElements } from '../../Common-Flows/HighlightElements';
+import { SportsPage } from "./SportsPage";
+import { OddsSelectionAbove } from '../commonflows/OddSelection';
 
 const userData = require('../json-data/userData.json');
 // const LOCATOR_URL = "https://github.com/athrvzoz/LocatorFile/raw/refs/heads/main/locators.xlsx";
 const Locator_Url = "src/global/utils/file-utils/locators(2).xlsx";
 
-// Assume HomePage is imported correctly
-// import { HomePage } from './HomePage';
-
-export class BetslipPage {
+export class BetslipPage extends SportsPage {
   readonly BetslipPageLocatorsRegistry: Record<string, import('@playwright/test').Locator>;
   page: import('@playwright/test').Page;
 
   constructor(page: import('@playwright/test').Page) {
-
+    super(page);
     this.page = page;
 
     const configs = loadLocatorsFromExcel(Locator_Url, "BetslipPage");
 
     this.BetslipPageLocatorsRegistry = {
+      ...this.SportsPagelocatorRegistry,
       mobileNumberInput: getLocator(this.page, configs["usernameInput"]),
       passwordInput: getLocator(this.page, configs["passwordInput"]),
       closePromotionPopup: getLocator(this.page, configs["closePromotionPopup"]),
@@ -53,8 +53,9 @@ export class BetslipPage {
       cashBtnMulti: getLocator(this.page, configs["cashBtnMulti"]),
       freebetBtnMulti: getLocator(this.page, configs["freebetBtnMulti"]),
       cashOutIcon: getLocator(this.page, configs["cashOutIcon"]),
-      winBoostToolTip: getLocator(this.page, configs["winBoostToolTip"]),
+      winBoostToolTip: getLocator(this.page, configs["winBoostToolTipGHS"]),
       winBoostValue: getLocator(this.page, configs["winBoostValue"]),
+      winBoostValueGHS: getLocator(this.page, configs["winBoostValueGHS"]),
       betSaverText: getLocator(this.page, configs["betSaverText"]),
       totalBetwayReturnMulti: getLocator(this.page, configs["totalBetwayReturnMulti"]),
       totalBetwayReturnSingle: getLocator(this.page, configs["totalBetwayReturnSingle"]),
@@ -74,7 +75,7 @@ export class BetslipPage {
 
     // Special handling for winBoostInfoIcon (complex locator)
     this.BetslipPageLocatorsRegistry.winBoostInfoIcon = this.page.locator('div', {
-      hasText: /^Win Boost 3%\. 1 more for 4% \(Min odds 1\.2\)Bet Saver not active$/
+      hasText: /^Win Boost 3%\. 1 more for 5% \(Min odds 1\.2\)Bet Saver not active$/
     }).getByRole('img').nth(1);
   }
 
@@ -106,7 +107,7 @@ export class BetslipPage {
   async closePromotionPopup() {
     try {
       const popup = this.BetslipPageLocatorsRegistry.closePromotionPopup;
-      if (await popup.isVisible({ timeout: 30000 })) {
+      if (await popup.isVisible({ timeout: 50000 })) {
         await popup.click();
         await this.page.waitForTimeout(500);
       }
@@ -227,8 +228,8 @@ export class BetslipPage {
   }
 
   async verifyWinBoostValue() {
-    await expect(this.BetslipPageLocatorsRegistry.winBoostValue).toBeVisible();
-    await highlightElements(this.BetslipPageLocatorsRegistry.winBoostValue);
+    await expect(this.BetslipPageLocatorsRegistry.winBoostValueGHS).toBeVisible();
+    await highlightElements(this.BetslipPageLocatorsRegistry.winBoostValueGHS);
   }
 
   async verifyWinBoostInfoIcon() {
@@ -488,6 +489,7 @@ export class BetslipPage {
   }
 
   async verifyWinBoostCalculation() {
+    await this.enterBetAmount('1');
     await this.verifyWinBoostValue();
   }
 

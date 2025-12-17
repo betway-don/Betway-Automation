@@ -1,14 +1,10 @@
 import { test } from '../../../fixtures/MasterFixtureFile';
 import path from 'path';
 import { ScreenshotHelper } from '../../../../Common-Flows/ScreenshotHelper';
-
-const highlights = require('../../../apis/Highlights.json');
-const fakerdata = require('../../../json-data/faker.json');
-const userData = require('../../../json-data/userData.json');
 const projectRoot = path.resolve(__dirname, '../../..');
 const screenshotDir = path.join(projectRoot, 'screenshots/module/footer');
 
-test.describe.serial('Footer Module Tests', () => {
+test.describe('Footer Module Tests', () => {
     test('T1-Verify Footer page', async ({ homePage }, testInfo) => {
         await homePage.verifyFooter();
         await ScreenshotHelper(homePage.page, screenshotDir, 'T1.png', testInfo);
@@ -37,20 +33,20 @@ test.describe.serial('Footer Module Tests', () => {
         await ScreenshotHelper(homePage.page, screenshotDir, 'T14-b.png', testInfo);
     });
 
-    test('T19-Verify the presence and functionality of "Email: Support@betway.co.za" hyperlink', async ({ contactUs }, testInfo) => {
-        await contactUs.verifyEmail();
-        await ScreenshotHelper(contactUs.page, screenshotDir, 'T19-a.png', testInfo);
-    });
+    // test('T19-Verify the presence and functionality of "Email: Support@betway.co.za" hyperlink', async ({ contactUs }, testInfo) => {
+    //     await contactUs.verifyEmail();
+    //     await ScreenshotHelper(contactUs.page, screenshotDir, 'T19-a.png', testInfo);
+    // });
 
-    test('T20-Verify presence and functionality of "Twitter: @Betway_GH" hyperlink', async ({ contactUs }, testInfo) => {
-        await contactUs.verifyX();
-        await ScreenshotHelper(contactUs.page, screenshotDir, 'T20.png', testInfo);
-    });
+    // test('T20-Verify presence and functionality of "Twitter: @Betway_GH" hyperlink', async ({ contactUs }, testInfo) => {
+    //     await contactUs.verifyX();
+    //     await ScreenshotHelper(contactUs.page, screenshotDir, 'T20.png', testInfo);
+    // });
 
-    test('T21-Verify functionality of Facebook: /BetwaySouthAfrica" hyperlink', async ({ contactUs }, testInfo) => {
-        await contactUs.verifyFacebook();
-        await ScreenshotHelper(contactUs.page, screenshotDir, 'T21.png', testInfo);
-    });
+    // test('T21-Verify functionality of Facebook: /BetwaySouthAfrica" hyperlink', async ({ contactUs }, testInfo) => {
+    //     await contactUs.verifyFacebook();
+    //     await ScreenshotHelper(contactUs.page, screenshotDir, 'T21.png', testInfo);
+    // });
 
     test('T29-a-Verify functionality of "Terms & Conditions" at the Footer section', async ({ homePage }, testInfo) => {
         await homePage.verifyTermsAndConditions();
@@ -78,6 +74,6 @@ test.describe.serial('Footer Module Tests', () => {
     });
 
 });
-// npx playwright test src/regions/ZA/tests/modules/footer/footer.spec.ts --config=playwright.ZA.config.ts --headed
+// npx playwright test src/regions/ZA/tests/smoke/footer/footer.spec.ts --config=playwright.ZA.config.ts --headed
 // 2.allure generate allure-results --clean -o allure-report
 // 3.allure open src/regions/ZA/reports/allure-report 

@@ -37,12 +37,7 @@ export class HeaderPage extends HomePage {
       statistics: getLocator(this.page, configs["statistics"]),
       oddsFormat: getLocator(this.page, configs["oddsFormat"]),
       // countryCode: getLocator(this.page, configs["countryCode"]),
-      mobileNumberInput: getLocator(this.page, configs["mobileNumberInput"]),
-      passwordInput: getLocator(this.page, configs["passwordInput"]),
-      eyeButton: getLocator(this.page, configs["eyeButton"]),
-      forgetPasswordLink: getLocator(this.page, configs["forgetPasswordLink"]),
-      betslipButton: getLocator(this.page, configs["betslipButton"]),
-      gotItButton: getLocator(this.page, configs["gotItButton"]),
+      allBalanceFieldHamburger: getLocator(this.page, configs["allBalanceFieldHamburger"]),
       depositFund: getLocator(this.page, configs["depositFund"]),
       withdrawFund: getLocator(this.page, configs["withdrawFund"]),
       closeWithdrawalAlert: getLocator(this.page, configs["closeWithdrawalAlert"]),
@@ -62,6 +57,12 @@ export class HeaderPage extends HomePage {
       logOut: getLocator(this.page, configs["logOut"]),
       closeMyAccountOptions: getLocator(this.page, configs["closeMyAccountOptions"]),
       // eyeButton2: getLocator(this.page, configs["eyeButton2"]),
+      mobileNumberInput: getLocator(this.page, configs["mobileNumberInput"]),
+      passwordInput: getLocator(this.page, configs["passwordInput"]),
+      eyeButton: getLocator(this.page, configs["eyeButton"]),
+      forgetPasswordLink: getLocator(this.page, configs["forgetPasswordLink"]),
+      betslipButton: getLocator(this.page, configs["betslipButton"]),
+      gotItButton: getLocator(this.page, configs["gotItButton"]),
       accountsButton: getLocator(this.page, configs["accountsButton"]),
       balanceLabel: getLocator(this.page, configs["balanceLabel"]),
       balanceValue: getLocator(this.page, configs["balanceValue"]),
@@ -78,6 +79,9 @@ export class HeaderPage extends HomePage {
       notificationBellIcon: getLocator(this.page, configs["notificationBellIcon"]),
       allBalanceTxt: getLocator(this.page, configs["allBalanceTxt"]),
       liveChatIcon: getLocator(this.page, configs["liveChatIcon"]),
+
+
+
     };
   }
 

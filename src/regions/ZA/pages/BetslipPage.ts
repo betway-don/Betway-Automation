@@ -3,6 +3,7 @@ import { loadLocatorsFromExcel } from "../../../global/utils/file-utils/excelRea
 import { getLocator } from "../../../global/utils/file-utils/locatorResolver";
 import { highlightElementBorder, highlightElements } from '../../Common-Flows/HighlightElements';
 import { SportsPage } from "./SportsPage";
+import { OddsSelectionAbove } from '../commonflows/OddSelection';
 
 const userData = require('../json-data/userData.json');
 // const LOCATOR_URL = "https://github.com/athrvzoz/LocatorFile/raw/refs/heads/main/locators.xlsx";
@@ -105,7 +106,7 @@ export class BetslipPage extends SportsPage {
   async closePromotionPopup() {
     try {
       const popup = this.BetslipPageLocatorsRegistry.closePromotionPopup;
-      if (await popup.isVisible({ timeout: 30000 })) {
+      if (await popup.isVisible({ timeout: 50000 })) {
         await popup.click();
         await this.page.waitForTimeout(500);
       }

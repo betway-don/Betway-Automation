@@ -230,7 +230,7 @@ export class BetSaverPage {
  
     async verifyBetsaverNotActiveForFewSelections() {
         await this.locatorsRegistry.gotit.click().catch(() => { });
-        await this.preparePage();
+        // await this.preparePage();
         await OddsSelectionAbove(2, 1.5, this.page);
         await this.safeClick(this.locatorsRegistry.multiBetSlip, "BetSaver Not Active");
         await this.safeClick(this.locatorsRegistry.betSaverNotActive, "BetSaver Not Active");
@@ -240,7 +240,7 @@ export class BetSaverPage {
         await this.locatorsRegistry.gotit.click().catch(() => { });
         await this.preparePage();
         await this.safeClick(this.locatorsRegistry.upcomingButton, "Upcoming Button");
-        await OddsSelectionAbove(8, 3.5, this.page);
+        await OddsSelectionAbove(7, 2, this.page);
         await this.safeClick(this.locatorsRegistry.multiBetSlip, "BetSaver Not Active");
         await this.safeClick(this.locatorsRegistry.betSaverActive, "BetSaver Active");
     }

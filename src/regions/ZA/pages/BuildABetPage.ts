@@ -42,9 +42,9 @@ export class BuildABetPage {
     }
 
     // 1. Navigation & Setup Methods
-    async gotoSports() {
-        await this.page.goto('/sport');
-        await this.page.waitForLoadState('domcontentloaded');
+    async goto() {
+         await this.page.goto('https://new.betway.co.za/sport/soccer', { waitUntil: 'domcontentloaded' });
+        // await this.page.waitForLoadState('domcontentloaded');
     }
 
     async login() {
@@ -75,7 +75,7 @@ export class BuildABetPage {
 
     // 2. Action Methods
     async clickRandomMarketButton() {
-        await this.buildABetLocatorsRegistry.randomMarketButton1.click();
+        await this.buildABetLocatorsRegistry.randomMarketButton.click();
         await this.page.waitForTimeout(7000); // Wait for action
     }
 

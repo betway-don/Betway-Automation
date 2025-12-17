@@ -1,3 +1,5 @@
+
+import { HomePage } from './HomePage';
 import { loadLocatorsFromExcel } from "../../../global/utils/file-utils/excelReader";
 import { getLocator } from "../../../global/utils/file-utils/locatorResolver";
 import { highlightElementBorder, highlightElements } from '../../Common-Flows/HighlightElements';
@@ -8,11 +10,12 @@ const userData = require('../json-data/userData.json');
 // const LOCATOR_URL = "https://github.com/athrvzoz/LocatorFile/raw/refs/heads/main/locators.xlsx";
 const Locator_Url = "src/global/utils/file-utils/locators(2).xlsx"
 
-export class HeaderPage {
+export class HeaderPage extends HomePage {
   readonly HeaderPageLocatorsRegistry: Record<string, import('@playwright/test').Locator>;
   page: import('@playwright/test').Page;
 
   constructor(page: import('@playwright/test').Page) {
+    super(page);
     this.page = page;
 
     const configs = loadLocatorsFromExcel(Locator_Url, "HeaderPage");
@@ -30,16 +33,11 @@ export class HeaderPage {
       closeHamburgerMenu: getLocator(this.page, configs["closeHamburgerMenu"]),
       quickLinks: getLocator(this.page, configs["quickLinks"]),
       myAccount: getLocator(this.page, configs["myAccount"]),
-      bettingRules: getLocator(this.page, configs["bettingRules"]),
+      bettingRules: getLocator(this.page, configs["bettingRulesGHS"]),
       statistics: getLocator(this.page, configs["statistics"]),
       oddsFormat: getLocator(this.page, configs["oddsFormat"]),
       // countryCode: getLocator(this.page, configs["countryCode"]),
-      mobileNumberInput: getLocator(this.page, configs["mobileNumberInput"]),
-      passwordInput: getLocator(this.page, configs["passwordInput"]),
-      eyeButton: getLocator(this.page, configs["eyeButton"]),
-      forgetPasswordLink: getLocator(this.page, configs["forgetPasswordLink"]),
-      betslipButton: getLocator(this.page, configs["betslipButton"]),
-      gotItButton: getLocator(this.page, configs["gotItButton"]),
+      allBalanceFieldHamburger: getLocator(this.page, configs["allBalanceFieldHamburger"]),
       depositFund: getLocator(this.page, configs["depositFund"]),
       withdrawFund: getLocator(this.page, configs["withdrawFund"]),
       closeWithdrawalAlert: getLocator(this.page, configs["closeWithdrawalAlert"]),
@@ -59,6 +57,12 @@ export class HeaderPage {
       logOut: getLocator(this.page, configs["logOut"]),
       closeMyAccountOptions: getLocator(this.page, configs["closeMyAccountOptions"]),
       // eyeButton2: getLocator(this.page, configs["eyeButton2"]),
+      mobileNumberInput: getLocator(this.page, configs["mobileNumberInput"]),
+      passwordInput: getLocator(this.page, configs["passwordInput"]),
+      eyeButton: getLocator(this.page, configs["eyeButton"]),
+      forgetPasswordLink: getLocator(this.page, configs["forgetPasswordLink"]),
+      betslipButton: getLocator(this.page, configs["betslipButton"]),
+      gotItButton: getLocator(this.page, configs["gotItButton"]),
       accountsButton: getLocator(this.page, configs["accountsButton"]),
       balanceLabel: getLocator(this.page, configs["balanceLabel"]),
       balanceValue: getLocator(this.page, configs["balanceValue"]),
@@ -75,6 +79,9 @@ export class HeaderPage {
       notificationBellIcon: getLocator(this.page, configs["notificationBellIcon"]),
       allBalanceTxt: getLocator(this.page, configs["allBalanceTxt"]),
       liveChatIcon: getLocator(this.page, configs["liveChatIcon"]),
+
+
+
     };
   }
 
@@ -159,7 +166,7 @@ export class HeaderPage {
   async verifyEyeButton() {
     // Scope to the login form area that contains both Mobile Number and Password fields
     const formContainer = this.page.locator('form').filter({
-      hasText: '+27Forgot Username?Forgot Password?'
+      hasText: '+233Forgot Username?Forgot Password?'
     });
 
     // From within that form, target the eye SVG next to the password input
@@ -195,7 +202,7 @@ export class HeaderPage {
     await highlightElementBorder(this.HeaderPageLocatorsRegistry.transactionsHistory);
 
     await this.HeaderPageLocatorsRegistry.promoVouchers.scrollIntoViewIfNeeded();
-    await highlightElementBorder(this.HeaderPageLocatorsRegistry.myCoupons);
+    // await highlightElementBorder(this.HeaderPageLocatorsRegistry.myCoupons);
     await highlightElementBorder(this.HeaderPageLocatorsRegistry.betInfluencer);
     await highlightElementBorder(this.HeaderPageLocatorsRegistry.promoVouchers);
     await highlightElementBorder(this.HeaderPageLocatorsRegistry.updateDetails);

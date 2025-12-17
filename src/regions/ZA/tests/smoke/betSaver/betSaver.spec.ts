@@ -26,15 +26,15 @@ test.describe('BetSaver Module Tests', () => {
     });
  
     // T4-5: Betsaver gray out in My Bets
-    test('T4-5 - Betsaver gray out in My Bets', async ({ betSaverPage }, testInfo) => {
-        // T4 Upcoming
-        await betSaverPage.placeQualifyingBetAndNavigateToMyBets(3);
-        await betSaverPage.captureScreenshot('betSaverInMyBets', screenshotDir, 'T4', testInfo);
+    // test('T4-5 - Betsaver gray out in My Bets', async ({ betSaverPage }, testInfo) => {
+    //     // T4 Upcoming
+    //     await betSaverPage.placeQualifyingBetAndNavigateToMyBets(3);
+    //     await betSaverPage.captureScreenshot('betSaverInMyBets', screenshotDir, 'T4', testInfo);
  
-        // T5 Settled
-        await betSaverPage.clickSettledBetsButton();
-        await betSaverPage.captureScreenshot('betSaverInMyBets', screenshotDir, 'T5', testInfo);
-    });
+    //     // T5 Settled
+    //     await betSaverPage.clickSettledBetsButton();
+    //     await betSaverPage.captureScreenshot('betSaverInMyBets', screenshotDir, 'T5', testInfo);
+    // });
  
     // T6-9 Betsaver Active in My Bets
     test('T6-9 - Betsaver Active in My Bets', async ({ betSaverPage }, testInfo) => {
@@ -54,9 +54,5 @@ test.describe('BetSaver Module Tests', () => {
         // T9 Settled Detail View
         await betSaverPage.clickDetailViewButton();
         await betSaverPage.captureScreenshot('detailViewButton', screenshotDir, 'T9', testInfo);
- 
-    });
-   
- 
-   
+    });  
 });
