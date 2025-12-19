@@ -19,14 +19,48 @@ export class HamburgerMenuPage extends HeaderPage {
         this.HamburgerPageLocatorRegistry = {
             ...this.HeaderPageLocatorsRegistry,
             refreshBalHam: getLocator(this.page, configs["refreshBalHam"]),
-            hideBalanceHamburger: getLocator(this.page, configs["hide_closeDiveHam"])?.locator('svg').nth(1),
+            hideBalanceHamburger: getLocator(this.page, configs["hide_closeDiveHam"])?.locator('svg').nth(0),
+            closeHamburger: getLocator(this.page, configs["hide_closeDiveHam"])?.locator('svg').nth(1),
         };
     }
+
+    async goto() {
+        await this.page.goto('https://new.betway.co.za/sport/soccer', { waitUntil: 'domcontentloaded' });
+        //   await this.HeaderPageLocatorsRegistry.closePromotionPopup.waitFor({ state: 'visible',timeout:15000});
+        // await this.HeaderPageLocatorsRegistry.closePromotionPopup.click();
+    }
+
 
     // ==========================================
     // Verify and Click Methods 
     // Note: We DO NOT click hamburgerMenu here because beforeEach handles it
     // ==========================================
+
+
+    async verifyEyeButton2() {
+        await this.Login();
+        await this.clickHamburgerMenu();
+        await this.HamburgerPageLocatorRegistry.hideBalanceHamburger.waitFor({ state: 'visible' });
+        await this.HamburgerPageLocatorRegistry.hideBalanceHamburger.click();
+        await highlightElementBorder(this.HamburgerPageLocatorRegistry.hideBalanceHamburger);
+    }
+
+    async verifyRefreshBalance() {
+        await this.Login();
+        await this.clickHamburgerMenu();
+        await this.HamburgerPageLocatorRegistry.refreshBalHam.waitFor({ state: 'visible' });
+        await highlightElementBorder(this.HamburgerPageLocatorRegistry.refreshBalHam);
+        await this.HamburgerPageLocatorRegistry.refreshBalHam.click();
+    }
+
+    async verifyCloseHamburgerBtn() {
+        await this.Login();
+        await this.clickHamburgerMenu();
+        await this.HamburgerPageLocatorRegistry.closeHamburger.waitFor({ state: 'visible' });
+        await highlightElementBorder(this.HamburgerPageLocatorRegistry.closeHamburger);
+        await this.HamburgerPageLocatorRegistry.closeHamburger.click();
+    }
+
 
     async verifyAndClickDepositButton() {
         // Ensure element is ready before interacting

@@ -97,14 +97,14 @@ export const test = base.extend<PageFixtures>({
   homePage: async ({ page }, use) => {
     const homePage = new HomePage(page);
     await homePage.gotoHomePage();
-    await homePage.page.setViewportSize({ width: 1300, height: 780 });
+    // await homePage.page.setViewportSize({ width: 1300, height: 780 });
     await homePage.page.getByText('Got it').first().click();
     await use(homePage);
   },
 
   loginPage: async ({ page }, use) => {
     const loginPage = new LoginPage(page);
-    await loginPage.page.setViewportSize({ width: 1300, height: 780 });
+    // await loginPage.page.setViewportSize({ width: 1300, height: 780 });
     await loginPage.goto();
     await loginPage.page.getByText('Got it').first().click();
     await use(loginPage);
@@ -112,7 +112,7 @@ export const test = base.extend<PageFixtures>({
 
   sportsPage: async ({ page }, use) => {
     const sportsPage = new SportsPage(page);
-    await sportsPage.page.setViewportSize({ width: 1300, height: 780 });
+    // await sportsPage.page.setViewportSize({ width: 1300, height: 780 });
     await sportsPage.gotoSportsPage();
     await sportsPage.page.getByText('Got it').first().click();
     await use(sportsPage);
@@ -120,7 +120,7 @@ export const test = base.extend<PageFixtures>({
 
   casinoPage: async ({ page }, use) => {
     const casinoPage = new CasinoPage(page);
-    await casinoPage.page.setViewportSize({ width: 1300, height: 780 });
+    // await casinoPage.page.setViewportSize({ width: 1300, height: 780 });
     await casinoPage.gotoCasino();
     await casinoPage.page.getByText('Got it').first().click();
     await use(casinoPage);
@@ -128,7 +128,7 @@ export const test = base.extend<PageFixtures>({
 
   virtualsPage: async ({ page }, use) => {
     const virtualsPage = new VirtualsPage(page);
-    await virtualsPage.page.setViewportSize({ width: 1300, height: 780 });
+    // await virtualsPage.page.setViewportSize({ width: 1300, height: 780 });
     await virtualsPage.gotoVirtuals();
     await use(virtualsPage);
   },
@@ -140,21 +140,21 @@ export const test = base.extend<PageFixtures>({
 
   contactUs: async ({ page }, use) => {
     const contactUsPage = new ContactUsPage(page);
-    await contactUsPage.page.setViewportSize({ width: 1300, height: 780 });
+    // await contactUsPage.page.setViewportSize({ width: 1300, height: 780 });
     await contactUsPage.gotoContactUs();
     await use(contactUsPage)
   },
 
   howTo: async ({ page }, use) => {
     const howTo = new HowToPage(page);
-    await howTo.page.setViewportSize({ width: 1300, height: 780 });
+    // await howTo.page.setViewportSize({ width: 1300, height: 780 });
     await howTo.gotoHowTo();
     await use(howTo)
   },
 
   betgamesPage: async ({ page }, use) => {
     const betgamesPage = new BetgamesPage(page);
-    await betgamesPage.page.setViewportSize({ width: 1300, height: 780 });
+    // await betgamesPage.page.setViewportSize({ width: 1300, height: 780 });
     await betgamesPage.gotoBetgames();
     await use(betgamesPage);
   },
@@ -162,26 +162,26 @@ export const test = base.extend<PageFixtures>({
   betinfluencerModal: async ({ page }, use) => {
     const betinfluencerModal = new BetInfluencerModal(page);
     await betinfluencerModal.goto();
-    await betinfluencerModal.page.setViewportSize({ width: 1300, height: 780 });
+    // await betinfluencerModal.page.setViewportSize({ width: 1300, height: 780 });
     await betinfluencerModal.page.getByText('Got it').first().click();
     await use(betinfluencerModal);
   },
 
   headerPage: async ({ page }, use) => {
     const headerPage = new HeaderPage(page);
-    await headerPage.page.setViewportSize({ width: 1300, height: 780 });
+    // await headerPage.page.setViewportSize({ width: 1300, height: 780 });
     await headerPage.goto();
     await use(headerPage);
   },
 
   betslipPage: async ({ page }, use) => {
     const betslipPage = new BetslipPage(page);
-    await betslipPage.page.setViewportSize({ width: 1300, height: 780 });
+    // await betslipPage.page.setViewportSize({ width: 1300, height: 780 });
     await betslipPage.goto();
     await use(betslipPage);
   },
   buildABetPage: async ({ page }, use) => {
-    await page.setViewportSize({ width: 1300, height: 780 });
+    // await page.setViewportSize({ width: 1300, height: 780 });
     const buildABetPage = new BuildABetPage(page);
     await buildABetPage.goto();
     await use(buildABetPage);
@@ -198,33 +198,33 @@ export const test = base.extend<PageFixtures>({
   },
 
   signupPage: async ({ page }, use) => {
-    await page.setViewportSize({ width: 1300, height: 780 });
+    // await page.setViewportSize({ width: 1300, height: 780 });
     const signupPage = new SignUpPage(page);
     await use(signupPage);
   },
 
   signupUtils: async ({ page }, use) => {
-    await page.setViewportSize({ width: 1300, height: 780 });
+    // await page.setViewportSize({ width: 1300, height: 780 });
     const signupUtils = new SignupUtils(page);
     await use(signupUtils);
   },
 
   myBetsPage: async ({ page }, use) => {
-    await page.setViewportSize({ width: 1300, height: 780 });
+    // await page.setViewportSize({ width: 1300, height: 780 });
     const myBetsPage = new MyBetsPage(page);
     await myBetsPage.gotoSports();
     await use(myBetsPage);
   },
 
   bookABetPage: async ({ page }, use) => {
-    await page.setViewportSize({ width: 1300, height: 780 });
+    // await page.setViewportSize({ width: 1300, height: 780 });
     const bookABetPage = new BookABetPage(page);
     await bookABetPage.goto();
     await use(bookABetPage);
   },
   
   betSaverPage: async ({ page }, use) => {
-    await page.setViewportSize({ width: 1300, height: 780 });
+    // await page.setViewportSize({ width: 1300, height: 780 });
     const betSaverPage = new BetSaverPage(page);
     await betSaverPage.goto();
     await betSaverPage.Login();
@@ -232,7 +232,7 @@ export const test = base.extend<PageFixtures>({
   },
 
   transactionHistoryPage: async ({ page }, use) => {
-    await page.setViewportSize({ width: 1300, height: 780 });
+    // await page.setViewportSize({ width: 1300, height: 780 });
     const transactionHistoryPage = new TransactionHistoryPage(page);
     await transactionHistoryPage.goto();
     await transactionHistoryPage.Login();
@@ -240,14 +240,14 @@ export const test = base.extend<PageFixtures>({
   },
 
   hamburgerMenuPage: async ({ page }, use) => {
-    await page.setViewportSize({ width: 1300, height: 780 });
+    // await page.setViewportSize({ width: 1300, height: 780 });
     const hamburgerMenuPage = new HamburgerMenuPage(page);
     await hamburgerMenuPage.goto();
     await use(hamburgerMenuPage);
   },
 
   feedsPage: async ({ page }, use) => {
-    await page.setViewportSize({ width: 1300, height: 780 });
+    // await page.setViewportSize({ width: 1300, height: 780 });
     const feedsPage = new FeedsPage(page);
     await feedsPage.goto();
     await feedsPage.Login();

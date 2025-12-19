@@ -11,8 +11,6 @@ export class BookABetPage {
  
     readonly locatorsRegistry: Record<string, Locator>;
     readonly page: Page;
-    private readonly TEST_MOBILE_NUMBER = '964079720';
-    private readonly TEST_PASSWORD = '12345';
     private locators: Record<string, Locator>;
  
     constructor(page: Page) {

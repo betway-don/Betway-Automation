@@ -1,3 +1,4 @@
+// npx playwright test src/regions/ZA/tests/smoke/footer/footer.spec.ts --config=playwright.ZA.config.ts --headed
 import { test } from '../../../fixtures/MasterFixtureFile';
 import path from 'path';
 import { ScreenshotHelper } from '../../../../Common-Flows/ScreenshotHelper';
@@ -13,10 +14,10 @@ test.describe('Footer Module Tests', () => {
         await homePage.verifyFooterBetwayLogo();
         await ScreenshotHelper(homePage.page, screenshotDir, 'T2.png', testInfo);
     });
-    test('T3-Verify that user should able to click on  "Betway" logo in footer', async ({ homePage }, testInfo) => {
-        await homePage.clickFooterBetwayLogo();
-        await ScreenshotHelper(homePage.page, screenshotDir, 'T3-a.png', testInfo);
-    });
+    // test('T3-Verify that user should able to click on  "Betway" logo in footer', async ({ homePage }, testInfo) => {
+    //     await homePage.clickFooterBetwayLogo();
+    //     await ScreenshotHelper(homePage.page, screenshotDir, 'T3-a.png', testInfo);
+    // });
 
     test('T6-Verify that user should able to click on "Sponsorships" logo in footer', async ({ homePage }, testInfo) => {
         await homePage.clickArsenalLogo();

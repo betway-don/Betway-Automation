@@ -116,11 +116,11 @@ test.describe('Betslip Module - ZA', () => {
     await ScreenshotHelper(page, screenshotDir, 'T35-betslip-bet-amount-input-multi.png', testInfo);
   });
 
-  // test('T15-Verify "Bet Saver" presence on betslip when be saver gets active.', async ({ betslipPage, page }, testInfo) => {
-  //   await OddsSelectionAbove(7, 2, page);
-  //   await betslipPage.verifyBetSaverTextVisible();
-  //   await ScreenshotHelper(page, screenshotDir, 'T15-betslip-Bet-Saver-presence-multi.png', testInfo);
-  // });
+  test('T15-Verify "Bet Saver" presence on betslip when be saver gets active.', async ({ betslipPage, page }, testInfo) => {
+    await OddsSelectionAbove(7, 2, page);
+    await betslipPage.verifyBetSaverTextVisible();
+    await ScreenshotHelper(page, screenshotDir, 'T15-betslip-Bet-Saver-presence-multi.png', testInfo);
+  });
 
   // test('T16-Verify presence of Cashout icon if cashout is available for the odds inside single and multi section', async ({ betslipPage, page }, testInfo) => {
   //   await OddsSelectionAbove(1, 1, page);
@@ -250,14 +250,14 @@ test.describe('Betslip Module - ZA', () => {
     await ScreenshotHelper(page, screenshotDir, 'T38-betslip-login-after-click-multi.png', testInfo);
   });
 
-  // test('T29-Single- Insufficient funds error pop-up on clicking "Bet Now" button', async ({ betslipPage, page }, testInfo) => {
-  //   await OddsSelectionAbove(1, 2, page);
-  //   await betslipPage.Login();
-  //   await betslipPage.closePromotionPopup();
-  //   await betslipPage.enterBetAmount('100000');
-  //   await betslipPage.clickBetNowBtn();
-  //   await ScreenshotHelper(page, screenshotDir, 'T29-betslip-insufficient-funds-error.png', testInfo);
-  // });
+  test('T29-Single- Insufficient funds error pop-up on clicking "Bet Now" button', async ({ betslipPage, page }, testInfo) => {
+    await OddsSelectionAbove(1, 2, page);
+    await betslipPage.Login();
+    await betslipPage.closePromotionPopup();
+    await betslipPage.enterBetAmount('100000');
+    await betslipPage.clickBetNowBtn();
+    await ScreenshotHelper(page, screenshotDir, 'T29-betslip-insufficient-funds-error.png', testInfo);
+  });
 
   // test('T30-Multi- Insufficient funds error pop-up on clicking "Bet Now" button', async ({ betslipPage, page }, testInfo) => {
   //   await OddsSelectionAbove(2, 1, page);

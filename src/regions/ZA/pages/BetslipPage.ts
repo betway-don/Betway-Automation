@@ -86,14 +86,35 @@ export class BetslipPage extends SportsPage {
   }
 
   // Login Methods
-  async Login() {
-    await this.BetslipPageLocatorsRegistry.mobileNumberInput.fill(`${userData.user4.mobile}`);
-    await this.BetslipPageLocatorsRegistry.passwordInput.fill(`${userData.user4.password}`);
-    await this.page.keyboard.press('Enter');
-    // await this.BetslipPageLocatorsRegistry.closePromotionPopup.waitFor({ state: 'visible',});
-    // await this.BetslipPageLocatorsRegistry.closePromotionPopup.click();
-    await this.page.waitForLoadState('domcontentloaded');
+  // async Login() {
+  //   await this.BetslipPageLocatorsRegistry.mobileNumberInput.fill(`${userData.user4.mobile}`);
+  //   await this.BetslipPageLocatorsRegistry.passwordInput.fill(`${userData.user4.password}`);
+  //   await this.page.keyboard.press('Enter');
+  //   // await this.BetslipPageLocatorsRegistry.closePromotionPopup.waitFor({ state: 'visible',});
+  //   // await this.BetslipPageLocatorsRegistry.closePromotionPopup.click();
+  //   await this.page.waitForLoadState('domcontentloaded');
+  // }
+
+   async Login() {
+  await this.BetslipPageLocatorsRegistry.mobileNumberInput.fill(userData.user4.mobile);
+  await this.BetslipPageLocatorsRegistry.passwordInput.fill(userData.user4.password);
+  await this.page.keyboard.press('Enter');
+
+  // Try to close promotion popup ONLY if it appears
+  const popup = this.BetslipPageLocatorsRegistry.closePromotionPopup;
+
+  try {
+    await popup.waitFor({ state: 'visible', timeout: 9000 });
+    if (await popup.isVisible()) {
+      await popup.click();
+    }
+  } catch {
+    // Popup did not appear → ignore
   }
+
+  await this.page.waitForLoadState('domcontentloaded');
+}
+  
 
   async loginWithoutFreebet() {
     await this.BetslipPageLocatorsRegistry.mobileNumberInput.fill(`${userData.user5.mobile}`);
