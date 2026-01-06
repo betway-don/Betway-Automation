@@ -200,18 +200,18 @@ test.describe('BetInfluencer Tests', () => {
     //     await ScreenshotHelper(sportsPage.page, screenshotDir, 'T16-Previous Button after click', testInfo)
     // });
 
-    // test('T17 - Verify influencer is getting payout if  influencer place a bet with 5 legs.', async ({ betinfluencerModal }, testInfo) => {
-    //     const bookingCode = await betinfluencerModal.User1PlaceBets(6);
-    //     const SharedBookingCode = await betinfluencerModal.User2PlaceBetsFromBookingCode(bookingCode);
-    //     await betinfluencerModal.page.reload();
-    //     await betinfluencerModal.Login();
-    //     await betinfluencerModal.gotoDetailSectionBetInfluencerModal();
-    //     await betinfluencerModal.page.waitForEvent('domcontentloaded');
-    //     await storeAllBookingCode(betinfluencerModal);
-    //     console.log("SharedBookingCode in T17:", getFirstBookingCode());
-    //     await highlightElementBorder(betinfluencerModal.page.getByText(`${SharedBookingCode}`).first());
-    //     await ScreenshotHelper(betinfluencerModal.page, screenshotDir, 'T17-Influencer Payout', testInfo)
-    // });
+    test('T17 - Verify influencer is getting payout if  influencer place a bet with 5 legs.', async ({ betinfluencerModal }, testInfo) => {
+        const bookingCode = await betinfluencerModal.User1PlaceBets(6);
+        const SharedBookingCode = await betinfluencerModal.User2PlaceBetsFromBookingCode(bookingCode);
+        await betinfluencerModal.page.reload();
+        await betinfluencerModal.Login();
+        await betinfluencerModal.gotoDetailSectionBetInfluencerModal();
+        await betinfluencerModal.page.waitForEvent('domcontentloaded');
+        await storeAllBookingCode(betinfluencerModal);
+        console.log("SharedBookingCode in T17:", getFirstBookingCode());
+        await highlightElementBorder(betinfluencerModal.page.getByText(`${SharedBookingCode}`).first());
+        await ScreenshotHelper(betinfluencerModal.page, screenshotDir, 'T17-Influencer Payout', testInfo)
+    });
 })
 
 

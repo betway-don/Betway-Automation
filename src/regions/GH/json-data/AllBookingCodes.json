@@ -6,7 +6,65 @@
       "size": 20,
       "hasNextPage": false,
       "hasPreviousPage": false,
-      "result": []
+      "result": [
+        {
+          "bookingCode": "BW2FDCC729",
+          "accountId": "a0ff17be-78be-451a-c03b-08dd207510a4",
+          "referenceId": "a79bd7ae-12b7-4520-84e8-ae5383b689a3",
+          "currencyCode": "GHS",
+          "createdDate": "2026-01-06T12:24:01.35",
+          "activeUntilDate": "2027-01-06T12:23:56.633",
+          "cumulativeWagerAmount": 1,
+          "amountEarned": 0.04,
+          "amountPaid": 0,
+          "lastPayoutDate": "2026-01-06T12:24:01.35",
+          "timesUsed": 1,
+          "lastPayoutTimesUsedStamp": 0,
+          "id": "0ab774d5-de02-47fc-a697-04d0eaad625b",
+          "editedById": "00000000-0000-0000-0000-000000000000",
+          "editedDateTime": "0001-01-01T00:00:00",
+          "isDeleted": false,
+          "version": 0
+        },
+        {
+          "bookingCode": "BW2FDD31D1",
+          "accountId": "a0ff17be-78be-451a-c03b-08dd207510a4",
+          "referenceId": "1cf80ebf-b617-4087-ba65-ef1cbe91b7a7",
+          "currencyCode": "GHS",
+          "createdDate": "2026-01-06T12:25:32.22",
+          "activeUntilDate": "2027-01-06T12:25:31.7",
+          "cumulativeWagerAmount": 5.5,
+          "amountEarned": 0.22,
+          "amountPaid": 0,
+          "lastPayoutDate": "2026-01-06T12:25:32.22",
+          "timesUsed": 6,
+          "lastPayoutTimesUsedStamp": 0,
+          "id": "5a86b05d-165e-4ea7-85f3-ff14f06c7de7",
+          "editedById": "00000000-0000-0000-0000-000000000000",
+          "editedDateTime": "0001-01-01T00:00:00",
+          "isDeleted": false,
+          "version": 0
+        },
+        {
+          "bookingCode": "BW2FDFA50B",
+          "accountId": "a0ff17be-78be-451a-c03b-08dd207510a4",
+          "referenceId": "bb89054f-bbf9-4949-ae3f-7aa779b5f9d5",
+          "currencyCode": "GHS",
+          "createdDate": "2026-01-06T13:04:26.357",
+          "activeUntilDate": "2027-01-06T13:04:21.62",
+          "cumulativeWagerAmount": 1,
+          "amountEarned": 0.04,
+          "amountPaid": 0,
+          "lastPayoutDate": "2026-01-06T13:04:26.357",
+          "timesUsed": 1,
+          "lastPayoutTimesUsedStamp": 0,
+          "id": "c0c8b25e-5194-41f8-8f05-b7a880ca29a1",
+          "editedById": "00000000-0000-0000-0000-000000000000",
+          "editedDateTime": "0001-01-01T00:00:00",
+          "isDeleted": false,
+          "version": 0
+        }
+      ]
     }
   ]
 }
