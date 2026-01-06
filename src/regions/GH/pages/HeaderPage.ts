@@ -23,7 +23,7 @@ export class HeaderPage extends HomePage {
     this.HeaderPageLocatorsRegistry = {
       betwayLogoHeader: getLocator(this.page, configs["betwayLogoHeader"]),
       mobileNumber: getLocator(this.page, configs["mobileNumber"]),
-      closePromotionPopup: getLocator(this.page, configs["closePromotionPopup"]),
+      closePromotionPopup: getLocator(this.page, configs["closePromotionPopupGH"]),
       hamburgerMenu: getLocator(this.page, configs["hamburgerMenu"]),
       loginButton: getLocator(this.page, configs["loginButton"]),
       loginButtonFromPopup: getLocator(this.page, configs["loginButtonFromPopup"]),
@@ -88,8 +88,8 @@ export class HeaderPage extends HomePage {
   // Navigation Methods
   async goto() {
     await this.page.goto('https://www.betway.com.gh/sport/soccer', { waitUntil: 'domcontentloaded' });
-    //   await this.HeaderPageLocatorsRegistry.closePromotionPopup.waitFor({ state: 'visible',timeout:15000});
-    // await this.HeaderPageLocatorsRegistry.closePromotionPopup.click();
+      await this.HeaderPageLocatorsRegistry.closePromotionPopup.waitFor({ state: 'visible',timeout:15000});
+    await this.HeaderPageLocatorsRegistry.closePromotionPopup.click();
   }
 
   async Login() {

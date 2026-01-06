@@ -17,7 +17,7 @@ export class BuildABetPage {
             mobileInput: getLocator(this.page, configs["mobileInput"]),
             passwordInput: getLocator(this.page, configs["passwordInput"]),
             upcomingTab: getLocator(this.page, configs["upcomingTab"]),
-            closePromotionPopup: getLocator(this.page, configs["closePromotionPopup"]),
+            closePromotionPopup: getLocator(this.page, configs["closePromotionPopupGH"]),
             firstMatchContainer: getLocator(this.page, configs["firstMatchContainer"]),
             buildABetTab: getLocator(this.page, configs["buildABetTab"]),
             randomMarketButton: getLocator(this.page, configs["randomMarketButton"]),
@@ -40,11 +40,12 @@ export class BuildABetPage {
             invalidCombinationMessage: getLocator(this.page, configs["invalidCombinationMessage"]),
         };
     }
-
     // 1. Navigation & Setup Methods
     async goto() {
-         await this.page.goto('https://www.betway.com.gh/', { waitUntil: 'domcontentloaded' });
-        // await this.page.waitForLoadState('domcontentloaded');
+        await this.page.goto('https://www.betway.com.gh/sport/soccer', { waitUntil: 'domcontentloaded' });
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.buildABetLocatorsRegistry.closePromotionPopup.waitFor({ state: 'visible',  timeout: 30000});
+        await this.buildABetLocatorsRegistry.closePromotionPopup.click();
     }
 
     async login() {
