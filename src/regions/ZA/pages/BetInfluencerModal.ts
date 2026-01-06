@@ -34,7 +34,7 @@ export class BetInfluencerModal extends BetslipPage {
             detailedBreakdownButton: getLocator(page, configs["detailedBreakdownButton"]),
             totalMonthlyRevenue: getLocator(page, configs["totalMonthlyRevenue"]),
             sortBySelector: getLocator(page, configs["sortBySelector"]),
-            // monthsSelector : getLocator(page, configs["monthsSelector"]),
+            // monthsSelector: getLocator(page, configs["monthsSelector"]),
             codesUsed: getLocator(page, configs["codesUsed"]),
             betsTaken: getLocator(page, configs["betsTaken"]),
             nextButton: getLocator(page, configs["nextButton"]),
@@ -147,7 +147,7 @@ export class BetInfluencerModal extends BetslipPage {
         await this.BetInfluencerModalLocatorRegistry.welcomeUser.waitFor({ state: 'visible' })
         await this.BetInfluencerModalLocatorRegistry.betslipButton.click();
         const SharedBookingCode = await GetBookingCode(bookingCode)
-        await this.BetInfluencerModalLocatorRegistry.enterBookingCodeTextbox.fill(`${SharedBookingCode}`)
+        await this.BetInfluencerModalLocatorRegistry.bookingCodeInput.fill(`${SharedBookingCode}`)
         await this.page.keyboard.press('Enter');
         await this.clickBetNowBtn();
         await this.BetInfluencerModalLocatorRegistry.betConfirmation.locator('..').getByRole('img').first().click();

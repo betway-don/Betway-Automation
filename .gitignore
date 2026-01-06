@@ -17,7 +17,11 @@ node_modules/
 allure-results/
 reports/
 screenshots/
+allure-report/
+
+test-results/
+test-results.json/
 
 src/regions/ZA/screenshots/module/
-
-
+C:\Users\SW115406\Desktop\Betway\Betway-Automation\src\regions\ZA\reports
+src\regions\ZA\reports

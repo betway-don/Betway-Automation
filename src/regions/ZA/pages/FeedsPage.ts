@@ -72,8 +72,8 @@ export class FeedsPage {
         await this.locatorsRegistry.mobileNumber.fill(`${userData.user4.mobile}`);
         await this.locatorsRegistry.password.fill(`${userData.user4.password}`);
         await this.locatorsRegistry.loginButton.click();
-        await this.locatorsRegistry.closePopup.waitFor({ state: 'visible', timeout: 30000 });
-        await this.locatorsRegistry.closePopup.click();
+        // await this.locatorsRegistry.closePopup.waitFor({ state: 'visible', timeout: 30000 });
+        // await this.locatorsRegistry.closePopup.click();
         await this.page.waitForTimeout(1000);
     }
    
@@ -257,8 +257,8 @@ export class FeedsPage {
         if (await this.locatorsRegistry.suggestedFeedsFollow.isVisible()) {
             await this.locatorsRegistry.suggestedFeedsFollow.click();
             await this.page.waitForTimeout(1000);
-        }
- 
+        }}
+ async performSearchUnfollow() {
         // T22a Ready state for unfollow
         await this.locatorsRegistry.suggestedFeedsUnFollow.click();
         await this.page.waitForTimeout(2000);

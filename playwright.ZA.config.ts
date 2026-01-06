@@ -41,6 +41,7 @@
 // });
 
 import { defineConfig, devices } from '@playwright/test';
+import path from 'path';
 
 export default defineConfig({
   testDir: './src/regions/ZA/tests',
@@ -54,15 +55,18 @@ export default defineConfig({
   retries: 1,
 
   // Workers
-  workers: process.env.CI ? 8 : 8,
+  workers: process.env.CI ? 7 : 7,
 
   // Reports
   reporter: [
     ['html', { outputFolder: 'playwright-report', open: 'never' }],
     ['list'],
-    ['json', { outputFile: 'test-results.json' }],
+    ['json', { outputFile: path.resolve(__dirname, 'src/regions/ZA/reports', process.env.PLAYWRIGHT_JSON_OUTPUT_NAME || 'test-results.json') }],
+    ['allure-playwright', { resultsDir: path.resolve(__dirname, 'src/regions/ZA/reports/allure-results') }],
   ],
 
+  // ['json', { outputFile: 'test-results.json' }],
+  // ['allure-playwright', { resultsDir: path.resolve(__dirname, 'src/regions/ZA/reports/allure-results') }],
   use: {
     baseURL: 'https://new.betway.co.za/',
 

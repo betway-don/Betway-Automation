@@ -136,6 +136,7 @@ test.describe('Feeds Tests', () => {
     test('T22-Verify UnFollow button presence and functionality in search tab on betway feeds section.', async ({ feedsPage }, testInfo) => {
         await feedsPage.performSearchUnfollowCleanup();
         await feedsPage.captureScreenshot('suggestedFeedsUnFollow', screenshotDir, 'T22a-feeds', testInfo);
+        await feedsPage.performSearchUnfollow();
         await feedsPage.takeScreenshot(screenshotDir, 'T22b-feeds', testInfo);
     });
  

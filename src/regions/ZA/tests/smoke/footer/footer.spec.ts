@@ -69,6 +69,44 @@ test.describe('Footer Module Tests', () => {
         await ScreenshotHelper(homePage.page, screenshotDir, 'T37-b.png', testInfo);
     });
 
+    // T38-Verify options availability at "How To" page', async ({ howTo }, testInfo) => {
+    //     await howTo.verifyHowToPageOptions();
+    //     await ScreenshotHelper(howTo.page, screenshotDir, 'T38.png', testInfo);
+    // });
+    test('T39-Verify that User should able to click on "How to Bet SMS" on the How To page', async ({ howTo }, testInfo) => {
+        await howTo.clickHowToSMS();
+        await ScreenshotHelper(howTo.page, screenshotDir, 'T39-b.png', testInfo);
+    });
+    test('T40-Verify that User should able to click on any option available on "How to SMS" section', async ({ howTo }, testInfo) => {
+        await howTo.clickHowToSMS();
+        await ScreenshotHelper(howTo.page, screenshotDir, 'T40.png', testInfo);
+    });
+    test('T41-Verify that User should able to click on "How to Bet" on the How To page', async ({ howTo }, testInfo) => {
+        await howTo.clickHowToBetOption();
+        await ScreenshotHelper(howTo.page, screenshotDir, 'T41.png', testInfo);
+    });
+
+    test('T43-Verify that User should able to click on "How to Betgames" on the How To page', async ({ howTo }, testInfo) => {
+        await howTo.clickHowToBetgames();
+        await ScreenshotHelper(howTo.page, screenshotDir, 'T43.png', testInfo);
+    });
+
+    test('T45-Verify that User should able to click on "How to Register" on the How To page', async ({ howTo }, testInfo) => {
+        await howTo.clickHowToRegister();
+        await ScreenshotHelper(howTo.page, screenshotDir, 'T45.png', testInfo);
+    });
+
+    test('T47-Verify that User should able to click on "How to Deposit" on the How To page', async ({ howTo }, testInfo) => {
+        await howTo.clickHowToDeposit();
+        await ScreenshotHelper(howTo.page, screenshotDir, 'T47.png', testInfo);
+    });
+
+    test('T49-Verify that User should able to click on "How to Reset Password" on the How To page', async ({ howTo }, testInfo) => {
+        await howTo.clickHowToResetPassword();
+        await ScreenshotHelper(howTo.page, screenshotDir, 'T49.png', testInfo);
+    });
+
+
     test('T57-Verify functionality of "Affiliate Program" button at the Footer section', async ({ homePage }, testInfo) => {
         await homePage.verifyAffiliateProgram();
         await ScreenshotHelper(homePage.page, screenshotDir, 'T57-a.png', testInfo);

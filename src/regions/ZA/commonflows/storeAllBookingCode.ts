@@ -11,7 +11,7 @@ export async function storeAllBookingCode(BetInfluencerPage: import('../pages/Be
     const now = new Date();
     const currentMonth = monthNames[now.getMonth()];
     const currentYear = now.getFullYear();
-    
+
     const apiPartial = `/BookingCode/${currentMonth}/${currentYear}`
     console.log("Watching API containing:", apiPartial);
     let allPagesData = [];
@@ -24,7 +24,7 @@ export async function storeAllBookingCode(BetInfluencerPage: import('../pages/Be
             response.url().includes(`page=${currentPage}`) &&
             response.status() === 200
         );
-        if(currentPage==1){
+        if (currentPage == 1) {
             await BetInfluencerPage.BetInfluencerModalLocatorRegistry.summaryButton.click();
             await BetInfluencerPage.clickDetailButton();
         }

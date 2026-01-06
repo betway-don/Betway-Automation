@@ -542,4 +542,3 @@ export class SignUpPage {
 // forms role form {} 0
 // signUpCodeField role textbox `{"name": "/sign.?up.?code signup.?code
 // idNumberField role textbox `{"name": "/ID Number IDNumber/i"}`
- 

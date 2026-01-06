@@ -262,8 +262,9 @@ export class FeedsPage {
         if (await this.locatorsRegistry.suggestedFeedsFollow.isVisible()) {
             await this.locatorsRegistry.suggestedFeedsFollow.click();
             await this.page.waitForTimeout(1000);
-        }
- 
+        }}
+
+ async performSearchUnfollow() {
         // T22a Ready state for unfollow
         await this.locatorsRegistry.suggestedFeedsUnFollow.click();
         await this.page.waitForTimeout(2000);

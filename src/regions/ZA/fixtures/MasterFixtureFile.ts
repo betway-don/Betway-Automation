@@ -24,6 +24,7 @@ import { BetSaverPage } from '../pages/BetSaverPage';
 import { TransactionHistoryPage } from '../pages/TransactionHistoryPage';
 import { HamburgerMenuPage } from '../pages/HamburgerMenuPage';
 import { FeedsPage } from '../pages/FeedsPage';
+import { GamingLobbyPage } from '../pages/GamingLobbyPage';
 
 // Define the shape of the data file
 export interface FullTestData {
@@ -86,6 +87,7 @@ type PageFixtures = {
   betslipPage: BetslipPage;
   hamburgerMenuPage: HamburgerMenuPage;
   feedsPage: FeedsPage;
+  gamingLobbyPage: GamingLobbyPage;
   // Signup-specific fixtures
   signupPage: SignUpPage;
   signupUtils: SignupUtils;
@@ -222,7 +224,7 @@ export const test = base.extend<PageFixtures>({
     await bookABetPage.goto();
     await use(bookABetPage);
   },
-  
+
   betSaverPage: async ({ page }, use) => {
     // await page.setViewportSize({ width: 1300, height: 780 });
     const betSaverPage = new BetSaverPage(page);
@@ -252,5 +254,14 @@ export const test = base.extend<PageFixtures>({
     await feedsPage.goto();
     await feedsPage.Login();
     await use(feedsPage);
+  },
+
+  gamingLobbyPage: async ({ page }, use) => {
+    // await page.setViewportSize({ width: 1300, height: 780 });
+    const gamingLobbyPage = new GamingLobbyPage(page);
+    await gamingLobbyPage.goto();
+    await gamingLobbyPage.Login();
+    await use(gamingLobbyPage);
   }
+
 });

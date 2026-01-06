@@ -147,7 +147,7 @@ test.describe('Betslip Module - ZA', () => {
     await ScreenshotHelper(page, screenshotDir, 'T24-betslip-Win-boost-amount-calculation-multi.png', testInfo);
   });
 
- 
+
   test('T26-Multi-Verify Win Boost tool tip', async ({ betslipPage, page }, testInfo) => {
     await OddsSelectionAbove(2, 3.57, page);
     await betslipPage.verifyWinBoostToolTip();
@@ -178,7 +178,7 @@ test.describe('Betslip Module - ZA', () => {
     await ScreenshotHelper(page, screenshotDir, 'T38-betslip-login-after-click-multi.png', testInfo);
   });
 
-  
+
   test('T34-Verify functionality of "Close" button of leg on Betslip inside multi section', async ({ betslipPage, page }, testInfo) => {
     await OddsSelectionAbove(1, 1, page);
     await betslipPage.clickMultiTab();
