@@ -1,4 +1,5 @@
 // npx playwright test src/regions/ZA/tests/smoke/login/login.spec.ts --config=playwright.ZA.config.ts --headed
+// npx playwright test src/regions/GH/tests/smoke/login/login.spec.ts --config=playwright.ZA.config.ts --headed
 import { test } from '../../../fixtures/MasterFixtureFile';
 import path from 'path';
 import { ScreenshotHelper } from '../../../../Common-Flows/ScreenshotHelper';

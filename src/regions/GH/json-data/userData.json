@@ -2,6 +2,7 @@
   "user1": {
     "mobile": "999654321",
     "password": "12345",
+    "name": "KP Test",
     "email": "test@test.com"
   },
   "user2": {
