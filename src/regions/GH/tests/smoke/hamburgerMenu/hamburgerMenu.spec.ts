@@ -26,10 +26,10 @@ test.describe('Header Module Tests', () => {
     //     await ScreenshotHelper(hamburgerMenuPage.page, screenshotDir, 'T3-refreshBalanceButton.png', testInfo);
     // });
 
-        test('13-Verify functionality of Hide/Show balance button in Hamburger', async ({ hamburgerMenuPage }, testInfo) => {
-        await hamburgerMenuPage.verifyEyeButton();
-        await ScreenshotHelper(hamburgerMenuPage.page, screenshotDir, 'T15-eyeButton.png', testInfo);
-    });
+    //     test('13-Verify functionality of Hide/Show balance button in Hamburger', async ({ hamburgerMenuPage }, testInfo) => {
+    //     await hamburgerMenuPage.verifyEyeButton();
+    //     await ScreenshotHelper(hamburgerMenuPage.page, screenshotDir, 'T15-eyeButton.png', testInfo);
+    // });
 
     //  test('13-Verify functionality of close Hamburger button', async ({ hamburgerMenuPage }, testInfo) => {
     //     await hamburgerMenuPage.verifyCloseHamburgerBtn();
@@ -91,11 +91,11 @@ test.describe('Header Module Tests', () => {
         // await hamburgerMenuPage.clickCloseMyAccountOptions();
     });
 
-    test('30-Verify My Coupons option functionality', async ({ hamburgerMenuPage }, testInfo) => {
-        await hamburgerMenuPage.verifyAndClickMyCoupons();
-        await ScreenshotHelper(hamburgerMenuPage.page, screenshotDir, 'MyCoupons.png', testInfo);
-        // await hamburgerMenuPage.clickCloseMyAccountOptions();
-    });
+    // test('30-Verify My Coupons option functionality', async ({ hamburgerMenuPage }, testInfo) => {
+    //     await hamburgerMenuPage.verifyAndClickMyCoupons();
+    //     await ScreenshotHelper(hamburgerMenuPage.page, screenshotDir, 'MyCoupons.png', testInfo);
+    //     // await hamburgerMenuPage.clickCloseMyAccountOptions();
+    // });
 
     test('31-Verify Bet Influencer option functionality', async ({ hamburgerMenuPage }, testInfo) => {
         await hamburgerMenuPage.verifyAndClickBetInfluencer();

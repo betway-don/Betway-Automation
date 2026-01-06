@@ -16,7 +16,7 @@ export class MyBetsPage {
   
         const configs = loadLocatorsFromExcel(LOCATOR_URL, "MyBetPage"); 
         this.myBetsLocatorsRegistry = {
-            closePromotionPopup: getLocator(this.page, configs["closePromotionPopup"]),
+            closePromotionPopup: getLocator(this.page, configs["closePromotionPopupGH"]),
             mobileInput: getLocator(this.page, configs["mobileInput"]),
             passwordInput: getLocator(this.page, configs["passwordInput"]),
             myBetsButton: getLocator(this.page, configs["myBetsButton"]),
@@ -55,6 +55,8 @@ export class MyBetsPage {
     async gotoSports() {
         await this.page.goto('https://www.betway.com.gh/sport/soccer');
         await this.page.waitForLoadState('domcontentloaded');
+        await this.myBetsLocatorsRegistry.closePromotionPopup.waitFor({ state: 'visible', timeout: 30000 });
+        await this.myBetsLocatorsRegistry.closePromotionPopup.click();
     }
  
    async login() {
