@@ -71,6 +71,7 @@ export class BetslipPage extends SportsPage {
       multiTabInactive: getLocator(this.page, configs["multiTabInactive"]),
       totalOdds: getLocator(this.page, configs["totalOdds"]),
       totalStake: getLocator(this.page, configs["totalStake"]),
+
     };
 
     // Special handling for winBoostInfoIcon (complex locator)
