@@ -23,7 +23,7 @@ export class BetslipPage extends SportsPage {
       ...this.SportsPagelocatorRegistry,
       mobileNumberInput: getLocator(this.page, configs["usernameInput"]),
       passwordInput: getLocator(this.page, configs["passwordInput"]),
-      closePromotionPopup: getLocator(this.page, configs["closePromotionPopup"]),
+      closePromotionPopup: getLocator(this.page, configs["closePromotionPopupGH"]),
       sportButton: getLocator(this.page, configs["sportButton"]),
       betslipButton: getLocator(this.page, configs["betslipButton"]),
       betslipCount: getLocator(this.page, configs["betslipCount"]),
@@ -82,8 +82,8 @@ export class BetslipPage extends SportsPage {
   // Navigation Methods
   async goto() {
     await this.page.goto('https://www.betway.com.gh/sport/soccer', { waitUntil: 'domcontentloaded' });
-    // await this.BetslipPageLocatorsRegistry.closePromotionPopup.waitFor({ state: 'visible',});
-    // await this.BetslipPageLocatorsRegistry.closePromotionPopup.click();
+    await this.BetslipPageLocatorsRegistry.closePromotionPopup.waitFor({ state: 'visible', timeout: 15000 });
+    await this.BetslipPageLocatorsRegistry.closePromotionPopup.click();
   }
 
   // Login Methods

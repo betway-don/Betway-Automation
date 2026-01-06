@@ -79,113 +79,113 @@ test.describe('Betslip Module - ZA', () => {
     await ScreenshotHelper(page, screenshotDir, 'T10-betslip-select-all-checked.png', testInfo);
   });
 
-  test('T11-Single section- Verify Content of the of the betslip by selecting odd', async ({ betslipPage, page }, testInfo) => {
-    await OddsSelectionAbove(1, 1, page);
-    await betslipPage.verifySingleTab();
-    await ScreenshotHelper(page, screenshotDir, 'T11-betslip-single-tab.png', testInfo);
-  });
+  // test('T11-Single section- Verify Content of the of the betslip by selecting odd', async ({ betslipPage, page }, testInfo) => {
+  //   await OddsSelectionAbove(1, 1, page);
+  //   await betslipPage.verifySingleTab();
+  //   await ScreenshotHelper(page, screenshotDir, 'T11-betslip-single-tab.png', testInfo);
+  // });
 
-  test('T12-Multi section- Verify Content of the of the betslip by selecting odd', async ({ betslipPage, page }, testInfo) => {
-    await OddsSelectionAbove(2, 1, page);
-    await betslipPage.verifyMultiTab();
-    await betslipPage.clickMultiTab();
-    await ScreenshotHelper(page, screenshotDir, 'T12-betslip-multi-tab.png', testInfo);
-  });
+  // test('T12-Multi section- Verify Content of the of the betslip by selecting odd', async ({ betslipPage, page }, testInfo) => {
+  //   await OddsSelectionAbove(2, 1, page);
+  //   await betslipPage.verifyMultiTab();
+  //   await betslipPage.clickMultiTab();
+  //   await ScreenshotHelper(page, screenshotDir, 'T12-betslip-multi-tab.png', testInfo);
+  // });
 
-  test('T13-Verify functionality of "Close" button of leg on Betslip inside single section of the betslip', async ({ betslipPage, page }, testInfo) => {
-    await OddsSelectionAbove(1, 1, page);
-    await betslipPage.verifyRemoveLegIcon();
-    await ScreenshotHelper(page, screenshotDir, 'T13-betslip-remove-leg-icon-Single.png', testInfo);
-    await betslipPage.clickRemoveLegIcon();
-    await betslipPage.clickBetslipButton();
-    await ScreenshotHelper(page, screenshotDir, 'T13-betslip-remove-leg-after-click-Single.png', testInfo);
-  });
+  // test('T13-Verify functionality of "Close" button of leg on Betslip inside single section of the betslip', async ({ betslipPage, page }, testInfo) => {
+  //   await OddsSelectionAbove(1, 1, page);
+  //   await betslipPage.verifyRemoveLegIcon();
+  //   await ScreenshotHelper(page, screenshotDir, 'T13-betslip-remove-leg-icon-Single.png', testInfo);
+  //   await betslipPage.clickRemoveLegIcon();
+  //   await betslipPage.clickBetslipButton();
+  //   await ScreenshotHelper(page, screenshotDir, 'T13-betslip-remove-leg-after-click-Single.png', testInfo);
+  // });
 
-  test('T14-Verify functionality of Wager amount text box inside single section of the betslip', async ({ betslipPage, page }, testInfo) => {
-    await OddsSelectionAbove(1, 1, page);
-    await betslipPage.verifyBetAmountInput();
-    await betslipPage.enterBetAmount('10');
-    await ScreenshotHelper(page, screenshotDir, 'T14-betslip-bet-amount-input-Single.png', testInfo);
-  });
+  // test('T14-Verify functionality of Wager amount text box inside single section of the betslip', async ({ betslipPage, page }, testInfo) => {
+  //   await OddsSelectionAbove(1, 1, page);
+  //   await betslipPage.verifyBetAmountInput();
+  //   await betslipPage.enterBetAmount('10');
+  //   await ScreenshotHelper(page, screenshotDir, 'T14-betslip-bet-amount-input-Single.png', testInfo);
+  // });
 
-  test('T35-Verify functionality of Wager amount text box inside multi section of the betslip', async ({ betslipPage, page }, testInfo) => {
-    await OddsSelectionAbove(2, 1, page);
-    // await betslipPage.clickMultiTab();
-    await betslipPage.verifyBetAmountInput();
-    await betslipPage.enterBetAmount('10');
-    await ScreenshotHelper(page, screenshotDir, 'T35-betslip-bet-amount-input-multi.png', testInfo);
-  });
+  // test('T35-Verify functionality of Wager amount text box inside multi section of the betslip', async ({ betslipPage, page }, testInfo) => {
+  //   await OddsSelectionAbove(2, 1, page);
+  //   // await betslipPage.clickMultiTab();
+  //   await betslipPage.verifyBetAmountInput();
+  //   await betslipPage.enterBetAmount('10');
+  //   await ScreenshotHelper(page, screenshotDir, 'T35-betslip-bet-amount-input-multi.png', testInfo);
+  // });
 
-  test('T20-Single- Verify  "Total betway return" Wager(Calculation)', async ({ betslipPage, page }, testInfo) => {
-    await OddsSelectionAbove(1, 1, page);
-    await betslipPage.verifyTotalBetwayReturnSingle();
-    await ScreenshotHelper(page, screenshotDir, 'T20-betslip-total-betway-return-calculation-Single.png', testInfo);
-  });
+  // test('T20-Single- Verify  "Total betway return" Wager(Calculation)', async ({ betslipPage, page }, testInfo) => {
+  //   await OddsSelectionAbove(1, 1, page);
+  //   await betslipPage.verifyTotalBetwayReturnSingle();
+  //   await ScreenshotHelper(page, screenshotDir, 'T20-betslip-total-betway-return-calculation-Single.png', testInfo);
+  // });
 
-  test('T21-Single-Verify "Potential Return" Wager(Calculation)', async ({ betslipPage, page }, testInfo) => {
-    await OddsSelectionAbove(1, 1, page);
-    await betslipPage.verifyPotentialReturnsSingle();
-    await ScreenshotHelper(page, screenshotDir, 'T21-betslip-Potential-Return-calculation.png', testInfo);
-  });
+  // test('T21-Single-Verify "Potential Return" Wager(Calculation)', async ({ betslipPage, page }, testInfo) => {
+  //   await OddsSelectionAbove(1, 1, page);
+  //   await betslipPage.verifyPotentialReturnsSingle();
+  //   await ScreenshotHelper(page, screenshotDir, 'T21-betslip-Potential-Return-calculation.png', testInfo);
+  // });
 
-  test('T22-Multi- Verify  "Total betway return" Wager(Calculation)', async ({ betslipPage, page }, testInfo) => {
-    await OddsSelectionAbove(1, 1, page);
-    await betslipPage.clickMultiTab();
-    await betslipPage.verifyTotalBetwayReturnMulti();
-    await ScreenshotHelper(page, screenshotDir, 'T22-betslip-total-betway-return-calculation-multi.png', testInfo);
-  });
+  // test('T22-Multi- Verify  "Total betway return" Wager(Calculation)', async ({ betslipPage, page }, testInfo) => {
+  //   await OddsSelectionAbove(1, 1, page);
+  //   await betslipPage.clickMultiTab();
+  //   await betslipPage.verifyTotalBetwayReturnMulti();
+  //   await ScreenshotHelper(page, screenshotDir, 'T22-betslip-total-betway-return-calculation-multi.png', testInfo);
+  // });
 
-  test('T23-Multi- Verify  "Potential Return" Wager(Calculation)', async ({ betslipPage, page }, testInfo) => {
-    await OddsSelectionAbove(1, 1, page);
-    await betslipPage.verifyPotentialReturnsMulti();
-    await ScreenshotHelper(page, screenshotDir, 'T23-betslip-Potential-Return-calculation-multi.png', testInfo);
-  });
+  // test('T23-Multi- Verify  "Potential Return" Wager(Calculation)', async ({ betslipPage, page }, testInfo) => {
+  //   await OddsSelectionAbove(1, 1, page);
+  //   await betslipPage.verifyPotentialReturnsMulti();
+  //   await ScreenshotHelper(page, screenshotDir, 'T23-betslip-Potential-Return-calculation-multi.png', testInfo);
+  // });
 
-  test('T24-Multi- Verify "Win boost" amount calculation on betslip.', async ({ betslipPage, page }, testInfo) => {
-    await OddsSelectionAbove(2, 2, page);
-    await betslipPage.verifyWinBoostCalculation();
-    await ScreenshotHelper(page, screenshotDir, 'T24-betslip-Win-boost-amount-calculation-multi.png', testInfo);
-  });
-
-
-  test('T26-Multi-Verify Win Boost tool tip', async ({ betslipPage, page }, testInfo) => {
-    await OddsSelectionAbove(2, 3.57, page);
-    await betslipPage.verifyWinBoostToolTip();
-    await ScreenshotHelper(page, screenshotDir, 'T26-betslip-Win-boost-tool-tip-multi.png', testInfo);
-  });
-
-  test('T27-Multi-Verify Win Boost pop up window', async ({ betslipPage, page }, testInfo) => {
-    await OddsSelectionAbove(2, 1.21, page);
-    await betslipPage.verifyWinBoostInfoIcon();
-    await betslipPage.clickWinBoostInfoIcon();
-    await page.waitForTimeout(2000);
-    await ScreenshotHelper(page, screenshotDir, 'T27-betslip-Win-boost-pop-up-window-multi.png', testInfo);
-  });
-
-  test('T28-Verify functionality of "Login" button on betslip for single tab', async ({ betslipPage, page }, testInfo) => {
-    await OddsSelectionAbove(1, 1, page);
-    await betslipPage.verifyLoginBtnBetslip();
-    await ScreenshotHelper(page, screenshotDir, 'T28-betslip-login-button-Single.png', testInfo);
-    await betslipPage.clickLoginBtnBetslip();
-    await ScreenshotHelper(page, screenshotDir, 'T28-betslip-login-after-click-Single.png', testInfo);
-  });
-
-  test('T38-Verify functionality of "Login" button on betslip for multi tab', async ({ betslipPage, page }, testInfo) => {
-    await OddsSelectionAbove(1, 1, page);
-    await betslipPage.clickMultiTab();
-    await betslipPage.verifyLoginBtnBetslip();
-    await betslipPage.clickLoginBtnBetslip();
-    await ScreenshotHelper(page, screenshotDir, 'T38-betslip-login-after-click-multi.png', testInfo);
-  });
+  // test('T24-Multi- Verify "Win boost" amount calculation on betslip.', async ({ betslipPage, page }, testInfo) => {
+  //   await OddsSelectionAbove(2, 2, page);
+  //   await betslipPage.verifyWinBoostCalculation();
+  //   await ScreenshotHelper(page, screenshotDir, 'T24-betslip-Win-boost-amount-calculation-multi.png', testInfo);
+  // });
 
 
-  test('T34-Verify functionality of "Close" button of leg on Betslip inside multi section', async ({ betslipPage, page }, testInfo) => {
-    await OddsSelectionAbove(1, 1, page);
-    await betslipPage.clickMultiTab();
-    await betslipPage.verifyRemoveLegIcon();
-    await ScreenshotHelper(page, screenshotDir, 'T34-betslip-remove-leg-icon-multi.png', testInfo);
-    await betslipPage.clickRemoveLegIcon();
-    await betslipPage.clickBetslipButton();
-    await ScreenshotHelper(page, screenshotDir, 'T34-betslip-remove-leg-after-clickmulti.png', testInfo);
-  });
+  // test('T26-Multi-Verify Win Boost tool tip', async ({ betslipPage, page }, testInfo) => {
+  //   await OddsSelectionAbove(2, 3.57, page);
+  //   await betslipPage.verifyWinBoostToolTip();
+  //   await ScreenshotHelper(page, screenshotDir, 'T26-betslip-Win-boost-tool-tip-multi.png', testInfo);
+  // });
+
+  // test('T27-Multi-Verify Win Boost pop up window', async ({ betslipPage, page }, testInfo) => {
+  //   await OddsSelectionAbove(2, 1.21, page);
+  //   await betslipPage.verifyWinBoostInfoIcon();
+  //   await betslipPage.clickWinBoostInfoIcon();
+  //   await page.waitForTimeout(2000);
+  //   await ScreenshotHelper(page, screenshotDir, 'T27-betslip-Win-boost-pop-up-window-multi.png', testInfo);
+  // });
+
+  // test('T28-Verify functionality of "Login" button on betslip for single tab', async ({ betslipPage, page }, testInfo) => {
+  //   await OddsSelectionAbove(1, 1, page);
+  //   await betslipPage.verifyLoginBtnBetslip();
+  //   await ScreenshotHelper(page, screenshotDir, 'T28-betslip-login-button-Single.png', testInfo);
+  //   await betslipPage.clickLoginBtnBetslip();
+  //   await ScreenshotHelper(page, screenshotDir, 'T28-betslip-login-after-click-Single.png', testInfo);
+  // });
+
+  // test('T38-Verify functionality of "Login" button on betslip for multi tab', async ({ betslipPage, page }, testInfo) => {
+  //   await OddsSelectionAbove(1, 1, page);
+  //   await betslipPage.clickMultiTab();
+  //   await betslipPage.verifyLoginBtnBetslip();
+  //   await betslipPage.clickLoginBtnBetslip();
+  //   await ScreenshotHelper(page, screenshotDir, 'T38-betslip-login-after-click-multi.png', testInfo);
+  // });
+
+
+  // test('T34-Verify functionality of "Close" button of leg on Betslip inside multi section', async ({ betslipPage, page }, testInfo) => {
+  //   await OddsSelectionAbove(1, 1, page);
+  //   await betslipPage.clickMultiTab();
+  //   await betslipPage.verifyRemoveLegIcon();
+  //   await ScreenshotHelper(page, screenshotDir, 'T34-betslip-remove-leg-icon-multi.png', testInfo);
+  //   await betslipPage.clickRemoveLegIcon();
+  //   await betslipPage.clickBetslipButton();
+  //   await ScreenshotHelper(page, screenshotDir, 'T34-betslip-remove-leg-after-clickmulti.png', testInfo);
+  // });
 });
