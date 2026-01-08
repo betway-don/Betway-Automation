@@ -63,7 +63,8 @@ export class BookABetPage {
             gotit: getLocator(this.page, configs['gotit']),
             closePopup: getLocator(this.page, configs['closePopup']),
             betslipDeleteButton: getLocator(this.page, configs['betslipDeleteButton']),
-            socialMediaButtons: getLocator(this.page, configs['socialMediaButtons'])
+            socialMediaButtons: getLocator(this.page, configs['socialMediaButtons']),
+            closePromotionPopupGH: getLocator(this.page, configs['closePromotionPopupGH']),
         };
         this.locators = this.locatorsRegistry;
     }
@@ -82,8 +83,9 @@ export class BookABetPage {
     // --- Core Navigation Methods ---
 
     async goto() {
-        await this.page.goto('https://www.betway.com.gh/');
+        await this.page.goto('https://www.betway.com.gh/sport/soccer');
         await this.page.waitForLoadState('domcontentloaded');
+        await this.locatorsRegistry.closePromotionPopupGH.click();
     }
 
     async closePopup() {
