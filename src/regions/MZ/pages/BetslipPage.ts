@@ -74,13 +74,13 @@ export class BetslipPage extends SportsPage {
 
     // Special handling for winBoostInfoIcon (complex locator)
     this.BetslipPageLocatorsRegistry.winBoostInfoIcon = this.page.locator('div', {
-      hasText: /^Win Boost 3%\. 1 more for 4% \(Min odds 1\.2\)Bet Saver not active$/
+      hasText: /^Win Boost 3%\. 1 more for 5% \(Min odds 1\.2\)Bet Saver not active$/
     }).getByRole('img').nth(1);
   }
 
   // Navigation Methods
   async goto() {
-    await this.page.goto('https://new.betway.co.za/sport/soccer', { waitUntil: 'domcontentloaded' });
+    await this.page.goto('https://en.betway.co.mz/sport/soccer', { waitUntil: 'domcontentloaded' });
     // await this.BetslipPageLocatorsRegistry.closePromotionPopup.waitFor({ state: 'visible',});
     // await this.BetslipPageLocatorsRegistry.closePromotionPopup.click();
   }
