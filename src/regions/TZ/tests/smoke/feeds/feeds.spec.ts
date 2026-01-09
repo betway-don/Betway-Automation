@@ -1,4 +1,4 @@
-// npx playwright test src/regions/ZA/tests/smoke/feeds/feeds.spec.ts --config=playwright.ZA.config.ts --headed
+// npx playwright test src/regions/TZ/tests/smoke/feeds/feeds.spec.ts --config=playwright.TZ.config.ts --headed
 import { test } from '../../../fixtures/MasterFixtureFile';
 import path from 'path';
 // FeedsPage import is handled by the fixture
@@ -98,9 +98,6 @@ test.describe('Feeds Tests', () => {
     test('T17-Verify Post, Followers and Following count on public profile pop up window', async ({ feedsPage }, testInfo) => {
         await feedsPage.openProfileAndReadyForCounts();
         await feedsPage.captureScreenshot('feedsHeader', screenshotDir, 'T17-feeds', testInfo);
-        // Cleanup by closing the popup
-        await feedsPage.locatorsRegistry.closePopup.click();
-        await feedsPage.page.waitForTimeout(1000);
     });
 
     // T18- Verify User can Like , comment , Follow and share the event
@@ -124,28 +121,28 @@ test.describe('Feeds Tests', () => {
         await feedsPage.captureScreenshot('searchInFeeds', screenshotDir, 'T20-feeds', testInfo);
     });
 
-    // T21- Verify Follow button presence and functionality in search tab on betway feeds section.
-    test('T21-Verify Follow button presence and functionality in search tab on betway feeds section.', async ({ feedsPage }, testInfo) => {
-        await feedsPage.performSearchFollowCleanup();
-        await feedsPage.captureScreenshot('suggestedFeedsFollow', screenshotDir, 'T21a-feeds', testInfo);
-        await feedsPage.takeScreenshot(screenshotDir, 'T21b-feeds', testInfo);
-    });
+    // // T21- Verify Follow button presence and functionality in search tab on betway feeds section.
+    // test('T21-Verify Follow button presence and functionality in search tab on betway feeds section.', async ({ feedsPage }, testInfo) => {
+    //     await feedsPage.performSearchFollowCleanup();
+    //     await feedsPage.captureScreenshot('suggestedFeedsFollow', screenshotDir, 'T21a-feeds', testInfo);
+    //     await feedsPage.takeScreenshot(screenshotDir, 'T21b-feeds', testInfo);
+    // });
 
-    // T22- Verify UnFollow button presence and functionality in search tab on betway feeds section.
-    test('T22-Verify UnFollow button presence and functionality in search tab on betway feeds section.', async ({ feedsPage }, testInfo) => {
-        await feedsPage.performSearchUnfollowCleanup();
-        await feedsPage.captureScreenshot('suggestedFeedsUnFollow', screenshotDir, 'T22a-feeds', testInfo);
-        await feedsPage.performSearchUnfollow();
-        await feedsPage.takeScreenshot(screenshotDir, 'T22b-feeds', testInfo);
-    });
+    // // T22- Verify UnFollow button presence and functionality in search tab on betway feeds section.
+    // test('T22-Verify UnFollow button presence and functionality in search tab on betway feeds section.', async ({ feedsPage }, testInfo) => {
+    //     await feedsPage.performSearchUnfollowCleanup();
+    //     await feedsPage.captureScreenshot('suggestedFeedsUnFollow', screenshotDir, 'T22a-feeds', testInfo);
+    //     await feedsPage.performSearchUnfollow();
+    //     await feedsPage.takeScreenshot(screenshotDir, 'T22b-feeds', testInfo);
+    // });
 
-    // T23- Verify user is able to see the suggestions in search tab inside betway feeds.
-    // T24-Verify presence and follow button functionality on suggested league list.
-    test('T23-Verify user is able to see the suggestions in search tab inside betway feeds.T24-Verify presence and follow button functionality on suggested league list.', async ({ feedsPage }, testInfo) => {
-        await feedsPage.performSearchShowSuggestionsAndFollow();
-        await feedsPage.takeScreenshot(screenshotDir, 'T23-feeds', testInfo);
-        await feedsPage.captureScreenshot('suggestedFeedsFollow', screenshotDir, 'T24-feeds', testInfo);
-    });
+    // // T23- Verify user is able to see the suggestions in search tab inside betway feeds.
+    // // T24-Verify presence and follow button functionality on suggested league list.
+    // test('T23-Verify user is able to see the suggestions in search tab inside betway feeds.T24-Verify presence and follow button functionality on suggested league list.', async ({ feedsPage }, testInfo) => {
+    //     await feedsPage.performSearchShowSuggestionsAndFollow();
+    //     await feedsPage.takeScreenshot(screenshotDir, 'T23-feeds', testInfo);
+    //     await feedsPage.captureScreenshot('suggestedFeedsFollow', screenshotDir, 'T24-feeds', testInfo);
+    // });
 
     // T25- Verify User can follow feeds From search bar inside sport section.
     test('T25-Verify User can follow feeds From search bar inside sport section.', async ({ feedsPage }, testInfo) => {

@@ -72,8 +72,8 @@ export class FeedsPage {
         await this.locatorsRegistry.mobileNumber.fill(`${userData.user4.mobile}`);
         await this.locatorsRegistry.password.fill(`${userData.user4.password}`);
         await this.locatorsRegistry.loginButton.click();
-        // await this.locatorsRegistry.closePopup.waitFor({ state: 'visible', timeout: 30000 });
-        // await this.locatorsRegistry.closePopup.click();
+        await this.locatorsRegistry.closePopup.waitFor({ state: 'visible', timeout: 30000 });
+        await this.locatorsRegistry.closePopup.click();
         await this.page.waitForTimeout(1000);
     }
 
@@ -235,14 +235,11 @@ export class FeedsPage {
         await this.locatorsRegistry.searchInFeeds.fill('Champions');
         await this.locatorsRegistry.searchInFeeds.press('Backspace');
         await this.page.waitForTimeout(4000);
-
+        await this.locatorsRegistry.searchInFeeds.fill('Champions');
         // T21a Ready state for follow
         await this.locatorsRegistry.suggestedFeedsFollow.click();
         await this.page.waitForTimeout(2000);
         // T21b Ready state for post-follow
-
-        // Cleanup: Unfollow
-        await this.locatorsRegistry.suggestedFeedsUnFollow.click();
     }
 
     /** T22: Perform search, ensure followed, unfollow, and clean up. */
@@ -252,12 +249,11 @@ export class FeedsPage {
         await this.locatorsRegistry.searchInFeeds.fill('Champions');
         await this.locatorsRegistry.searchInFeeds.press('Backspace');
         await this.page.waitForTimeout(4000);
-
+        await this.locatorsRegistry.searchInFeeds.press('Backspace');
         // Ensure it's followed before testing unfollow (idempotency)
-        if (await this.locatorsRegistry.suggestedFeedsFollow.isVisible()) {
-            await this.locatorsRegistry.suggestedFeedsFollow.click();
-            await this.page.waitForTimeout(1000);
-        }
+        await this.locatorsRegistry.suggestedFeedsFollow.click();
+        await this.page.waitForTimeout(1000);
+
     }
     async performSearchUnfollow() {
         // T22a Ready state for unfollow
@@ -274,6 +270,7 @@ export class FeedsPage {
         await this.locatorsRegistry.searchInFeeds.fill('Champions');
         await this.locatorsRegistry.searchInFeeds.press('Backspace');
         await this.page.waitForTimeout(4000);
+        await this.locatorsRegistry.searchInFeeds.press('Backspace');
         // T23 Screenshot happens now.
 
         // T24: Follow action
