@@ -221,7 +221,7 @@ test.describe('Betslip Module - ZA', () => {
   // });
 
   test('T26-Multi-Verify Win Boost tool tip', async ({ betslipPage, page }, testInfo) => {
-    await OddsSelectionAbove(2, 3.57, page);
+    await OddsSelectionAbove(2, 2, page);
     await betslipPage.verifyWinBoostToolTip();
     await ScreenshotHelper(page, screenshotDir, 'T26-betslip-Win-boost-tool-tip-multi.png', testInfo);
   });

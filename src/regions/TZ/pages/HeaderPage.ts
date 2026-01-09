@@ -33,7 +33,7 @@ export class HeaderPage extends HomePage {
       closeHamburgerMenu: getLocator(this.page, configs["closeHamburgerMenu"]),
       quickLinks: getLocator(this.page, configs["quickLinks"]),
       myAccount: getLocator(this.page, configs["myAccount"]),
-      bettingRules: getLocator(this.page, configs["bettingRules"]),
+      bettingRules: getLocator(this.page, configs["bettingRules"]).nth(0),
       statistics: getLocator(this.page, configs["statistics"]),
       oddsFormat: getLocator(this.page, configs["oddsFormat"]),
       // countryCode: getLocator(this.page, configs["countryCode"]),
@@ -46,7 +46,7 @@ export class HeaderPage extends HomePage {
       bonusSummary: getLocator(this.page, configs["bonusSummary"]),
       transactionsHistory: getLocator(this.page, configs["transactionsHistory"]),
       myCoupons: getLocator(this.page, configs["myCoupons"]),
-      betInfluencer: getLocator(this.page, configs["betInfluencer"]),
+      betInfluencer: getLocator(this.page, configs["betInfluencer"]).nth(0),
       promoVouchers: getLocator(this.page, configs["promoVouchers"]),
       updateDetails: getLocator(this.page, configs["updateDetails"]),
       responsibleGaming: getLocator(this.page, configs["responsibleGaming"]),
@@ -87,7 +87,7 @@ export class HeaderPage extends HomePage {
 
   // Navigation Methods
   async goto() {
-    await this.page.goto('https://new.betway.co.za/sport/soccer', { waitUntil: 'domcontentloaded' });
+    await this.page.goto('https://en.betway.co.tz/sport/soccer', { waitUntil: 'domcontentloaded' });
     //   await this.HeaderPageLocatorsRegistry.closePromotionPopup.waitFor({ state: 'visible',timeout:15000});
     // await this.HeaderPageLocatorsRegistry.closePromotionPopup.click();
   }

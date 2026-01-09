@@ -1,4 +1,4 @@
-// npx playwright test src/regions/ZA/tests/smoke/betslip/betslip.spec.ts --config=playwright.ZA.config.ts --headed
+// npx playwright test src/regions/TZ/tests/smoke/betslip/betslip.spec.ts --config=playwright.TZ.config.ts --headed
 import { test } from '../../../fixtures/MasterFixtureFile';
 import path from 'path';
 import { ScreenshotHelper } from '../../../../Common-Flows/ScreenshotHelper';
@@ -7,7 +7,7 @@ import { OddsSelection, OddsSelectionAbove } from '../../../commonflows/OddSelec
 const projectRoot = path.resolve(__dirname, '../../..');
 const screenshotDir = path.join(projectRoot, 'screenshots/smoke/betslip');
 
-test.describe('Betslip Module - ZA', () => {
+test.describe('Betslip Module - TZ', () => {
 
   test('T1-Verify Betslip Section without selecting any odd ', async ({ betslipPage }, testInfo) => {
     await betslipPage.verifyBetslipSection();

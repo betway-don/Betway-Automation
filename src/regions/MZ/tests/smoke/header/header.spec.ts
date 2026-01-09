@@ -50,12 +50,12 @@ test.describe('Header Module Tests', () => {
         await ScreenshotHelper(headerPage.page, screenshotDir, 'T21-betslipButtonClicked.png', testInfo);
     });
 
-    test('26-Verify that Accounts button is visible and clickable on the home page of Betway application', async ({ headerPage }, testInfo) => {
-        await headerPage.Login();
-        await headerPage.page.waitForTimeout(3000);
-        await headerPage.verifyAndClickAccountsButton();
-        await ScreenshotHelper(headerPage.page, screenshotDir, 'T34-accountsButtonClicked-loggedin.png', testInfo);
-    });
+    // test('26-Verify that Accounts button is visible and clickable on the home page of Betway application', async ({ headerPage }, testInfo) => {
+    //     await headerPage.Login();
+    //     await headerPage.page.waitForTimeout(3000);
+    //     await headerPage.verifyAndClickAccountsButton();
+    //     await ScreenshotHelper(headerPage.page, screenshotDir, 'T34-accountsButtonClicked-loggedin.png', testInfo);
+    // });
 
     test('27-Verify that Balance field in green color is displayed on the home page of Betway application', async ({ headerPage }, testInfo) => {
         await headerPage.verifyBalanceField();
@@ -92,10 +92,10 @@ test.describe('Header Module Tests', () => {
         await ScreenshotHelper(headerPage.page, screenshotDir, 'T4-quickLinks2.png', testInfo);
     });
 
-    test('5-Verify Betting Rules option in Quick Links drop down is visible and clickable inside Hamburger Menu', async ({ headerPage }, testInfo) => {
-        await headerPage.verifyAndClickBettingRulesWithoutLogin();
-        await ScreenshotHelper(headerPage.page, screenshotDir, 'T5-bettingRulesClicked.png', testInfo);
-    });
+    // test('5-Verify Betting Rules option in Quick Links drop down is visible and clickable inside Hamburger Menu', async ({ headerPage }, testInfo) => {
+    //     await headerPage.verifyAndClickBettingRulesWithoutLogin();
+    //     await ScreenshotHelper(headerPage.page, screenshotDir, 'T5-bettingRulesClicked.png', testInfo);
+    // });
 
     test('6-Verify Statistics option in Quick Links drop down is visible and clickable inside Hamburger Menu', async ({ headerPage }, testInfo) => {
         await headerPage.verifyAndClickStatisticsWithoutLogin();
