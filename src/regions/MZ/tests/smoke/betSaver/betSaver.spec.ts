@@ -1,4 +1,4 @@
-//  npx playwright test src/regions/ZA/tests/smoke/betSaver/betSaver.spec.ts --config=playwright.ZA.config.ts --headed
+//  npx playwright test src/regions/MZ/tests/smoke/betSaver/betSaver.spec.ts --config=playwright.MZ.config.ts --headed
 import { test } from '../../../fixtures/MasterFixtureFile';
 import path from 'path';
 

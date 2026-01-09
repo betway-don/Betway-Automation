@@ -2,17 +2,6 @@ import { defineConfig, devices } from '@playwright/test';
 import path from 'path';
 
 export default defineConfig({
-<<<<<<< HEAD
-    testDir: './src/regions/MZ/tests',
-    fullyParallel: true,
-    timeout: 200000,
-    forbidOnly: !!process.env.CI,
-    retries: process.env.CI ? 2 : 0,
-    workers: process.env.CI ? 5 : 5,
-    reporter: [
-        ['html', { outputFolder: 'playwright-report', open: 'never' }], ['list']
-        // ['allure-playwright', { outputFolder: 'src/regions/MZ/reports/allure-results' }]
-=======
   testDir: './src/regions/MZ/tests',
 
   fullyParallel: true,
@@ -24,7 +13,7 @@ export default defineConfig({
   retries: 1,
 
   // Workers
-  workers: process.env.CI ? 3 : 3,
+  workers: process.env.CI ? 7 : 7,
 
   // Reports (same as ZA & GH style)
   reporter: [
@@ -39,7 +28,6 @@ export default defineConfig({
           process.env.PLAYWRIGHT_JSON_OUTPUT_NAME || 'test-results.json'
         ),
       },
->>>>>>> a372caf0bd573bd275c0bff4f27fe5b3d864cb00
     ],
     [
       'allure-playwright',

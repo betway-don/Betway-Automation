@@ -7,7 +7,7 @@ import { loginLocators } from '../locators/loginPageLocators';
 import { time } from 'console';
 
 
-const config = process.env.BASE_URL || 'https://en.betway.co.mz/sport/soccer';
+const config = process.env.BASE_URL || 'https://betway.co.za/';
 import { loadLocatorsFromExcel } from "../../../global/utils/file-utils/excelReader";
 import { getLocator } from "../../../global/utils/file-utils/locatorResolver";
 import { highlightElementBorder, highlightElements } from '../../Common-Flows/HighlightElements';

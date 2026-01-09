@@ -74,7 +74,7 @@ export class BetslipPage extends SportsPage {
 
     // Special handling for winBoostInfoIcon (complex locator)
     this.BetslipPageLocatorsRegistry.winBoostInfoIcon = this.page.locator('div', {
-      hasText: /^Win Boost 3%\. 1 more for 4% \(Min odds 1\.2\)Bet Saver not active$/
+      hasText: /^Win Boost 2.5%\. 1 more for 3% \(Min odds 1\.2\)Bet Saver not active$/
     }).getByRole('img').nth(1);
   }
 
@@ -95,26 +95,26 @@ export class BetslipPage extends SportsPage {
   //   await this.page.waitForLoadState('domcontentloaded');
   // }
 
-   async Login() {
-  await this.BetslipPageLocatorsRegistry.mobileNumberInput.fill(userData.user1.mobile);
-  await this.BetslipPageLocatorsRegistry.passwordInput.fill(userData.user1.password);
-  await this.page.keyboard.press('Enter');
+  async Login() {
+    await this.BetslipPageLocatorsRegistry.mobileNumberInput.fill(userData.user1.mobile);
+    await this.BetslipPageLocatorsRegistry.passwordInput.fill(userData.user1.password);
+    await this.page.keyboard.press('Enter');
 
-  // Try to close promotion popup ONLY if it appears
-  const popup = this.BetslipPageLocatorsRegistry.closePromotionPopup;
+    // Try to close promotion popup ONLY if it appears
+    const popup = this.BetslipPageLocatorsRegistry.closePromotionPopup;
 
-  try {
-    await popup.waitFor({ state: 'visible', timeout: 9000 });
-    if (await popup.isVisible()) {
-      await popup.click();
+    try {
+      await popup.waitFor({ state: 'visible', timeout: 9000 });
+      if (await popup.isVisible()) {
+        await popup.click();
+      }
+    } catch {
+      // Popup did not appear → ignore
     }
-  } catch {
-    // Popup did not appear → ignore
+
+    await this.page.waitForLoadState('domcontentloaded');
   }
 
-  await this.page.waitForLoadState('domcontentloaded');
-}
-  
 
   async loginWithoutFreebet() {
     await this.BetslipPageLocatorsRegistry.mobileNumberInput.fill(`${userData.user5.mobile}`);
